@@ -1,0 +1,47 @@
+@import '../../styles/colors.scss';
+@import '../../styles/fonts';
+
+
+.responsive {
+
+  &__header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    background: $main-color;
+
+    &--right {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      justify-content: center;
+      align-items: center;
+      grid-gap: 20px;
+
+      .company-name {
+        font-size: 80px;
+        letter-spacing: 10px;
+        font-family: $main-title-font;
+        color: $solid-white;
+      }
+
+      .navigation {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        grid-gap: 20px;
+      }
+
+      .navigation-item {
+        color: $solid-white;
+        font-size: 35px;
+        font-family: $main-text-font;
+        border-bottom: 3px inset $solid-white;
+      }
+    }
+  }
+
+
+
+}
