@@ -1,0 +1,25 @@
+@import '../../../styles/colors.scss';
+@import '../../../styles/fonts';
+
+
+.title-with-icon {
+  background: $main-color;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  padding: 5px;
+  margin-bottom: 15px;
+
+
+  &__text {
+    color: $solid-white;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: $main-text-font;
+  }
+
+  svg {
+    color: $solid-white;
+  }
+}

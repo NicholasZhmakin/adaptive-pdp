@@ -1,0 +1,35 @@
+@import './colors.scss';
+@import './fonts.scss';
+
+
+@mixin rectangle-button ($width: null, $height: null) {
+  margin: 0 auto;
+  display: block;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  font-family: $main-text-font;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: $main-color;
+  border: 3px solid $main-color;
+  background: $solid-white;
+
+  &:hover {
+    background: $main-color;
+    color: $solid-white;
+  }
+
+  @if $width {
+    width: $width;
+    padding: 0;
+  } @else {
+    padding: 0 26px;
+  }
+
+  @if $height {
+    height: $height;
+  } @else {
+    height: 40px;
+  }
+}

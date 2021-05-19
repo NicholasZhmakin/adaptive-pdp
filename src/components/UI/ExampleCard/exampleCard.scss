@@ -1,0 +1,57 @@
+@import '../../../styles/colors.scss';
+@import '../../../styles/mixins.scss';
+@import '../../../styles/fonts.scss';
+
+.example-card {
+  width: 300px;
+  height: 200px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 200px;
+  justify-content: center;
+  background: $solid-white;
+  border-bottom: 10px solid $main-color;
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3);
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__right-block {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    justify-content: center;
+    align-items: start;
+  }
+
+  &__main-info {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    background: $main-color;
+    color: $solid-white;
+    padding: 3px;
+
+      h4 {
+        margin: 0;
+        text-align: center;
+        font-family: $main-title-font;
+      }
+  }
+
+  &__other-info {
+    text-align: center;
+    font-size: 10px;
+    font-family: $main-text-font;
+    color: $solid-black;
+    padding: 3px;
+  }
+
+  &__btn {
+    @include rectangle-button(120px, 30px);
+  }
+}

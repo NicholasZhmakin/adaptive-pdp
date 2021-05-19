@@ -1,7 +1,9 @@
 import React from 'react';
-import PersonCard from "../../UI/PersonCard";
+import ExampleCard from '../../UI/ExampleCard';
+import PersonCard from '../../UI/PersonCard';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PeopleIcon from '@material-ui/icons/People';
+import TitleWithIcon from "../../UI/TitleWithIcon/TitleWithIcon";
 
 
 const Main = () => {
@@ -9,7 +11,16 @@ const Main = () => {
         <div className='responsive__main'>
 
             <div className='examples'>
-                Examples
+                <TitleWithIcon
+                    text={'Examples of work'}
+                    icon={<PeopleIcon className='examples-icon' />}
+                />
+
+                <div className='examples-list'>
+                    <ExampleCard name={'Marvelous staff'} />
+                    <ExampleCard name={'Splendid staff'} />
+                    <ExampleCard name={'Outstanding staff'} />
+                </div>
             </div>
 
             <div className='content'>
@@ -18,10 +29,10 @@ const Main = () => {
 
             <div className='network'>
                 <div className='partners'>
-                    <div className='partners-header'>
-                        <h3 className='partners-title'>Our partners</h3>
-                        <FavoriteIcon className='partners-icon' />
-                    </div>
+                    <TitleWithIcon
+                        text={'Our partners'}
+                        icon={<FavoriteIcon className='partners-icon' />}
+                    />
                     <div className='partners-list'>
                         <img className='partners-list__img' src='./partners/partner-1.png' alt='partner'/>
                         <img className='partners-list__img' src='./partners/partner-2.jpeg' alt='partner'/>
@@ -35,10 +46,10 @@ const Main = () => {
                 </div>
 
                 <div className='team'>
-                    <div className='team-header'>
-                        <h3 className='team-title'>Our team</h3>
-                        <PeopleIcon className='team-icon' />
-                    </div>
+                    <TitleWithIcon
+                        text={'Our team'}
+                        icon={<PeopleIcon className='examples-icon' />}
+                    />
                     <div className='team-list'>
                         <PersonCard name={'Lily'} position={'CEO'} />
                         <PersonCard name={'Anabelle'} position={'Manager'} />
