@@ -3,8 +3,10 @@ import ExampleCard from '../../UI/ExampleCard';
 import PersonCard from '../../UI/PersonCard';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PeopleIcon from '@material-ui/icons/People';
+import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
 import TitleWithIcon from "../../UI/TitleWithIcon/TitleWithIcon";
 import VisionCard from "../../UI/VisionCard";
+import Post from "../../UI/Post";
 
 
 const Main = () => {
@@ -31,6 +33,15 @@ const Main = () => {
                     <VisionCard name={'Goal'} imgSrc={'./vision/goal.png'} />
                     <VisionCard name={'Design'} imgSrc={'./vision/design.png'} />
                 </div>
+
+                <div className='posts'>
+                    <Post title={'Helping today. Helping tomorrow'} />
+                    <Post title={'New day - new life'} />
+                    <Post title={'Hold up'} />
+                </div>
+
+
+
 
             </div>
 
