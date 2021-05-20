@@ -1,0 +1,40 @@
+@import '../../../styles/colors.scss';
+@import '../../../styles/fonts.scss';
+
+
+.vision-card {
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  grid-gap: 15px;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid $solid-light-grey;
+  padding: 10px;
+  border-radius: 20px;
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3);
+
+  &__img {
+    margin: 0 auto;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__title {
+    text-align: center;
+    font-family: $main-title-font;
+    font-size: 23px;
+    color: $solid-black;
+    margin: 0;
+  }
+
+  &__text {
+    text-align: justify;
+    font-family: $main-text-font;
+    font-size: 12px;
+    text-indent: 15px;
+    color: $solid-dark-grey;
+    margin: 0;
+  }
+}

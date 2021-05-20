@@ -4,6 +4,7 @@ import PersonCard from '../../UI/PersonCard';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PeopleIcon from '@material-ui/icons/People';
 import TitleWithIcon from "../../UI/TitleWithIcon/TitleWithIcon";
+import VisionCard from "../../UI/VisionCard";
 
 
 const Main = () => {
@@ -24,7 +25,13 @@ const Main = () => {
             </div>
 
             <div className='content'>
-                Content
+
+                <div className='vision'>
+                    <VisionCard name={'Service'} imgSrc={'./vision/service.png'} />
+                    <VisionCard name={'Goal'} imgSrc={'./vision/goal.png'} />
+                    <VisionCard name={'Design'} imgSrc={'./vision/design.png'} />
+                </div>
+
             </div>
 
             <div className='network'>

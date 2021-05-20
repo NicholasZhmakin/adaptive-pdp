@@ -71,8 +71,9 @@
 
       .navigation-item {
         color: $solid-white;
-        font-size: 35px;
+        font-size: 30px;
         font-family: $main-text-font;
+        text-transform: uppercase;
         cursor: pointer;
         transition: all 100ms linear;
         border-bottom: 3px inset transparent;
@@ -95,6 +96,14 @@
       display: grid;
       justify-content: center;
       gap: 20px;
+    }
+
+    .vision {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      justify-content: center;
+      align-items: center;
+      grid-gap: 30px;
     }
 
     .network {
