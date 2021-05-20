@@ -90,7 +90,7 @@
     padding: 20px;
     display: grid;
     grid-template-columns: 1.5fr 3.5fr 1fr;
-    grid-gap: 20px;
+    grid-gap: 70px;
     justify-content: center;
 
     .examples-list {
@@ -114,11 +114,20 @@
       gap: 50px;
     }
 
+    .indicators {
+      margin-top: 100px;
+      padding: 15px 30px;
+      background: $solid-light-grey;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+    }
+
     .network {
       display: grid;
       grid-template-rows: auto auto;
       grid-gap: 20px;
-      align-items: center;
       width: 100%;
 
       .team-list {
@@ -141,12 +150,7 @@
           object-fit: cover;
         }
       }
-
-
     }
-
-
-
 
   }
 

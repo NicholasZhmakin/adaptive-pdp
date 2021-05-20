@@ -3,10 +3,14 @@ import ExampleCard from '../../UI/ExampleCard';
 import PersonCard from '../../UI/PersonCard';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PeopleIcon from '@material-ui/icons/People';
-import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
+import CodeIcon from '@material-ui/icons/Code';
+import LocalCafeIcon from '@material-ui/icons/LocalCafe';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
+import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import TitleWithIcon from "../../UI/TitleWithIcon/TitleWithIcon";
 import VisionCard from "../../UI/VisionCard";
 import Post from "../../UI/Post";
+import Indicator from "../../UI/Indicator";
 
 
 const Main = () => {
@@ -23,6 +27,8 @@ const Main = () => {
                     <ExampleCard name={'Marvelous staff'} />
                     <ExampleCard name={'Splendid staff'} />
                     <ExampleCard name={'Outstanding staff'} />
+                    <ExampleCard name={'Gorgeous staff'} />
+                    <ExampleCard name={'Magnificent staff'} />
                 </div>
             </div>
 
@@ -40,7 +46,28 @@ const Main = () => {
                     <Post title={'Hold up'} />
                 </div>
 
-
+                <div className='indicators'>
+                    <Indicator
+                        name={'LINES OF CODE'}
+                        icon={<CodeIcon />}
+                        value={'402 123'}
+                    />
+                    <Indicator
+                        name={'CUPS OF COFFEE'}
+                        icon={<LocalCafeIcon />}
+                        value={'3 723'}
+                    />
+                    <Indicator
+                        name={'FINISHED PROJECTS'}
+                        icon={<DoneAllIcon />}
+                        value={'371'}
+                    />
+                    <Indicator
+                        name={'SATISFIED CLIENTS'}
+                        icon={<EmojiPeopleIcon />}
+                        value={'5 123'}
+                    />
+                </div>
 
 
             </div>
