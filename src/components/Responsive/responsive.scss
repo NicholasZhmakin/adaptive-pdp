@@ -115,7 +115,7 @@
     }
 
     .indicators {
-      margin-top: 100px;
+      margin: 100px auto;
       padding: 15px 30px;
       background: $solid-light-grey;
       display: flex;
@@ -149,6 +149,69 @@
           height: 100%;
           object-fit: cover;
         }
+      }
+    }
+  }
+
+  &__footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 80px;
+    justify-content: center;
+    padding: 30px;
+    background: $solid-black;
+    color: $solid-white;
+
+    .credo {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      &__title {
+        font-family: $main-title-font;
+        font-size: 45px;
+      }
+
+      &__text {
+        font-family: $main-cursive-font;
+        font-size: 22px;
+
+        &:last-child {
+          font-family: $main-text-font;
+        }
+      }
+    }
+
+    .follow {
+
+      &__title {
+        font-family: $main-text-font;
+        font-size: 22px;
+      }
+
+      &__icons-container {
+        display: flex;
+        gap: 10px;
+      }
+
+      &__icon {
+        font-size: 45px;
+        cursor: pointer;
+      }
+    }
+
+
+    .support,
+    .explore {
+      &__title {
+        font-family: $main-text-font;
+        font-size: 22px;
+      }
+
+      &__link {
+        cursor: pointer;
+        font-size: 18px;
       }
     }
 

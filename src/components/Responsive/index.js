@@ -2,6 +2,7 @@ import React from 'react';
 import './responsive.scss';
 import Header from './Header';
 import Main from './Main';
+import Footer from './Footer';
 
 
 const Responsive = () => {
@@ -9,6 +10,7 @@ const Responsive = () => {
         <div className='responsive'>
             <Header />
             <Main />
+            <Footer />
         </div>
     );
 }
