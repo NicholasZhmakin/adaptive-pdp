@@ -3,11 +3,11 @@ import React from 'react';
 
 const Header = () => {
     return (
-        <div className='responsive__header'>
-            <div className='responsive__header--left'>
+        <div className='header'>
+            <div className='header__left'>
                 <img className='logo' src='./logo.png' alt='log' />
             </div>
-            <div className='responsive__header--right'>
+            <div className='header__right'>
                 <h1 className='company-name'>Native Help</h1>
                 <div className='navigation'>
                     <p className='navigation-item'>About</p>

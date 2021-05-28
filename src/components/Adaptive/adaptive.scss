@@ -3,7 +3,7 @@
 @import '../../styles/fonts.scss';
 
 
-.responsive {
+.adaptive {
 
   .header {
     position: relative;
@@ -318,114 +318,5 @@
       }
     }
 
-  }
-}
-
-@media screen and (max-width: 800px) {
-  .responsive {
-    .header {
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr 1fr;
-
-      &:after {
-        display: none;
-      }
-    }
-
-    .main {
-      .post {
-        grid-template-columns: 1fr 150px;
-
-        &__right-block {
-          height: auto;
-        }
-
-        &__img {
-          display: none;
-        }
-
-        &__note {
-          width: auto;
-          transform: none;
-        }
-
-        &:before {
-          display: none;
-        }
-      }
-    }
-
-    .footer {
-      grid-template-columns: 1fr;
-    }
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .responsive {
-
-    .main {
-      .vision {
-        grid-template-columns: auto;
-        padding: 20px 60px;
-      }
-
-      .indicators {
-        grid-template-columns: 1fr;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 500px) {
-  .responsive {
-    .main {
-      .post {
-        grid-template-columns: 1fr;
-        text-align: center;
-
-        &__note-icon {
-          font-size: 40px;
-        }
-
-        &__note-text {
-          font-size: 26px;
-          line-height: 20px;
-        }
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 450px) {
-  .responsive {
-    .header {
-      &__right {
-        .company-name {
-          font-size: 50px;
-          letter-spacing: 6px;
-        }
-
-        .navigation-item {
-          font-size: 18px;
-        }
-      }
-    }
-
-    .main {
-      .vision {
-        padding: 20px;
-      }
-
-      .vision-card {
-        &__title {
-          font-size: 24px;
-        }
-
-        &__text {
-          font-size: 12px;
-        }
-      }
-    }
   }
 }

@@ -15,7 +15,7 @@ import Indicator from "../../UI/Indicator";
 
 const Main = () => {
     return (
-        <div className='responsive__main'>
+        <div className='main'>
 
             <div className='examples'>
                 <TitleWithIcon

@@ -7,7 +7,7 @@ import YouTubeIcon from '@material-ui/icons/YouTube';
 
 const Footer = () => {
     return (
-        <div className='responsive__footer'>
+        <div className='footer'>
 
             <div className='credo'>
                 <h4 className='credo__title'>Native help</h4>
