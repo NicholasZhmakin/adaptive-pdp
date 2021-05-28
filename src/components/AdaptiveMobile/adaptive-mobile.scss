@@ -86,23 +86,62 @@
 
   .main {
     padding: 20px;
-    display: grid;
-    grid-template-columns: 1.5fr 3.5fr 1fr;
-    grid-gap: 70px;
-    justify-content: center;
+
+    .vision {
+      //display: grid;
+      //grid-template-columns: 1fr 1fr 1fr;
+      //justify-content: center;
+      //align-items: center;
+      //grid-gap: 30px;
+    }
+
+    .vision-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .vision-tab {
+      text-align: center;
+      border-bottom: 8px solid transparent;
+      cursor: pointer;
+
+      &.active {
+        border-bottom: 8px solid $secondary-color;
+      }
+
+      &__img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    .vision-tab-content {
+      margin-top: 10px;
+
+      &__title {
+        text-align: center;
+        font-family: $main-title-font;
+        font-size: 23px;
+        color: $solid-black;
+        margin: 0;
+      }
+
+      &__text {
+        text-align: justify;
+        font-family: $main-text-font;
+        font-size: 12px;
+        text-indent: 15px;
+        color: $solid-dark-grey;
+        margin: 0;
+      }
+    }
 
     .examples-list {
       display: grid;
       justify-content: center;
       gap: 30px;
-    }
-
-    .vision {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      justify-content: center;
-      align-items: center;
-      grid-gap: 30px;
     }
 
     .posts {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ExampleCard from '../../../UI/ExampleCard';
 import PersonCard from '../../../UI/PersonCard';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -14,94 +14,145 @@ import Indicator from "../../../UI/Indicator";
 
 
 const Main = () => {
+
+    const [activeTab, setActiveTab] = useState('Service');
+
     return (
         <div className='main'>
 
-            <div className='examples'>
-                <TitleWithIcon
-                    text={'Examples of work'}
-                    icon={<PeopleIcon className='examples-icon' />}
-                />
+            {/*<div className='examples'>*/}
+            {/*    <TitleWithIcon*/}
+            {/*        text={'Examples of work'}*/}
+            {/*        icon={<PeopleIcon className='examples-icon' />}*/}
+            {/*    />*/}
 
-                <div className='examples-list'>
-                    <ExampleCard name={'Marvelous staff'} />
-                    <ExampleCard name={'Splendid staff'} />
-                    <ExampleCard name={'Outstanding staff'} />
-                    <ExampleCard name={'Gorgeous staff'} />
-                    <ExampleCard name={'Magnificent staff'} />
-                    <ExampleCard name={'Amazing staff'} />
-                    <ExampleCard name={'Stunning staff'} />
-                </div>
-            </div>
+            {/*    <div className='examples-list'>*/}
+            {/*        <ExampleCard name={'Marvelous staff'} />*/}
+            {/*        <ExampleCard name={'Splendid staff'} />*/}
+            {/*        <ExampleCard name={'Outstanding staff'} />*/}
+            {/*        <ExampleCard name={'Gorgeous staff'} />*/}
+            {/*        <ExampleCard name={'Magnificent staff'} />*/}
+            {/*        <ExampleCard name={'Amazing staff'} />*/}
+            {/*        <ExampleCard name={'Stunning staff'} />*/}
+            {/*    </div>*/}
+            {/*</div>*/}
 
             <div className='content'>
 
                 <div className='vision'>
-                    <VisionCard name={'Service'} imgSrc={'./vision/service.png'} />
-                    <VisionCard name={'Goal'} imgSrc={'./vision/goal.png'} />
-                    <VisionCard name={'Design'} imgSrc={'./vision/design.png'} />
+
+                    <div className='vision-tabs'>
+                        <div
+                            className={activeTab === 'Service' ? 'vision-tab active' : 'vision-tab'}
+                            onClick={() => setActiveTab('Service')}
+                        >
+                            <img className='vision-tab__img' src={'./vision/service.png'} alt='vision-icon' />
+                        </div>
+                        <div
+                            className={activeTab === 'Goal' ? 'vision-tab active' : 'vision-tab'}
+                            onClick={() => setActiveTab('Goal')}
+                        >
+                            <img className='vision-tab__img' src={'./vision/goal.png'} alt='vision-icon' />
+                        </div>
+                        <div
+                            className={activeTab === 'Design' ? 'vision-tab active' : 'vision-tab'}
+                            onClick={() => setActiveTab('Design')}
+                        >
+                            <img className='vision-tab__img' src={'./vision/design.png'} alt='vision-icon' />
+                        </div>
+                    </div>
+
+                    <div className='vision-tab-content'>
+                        <h4 className='vision-tab-content__title'>{activeTab}</h4>
+
+                        {activeTab === 'Service' &&
+                            <p className='vision-tab-content__text'>
+                                Consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                                a pariatur.
+                            </p>
+                        }
+                        {activeTab === 'Goal' &&
+                            <p className='vision-tab-content__text'>
+                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                                voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua.
+                            </p>
+                        }
+                        {activeTab === 'Design' &&
+                            <p className='vision-tab-content__text'>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                                irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                            </p>
+                        }
+                    </div>
                 </div>
 
-                <div className='posts'>
-                    <Post title={'Helping today. Helping tomorrow'} />
-                    <Post title={'New day - new life'} />
-                </div>
+                {/*<div className='posts'>*/}
+                {/*    <Post title={'Helping today. Helping tomorrow'} />*/}
+                {/*    <Post title={'New day - new life'} />*/}
+                {/*</div>*/}
 
-                <div className='indicators'>
-                    <Indicator
-                        name={'LINES OF CODE'}
-                        icon={<CodeIcon />}
-                        value={'402 123'}
-                    />
-                    <Indicator
-                        name={'CUPS OF COFFEE'}
-                        icon={<LocalCafeIcon />}
-                        value={'3 723'}
-                    />
-                    <Indicator
-                        name={'FINISHED PROJECTS'}
-                        icon={<DoneAllIcon />}
-                        value={'371'}
-                    />
-                    <Indicator
-                        name={'SATISFIED CLIENTS'}
-                        icon={<EmojiPeopleIcon />}
-                        value={'5 123'}
-                    />
-                </div>
+                {/*<div className='indicators'>*/}
+                {/*    <Indicator*/}
+                {/*        name={'LINES OF CODE'}*/}
+                {/*        icon={<CodeIcon />}*/}
+                {/*        value={'402 123'}*/}
+                {/*    />*/}
+                {/*    <Indicator*/}
+                {/*        name={'CUPS OF COFFEE'}*/}
+                {/*        icon={<LocalCafeIcon />}*/}
+                {/*        value={'3 723'}*/}
+                {/*    />*/}
+                {/*    <Indicator*/}
+                {/*        name={'FINISHED PROJECTS'}*/}
+                {/*        icon={<DoneAllIcon />}*/}
+                {/*        value={'371'}*/}
+                {/*    />*/}
+                {/*    <Indicator*/}
+                {/*        name={'SATISFIED CLIENTS'}*/}
+                {/*        icon={<EmojiPeopleIcon />}*/}
+                {/*        value={'5 123'}*/}
+                {/*    />*/}
+                {/*</div>*/}
 
 
             </div>
 
-            <div className='network'>
-                <div className='partners'>
-                    <TitleWithIcon
-                        text={'Our partners'}
-                        icon={<FavoriteIcon className='partners-icon' />}
-                    />
-                    <div className='partners-list'>
-                        <img className='partners-list__img' src='./partners/partner-1.png' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-2.jpeg' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-3.jpeg' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-4.png' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-5.png' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-6.jpg' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-7.jpeg' alt='partner'/>
-                    </div>
-                </div>
+            {/*<div className='network'>*/}
+            {/*    <div className='partners'>*/}
+            {/*        <TitleWithIcon*/}
+            {/*            text={'Our partners'}*/}
+            {/*            icon={<FavoriteIcon className='partners-icon' />}*/}
+            {/*        />*/}
+            {/*        <div className='partners-list'>*/}
+            {/*            <img className='partners-list__img' src='./partners/partner-1.png' alt='partner'/>*/}
+            {/*            <img className='partners-list__img' src='./partners/partner-2.jpeg' alt='partner'/>*/}
+            {/*            <img className='partners-list__img' src='./partners/partner-3.jpeg' alt='partner'/>*/}
+            {/*            <img className='partners-list__img' src='./partners/partner-4.png' alt='partner'/>*/}
+            {/*            <img className='partners-list__img' src='./partners/partner-5.png' alt='partner'/>*/}
+            {/*            <img className='partners-list__img' src='./partners/partner-6.jpg' alt='partner'/>*/}
+            {/*            <img className='partners-list__img' src='./partners/partner-7.jpeg' alt='partner'/>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
 
-                <div className='team'>
-                    <TitleWithIcon
-                        text={'Our team'}
-                        icon={<PeopleIcon className='examples-icon' />}
-                    />
-                    <div className='team-list'>
-                        <PersonCard name={'Lily'} position={'CEO'} />
-                        <PersonCard name={'Anabelle'} position={'Manager'} />
-                        <PersonCard name={'Sam'} position={'Worker'} />
-                    </div>
-                </div>
-            </div>
+            {/*    <div className='team'>*/}
+            {/*        <TitleWithIcon*/}
+            {/*            text={'Our team'}*/}
+            {/*            icon={<PeopleIcon className='examples-icon' />}*/}
+            {/*        />*/}
+            {/*        <div className='team-list'>*/}
+            {/*            <PersonCard name={'Lily'} position={'CEO'} />*/}
+            {/*            <PersonCard name={'Anabelle'} position={'Manager'} />*/}
+            {/*            <PersonCard name={'Sam'} position={'Worker'} />*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
 
         </div>
     );
