@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Adaptive from './components/Adaptive';
+import AdaptiveMobile from './components/AdaptiveMobile';
 import Responsive from './components/Responsive';
 
 
@@ -10,7 +10,7 @@ const App = () => {
   return (
     <div className='App'>
       {activeDesign === 1 ?
-        <Adaptive /> :
+        <AdaptiveMobile /> :
         <Responsive />
       }
     </div>

@@ -1,16 +1,16 @@
 import React from 'react';
-import ExampleCard from '../../UI/ExampleCard';
-import PersonCard from '../../UI/PersonCard';
+import ExampleCard from '../../../UI/ExampleCard';
+import PersonCard from '../../../UI/PersonCard';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PeopleIcon from '@material-ui/icons/People';
 import CodeIcon from '@material-ui/icons/Code';
 import LocalCafeIcon from '@material-ui/icons/LocalCafe';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
-import TitleWithIcon from "../../UI/TitleWithIcon/TitleWithIcon";
-import VisionCard from "../../UI/VisionCard";
-import Post from "../../UI/Post";
-import Indicator from "../../UI/Indicator";
+import TitleWithIcon from "../../../UI/TitleWithIcon/TitleWithIcon";
+import VisionCard from "../../../UI/VisionCard";
+import Post from "../../../UI/Post";
+import Indicator from "../../../UI/Indicator";
 
 
 const Main = () => {
