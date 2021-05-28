@@ -29,6 +29,8 @@ const Main = () => {
                     <ExampleCard name={'Outstanding staff'} />
                     <ExampleCard name={'Gorgeous staff'} />
                     <ExampleCard name={'Magnificent staff'} />
+                    <ExampleCard name={'Amazing staff'} />
+                    <ExampleCard name={'Stunning staff'} />
                 </div>
             </div>
 
@@ -43,7 +45,6 @@ const Main = () => {
                 <div className='posts'>
                     <Post title={'Helping today. Helping tomorrow'} />
                     <Post title={'New day - new life'} />
-                    <Post title={'Hold up'} />
                 </div>
 
                 <div className='indicators'>

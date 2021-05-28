@@ -11,12 +11,12 @@
   font-family: $main-text-font;
   text-transform: uppercase;
   letter-spacing: 0.3px;
-  color: $main-color;
-  border: 3px solid $main-color;
+  color: $main-dark-color;
+  border: 3px solid $main-dark-color;
   background: $solid-white;
 
   &:hover {
-    background: $main-color;
+    background: $main-dark-color;
     color: $solid-white;
   }
 

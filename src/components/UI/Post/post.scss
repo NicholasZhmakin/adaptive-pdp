@@ -10,7 +10,6 @@
   justify-content: center;
   align-items: center;
   grid-gap: 30px;
-  padding: 60px 10px 10px;
 
   &:before {
     content: '';
@@ -54,12 +53,12 @@
     @include rectangle-button();
     border-radius: 20px;
     &:first-child {
-      background: $main-color;
+      background: $main-dark-color;
       color: $solid-white;
 
       &:hover {
         background: $solid-white;
-        color: $main-color;
+        color: $main-dark-color;
       }
     }
   }
@@ -83,7 +82,7 @@
     width: 150px;
     height: 200px;
     line-height: 20px;
-    background: $solid-orange;
+    background: $secondary-color;
     padding: 8px;
     transform: translate(-100px, 50px);
     display: flex;
