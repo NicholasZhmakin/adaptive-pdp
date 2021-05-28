@@ -87,7 +87,6 @@ const Main = () => {
                         <img className='partners-list__img' src='./partners/partner-5.png' alt='partner'/>
                         <img className='partners-list__img' src='./partners/partner-6.jpg' alt='partner'/>
                         <img className='partners-list__img' src='./partners/partner-7.jpeg' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-8.jpg' alt='partner'/>
                     </div>
                 </div>
 
@@ -100,7 +99,6 @@ const Main = () => {
                         <PersonCard name={'Lily'} position={'CEO'} />
                         <PersonCard name={'Anabelle'} position={'Manager'} />
                         <PersonCard name={'Sam'} position={'Worker'} />
-                        <PersonCard name={'Jack'} position={'Worker'} />
                     </div>
                 </div>
             </div>

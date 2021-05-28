@@ -121,7 +121,8 @@
       margin-top: 100px;
       padding: 15px 30px;
       background: $solid-light-grey;
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
       justify-content: center;
       align-items: center;
       gap: 50px;
@@ -162,6 +163,8 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 80px;
+    align-items: center;
+    justify-items: center;
     justify-content: center;
     padding: 30px;
     background: $solid-black;
@@ -192,6 +195,7 @@
     }
 
     .follow {
+      text-align: center;
 
       &__title {
         font-family: $main-text-font;
@@ -212,6 +216,8 @@
 
     .support,
     .explore {
+      text-align: center;
+
       &__title {
         font-family: $main-text-font;
         font-size: 22px;
@@ -245,8 +251,13 @@
 
         .team-list {
           grid-template-columns: repeat(auto-fit, 180px);
+          grid-gap: 50px;
         }
       }
+    }
+
+    &__footer {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 }
@@ -262,6 +273,8 @@
 
     &__main {
       grid-template-columns: 1fr;
+      grid-gap: 0;
+      grid-row-gap: 50px;
       grid-template-rows: auto auto auto;
 
       .examples {
@@ -276,6 +289,29 @@
   }
 }
 
+@media screen and (max-width: 900px) {
+  .responsive {
+    .vision {
+      grid-template-columns: auto;
+      padding: 20px 80px;
+    }
+
+    .vision-card {
+      &__title {
+        font-size: 32px;
+      }
+
+      &__text {
+        font-size: 18px;
+      }
+    }
+
+    .indicators {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}
+
 @media screen and (max-width: 800px) {
   .responsive {
     &__header {
@@ -284,6 +320,68 @@
 
       &:after {
         display: none;
+      }
+    }
+
+    &__main {
+
+      .post {
+        grid-template-columns: 1fr 150px;
+
+        &__right-block {
+          height: auto;
+        }
+
+        &__img {
+          display: none;
+        }
+
+        &__note {
+          width: auto;
+          transform: none;
+        }
+
+        &:before {
+          display: none;
+        }
+      }
+    }
+
+    &__footer {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .responsive {
+
+    .vision {
+      grid-template-columns: auto;
+      padding: 20px 60px;
+    }
+
+    .indicators {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .responsive {
+    &__main {
+      .post {
+        grid-template-columns: 1fr;
+        text-align: center;
+
+        &__note-icon {
+          font-size: 40px;
+        }
+
+        &__note-text {
+          font-size: 26px;
+          line-height: 20px;
+        }
       }
     }
   }
