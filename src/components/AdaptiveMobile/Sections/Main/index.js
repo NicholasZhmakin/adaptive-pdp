@@ -8,6 +8,8 @@ import LocalCafeIcon from '@material-ui/icons/LocalCafe';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import TitleWithIcon from "../../../UI/TitleWithIcon/TitleWithIcon";
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import VisionCard from "../../../UI/VisionCard";
 import Post from "../../../UI/Post";
 import Indicator from "../../../UI/Indicator";
@@ -16,6 +18,9 @@ import Indicator from "../../../UI/Indicator";
 const Main = () => {
 
     const [activeTab, setActiveTab] = useState('Service');
+
+    const [partnersExtend, setPartnersExtend] = useState(false);
+    const [teamExtend, setTeamExtend] = useState(false);
 
     return (
         <div className='main'>
@@ -93,6 +98,49 @@ const Main = () => {
                     </div>
                 </div>
 
+
+                <div className='partners'>
+                    <TitleWithIcon
+                        text={'Our partners'}
+                        icon={partnersExtend ?
+                            <KeyboardArrowUpIcon className='partners-icon' /> :
+                            <KeyboardArrowDownIcon className='partners-icon' />
+                        }
+                        handleClick={() => setPartnersExtend((prevValue) => !prevValue)}
+                    />
+
+                    <div
+                        className={partnersExtend ? 'partners-list extend' : 'partners-list'}
+                    >
+                        <img className='partners-list__img' src='./partners/partner-1.png' alt='partner'/>
+                        <img className='partners-list__img' src='./partners/partner-2.jpeg' alt='partner'/>
+                        <img className='partners-list__img' src='./partners/partner-3.jpeg' alt='partner'/>
+                        <img className='partners-list__img' src='./partners/partner-4.png' alt='partner'/>
+                        <img className='partners-list__img' src='./partners/partner-5.png' alt='partner'/>
+                        <img className='partners-list__img' src='./partners/partner-6.jpg' alt='partner'/>
+                        <img className='partners-list__img' src='./partners/partner-7.jpeg' alt='partner'/>
+                    </div>
+                </div>
+
+
+                <div className='team'>
+                    <TitleWithIcon
+                        text={'Our team'}
+                        icon={teamExtend ?
+                            <KeyboardArrowUpIcon className='partners-icon' /> :
+                            <KeyboardArrowDownIcon className='partners-icon' />
+                        }
+                        handleClick={() => setTeamExtend((prevValue) => !prevValue)}
+                    />
+                    <div
+                        className={teamExtend ? 'team-list extend' : 'team-list'}
+                    >
+                        <PersonCard name={'Lily'} position={'CEO'} />
+                        <PersonCard name={'Anabelle'} position={'Manager'} />
+                        <PersonCard name={'Sam'} position={'Worker'} />
+                    </div>
+                </div>
+
                 {/*<div className='posts'>*/}
                 {/*    <Post title={'Helping today. Helping tomorrow'} />*/}
                 {/*    <Post title={'New day - new life'} />*/}
@@ -124,35 +172,6 @@ const Main = () => {
 
             </div>
 
-            {/*<div className='network'>*/}
-            {/*    <div className='partners'>*/}
-            {/*        <TitleWithIcon*/}
-            {/*            text={'Our partners'}*/}
-            {/*            icon={<FavoriteIcon className='partners-icon' />}*/}
-            {/*        />*/}
-            {/*        <div className='partners-list'>*/}
-            {/*            <img className='partners-list__img' src='./partners/partner-1.png' alt='partner'/>*/}
-            {/*            <img className='partners-list__img' src='./partners/partner-2.jpeg' alt='partner'/>*/}
-            {/*            <img className='partners-list__img' src='./partners/partner-3.jpeg' alt='partner'/>*/}
-            {/*            <img className='partners-list__img' src='./partners/partner-4.png' alt='partner'/>*/}
-            {/*            <img className='partners-list__img' src='./partners/partner-5.png' alt='partner'/>*/}
-            {/*            <img className='partners-list__img' src='./partners/partner-6.jpg' alt='partner'/>*/}
-            {/*            <img className='partners-list__img' src='./partners/partner-7.jpeg' alt='partner'/>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-
-            {/*    <div className='team'>*/}
-            {/*        <TitleWithIcon*/}
-            {/*            text={'Our team'}*/}
-            {/*            icon={<PeopleIcon className='examples-icon' />}*/}
-            {/*        />*/}
-            {/*        <div className='team-list'>*/}
-            {/*            <PersonCard name={'Lily'} position={'CEO'} />*/}
-            {/*            <PersonCard name={'Anabelle'} position={'Manager'} />*/}
-            {/*            <PersonCard name={'Sam'} position={'Worker'} />*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
 
         </div>
     );

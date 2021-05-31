@@ -9,7 +9,9 @@ const PersonCard = ({name, position}) => {
 
             <div className='person-card__text'>
                 <div className='person-card__main-info'>
-                    <h4>{name}</h4> - <h4>{position}</h4>
+                    <h4>{name}</h4>
+                    <h4>-</h4>
+                    <h4>{position}</h4>
                 </div>
                 <div className='person-card__other-info'>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
