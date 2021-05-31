@@ -57,17 +57,17 @@
       width: 50%;
       height: 100vh;
       display: grid;
-      grid-template-rows: repeat(3, 50px);
+      grid-template-rows: repeat(2, auto);
       justify-content: center;
       justify-items: center;
       align-items: center;
-      grid-gap: 10px;
+      grid-gap: 8px;
       background: $secondary-color;
+      color: $solid-white;
       transition: all 100ms linear;
       box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.3);
       opacity: 0;
       z-index: 4;
-
 
       &.active {
         padding: 10px 0;
@@ -76,19 +76,72 @@
       }
     }
 
-    .navigation-item {
-      margin: 0;
-      color: $solid-white;
-      font-size: 8px;
-      font-family: $main-text-font;
-      text-transform: uppercase;
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
+    .visit {
+      display: grid;
+      grid-template-rows: repeat(3, auto);
+      justify-content: center;
+      justify-items: center;
+      align-items: center;
+      grid-gap: 5px;
 
-      &:hover {
-        border-bottom: 2px solid $solid-white;
+      &__link {
+        margin: 0;
+        color: $solid-white;
+        font-size: 12px;
+        font-family: $main-text-font;
+        text-transform: uppercase;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+
+        &:hover {
+          border-bottom: 2px solid $solid-white;
+        }
       }
     }
+
+    .follow {
+      display: grid;
+      grid-template-rows: auto auto;
+      grid-gap: 5px;
+
+      &__title {
+        text-align: center;
+        margin: 0;
+        font-family: $main-text-font;
+        font-size: 12px;
+      }
+
+      &__icons-container {
+        display: flex;
+        gap: 3px;
+      }
+
+      &__icon {
+        font-size: 22px;
+        cursor: pointer;
+      }
+    }
+
+    .support,
+    .explore {
+      display: grid;
+      grid-template-rows: auto auto;
+      grid-gap: 5px;
+
+      &__title {
+        text-align: center;
+        margin: 0;
+        font-family: $main-text-font;
+        font-size: 12px;
+      }
+
+      &__link {
+        text-align: center;
+        cursor: pointer;
+        font-size: 10px;
+      }
+    }
+
   }
 
 
