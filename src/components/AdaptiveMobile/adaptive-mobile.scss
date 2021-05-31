@@ -57,11 +57,11 @@
       width: 50%;
       height: 100vh;
       display: grid;
-      grid-template-rows: repeat(2, auto);
+      grid-template-rows: repeat(4, auto);
       justify-content: center;
       justify-items: center;
+      align-content: space-around;
       align-items: center;
-      grid-gap: 8px;
       background: $secondary-color;
       color: $solid-white;
       transition: all 100ms linear;
@@ -70,7 +70,6 @@
       z-index: 4;
 
       &.active {
-        padding: 10px 0;
         opacity: 1;
         left: 0;
       }
