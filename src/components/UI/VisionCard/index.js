@@ -5,7 +5,7 @@ import './visionCard.scss';
 const VisionCard = ({name, imgSrc}) => {
     return (
         <div className='vision-card'>
-            <img className='vision-card__img' src={imgSrc} alt='vision-icon' />
+            <img className='vision-card__img' src={process.env.PUBLIC_URL + imgSrc} alt='vision-icon' />
             <h4 className='vision-card__title'>{name}</h4>
             <p className='vision-card__text'>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
