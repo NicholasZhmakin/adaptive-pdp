@@ -32,3 +32,22 @@
     margin: 0;
   }
 }
+
+
+@media screen and (max-width: 450px) {
+  .adaptive-mobile {
+    .indicator {
+      gap: 5px;
+      svg {
+        color: $solid-black;
+        font-size: 30px;
+      }
+      &__value {
+        font-size: 12px;
+      }
+      &__name {
+        font-size: 8px;
+      }
+    }
+  }
+}
