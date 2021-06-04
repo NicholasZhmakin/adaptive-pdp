@@ -1,4 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import Carousel from '@brainhubeu/react-carousel';
+import '@brainhubeu/react-carousel/lib/style.css';
 import ExampleCard from '../../../UI/ExampleCard';
 import PersonCard from '../../../UI/PersonCard';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -25,22 +27,7 @@ const Main = () => {
     return (
         <div className='main'>
 
-            {/*<div className='examples'>*/}
-            {/*    <TitleWithIcon*/}
-            {/*        text={'Examples of work'}*/}
-            {/*        icon={<PeopleIcon className='examples-icon' />}*/}
-            {/*    />*/}
 
-            {/*    <div className='examples-list'>*/}
-            {/*        <ExampleCard name={'Marvelous staff'} />*/}
-            {/*        <ExampleCard name={'Splendid staff'} />*/}
-            {/*        <ExampleCard name={'Outstanding staff'} />*/}
-            {/*        <ExampleCard name={'Gorgeous staff'} />*/}
-            {/*        <ExampleCard name={'Magnificent staff'} />*/}
-            {/*        <ExampleCard name={'Amazing staff'} />*/}
-            {/*        <ExampleCard name={'Stunning staff'} />*/}
-            {/*    </div>*/}
-            {/*</div>*/}
 
             <div className='content'>
 
@@ -169,6 +156,18 @@ const Main = () => {
                 {/*    />*/}
                 {/*</div>*/}
 
+
+                <div className='examples'>
+                    <Carousel plugins={['arrows']}>
+                        <ExampleCard name={'Marvelous staff'} />
+                        <ExampleCard name={'Splendid staff'} />
+                        <ExampleCard name={'Outstanding staff'} />
+                        <ExampleCard name={'Gorgeous staff'} />
+                        <ExampleCard name={'Magnificent staff'} />
+                        <ExampleCard name={'Amazing staff'} />
+                        <ExampleCard name={'Stunning staff'} />
+                    </Carousel>
+                </div>
 
             </div>
 

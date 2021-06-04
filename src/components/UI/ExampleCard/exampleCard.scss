@@ -55,3 +55,23 @@
     @include rectangle-button(120px, 30px);
   }
 }
+
+@media screen and (max-width: 450px) {
+  .adaptive-mobile {
+    .example-card {
+      &__main-info {
+        font-size: 12px;
+      }
+
+      &__other-info {
+        font-size: 8px;
+      }
+
+      &__btn {
+        @include rectangle-button(80px, 30px);
+        font-size: 8px;
+      }
+    }
+  }
+
+}
