@@ -51,19 +51,19 @@ const Main = () => {
                             className={activeTab === 'Service' ? 'vision-tab active' : 'vision-tab'}
                             onClick={() => setActiveTab('Service')}
                         >
-                            <img className='vision-tab__img' src={'./vision/service.png'} alt='vision-icon' />
+                            <img className='vision-tab__img' src={process.env.PUBLIC_URL + '/vision/service.png'} alt='vision-icon' />
                         </div>
                         <div
                             className={activeTab === 'Goal' ? 'vision-tab active' : 'vision-tab'}
                             onClick={() => setActiveTab('Goal')}
                         >
-                            <img className='vision-tab__img' src={'./vision/goal.png'} alt='vision-icon' />
+                            <img className='vision-tab__img' src={process.env.PUBLIC_URL + '/vision/goal.png'} alt='vision-icon' />
                         </div>
                         <div
                             className={activeTab === 'Design' ? 'vision-tab active' : 'vision-tab'}
                             onClick={() => setActiveTab('Design')}
                         >
-                            <img className='vision-tab__img' src={'./vision/design.png'} alt='vision-icon' />
+                            <img className='vision-tab__img' src={process.env.PUBLIC_URL + '/vision/design.png'} alt='vision-icon' />
                         </div>
                     </div>
 
@@ -112,13 +112,13 @@ const Main = () => {
                     <div
                         className={partnersExtend ? 'partners-list extend' : 'partners-list'}
                     >
-                        <img className='partners-list__img' src='./partners/partner-1.png' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-2.jpeg' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-3.jpeg' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-4.png' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-5.png' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-6.jpg' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-7.jpeg' alt='partner'/>
+                        <img className='partners-list__img' src={process.env.PUBLIC_URL + '/partners/partner-1.png'} alt='partner'/>
+                        <img className='partners-list__img' src={process.env.PUBLIC_URL + '/partners/partner-2.jpeg'} alt='partner'/>
+                        <img className='partners-list__img' src={process.env.PUBLIC_URL + '/partners/partner-3.jpeg'} alt='partner'/>
+                        <img className='partners-list__img' src={process.env.PUBLIC_URL + '/partners/partner-4.png'} alt='partner'/>
+                        <img className='partners-list__img' src={process.env.PUBLIC_URL + '/partners/partner-5.png'} alt='partner'/>
+                        <img className='partners-list__img' src={process.env.PUBLIC_URL + '/partners/partner-6.jpg'} alt='partner'/>
+                        <img className='partners-list__img' src={process.env.PUBLIC_URL + '/partners/partner-7.jpeg'} alt='partner'/>
                     </div>
                 </div>
 

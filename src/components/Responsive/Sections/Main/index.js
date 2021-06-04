@@ -37,9 +37,9 @@ const Main = () => {
             <div className='content'>
 
                 <div className='vision'>
-                    <VisionCard name={'Service'} imgSrc={'./vision/service.png'} />
-                    <VisionCard name={'Goal'} imgSrc={'./vision/goal.png'} />
-                    <VisionCard name={'Design'} imgSrc={'./vision/design.png'} />
+                    <VisionCard name={'Service'} imgSrc={'/vision/service.png'} />
+                    <VisionCard name={'Goal'} imgSrc={'/vision/goal.png'} />
+                    <VisionCard name={'Design'} imgSrc={'/vision/design.png'} />
                 </div>
 
                 <div className='posts'>
@@ -80,13 +80,13 @@ const Main = () => {
                         icon={<FavoriteIcon className='partners-icon' />}
                     />
                     <div className='partners-list'>
-                        <img className='partners-list__img' src='./partners/partner-1.png' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-2.jpeg' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-3.jpeg' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-4.png' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-5.png' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-6.jpg' alt='partner'/>
-                        <img className='partners-list__img' src='./partners/partner-7.jpeg' alt='partner'/>
+                        <img className='partners-list__img' src={process.env.PUBLIC_URL + '/partners/partner-1.png'} alt='partner'/>
+                        <img className='partners-list__img' src={process.env.PUBLIC_URL + '/partners/partner-2.jpeg'} alt='partner'/>
+                        <img className='partners-list__img' src={process.env.PUBLIC_URL + '/partners/partner-3.jpeg'} alt='partner'/>
+                        <img className='partners-list__img' src={process.env.PUBLIC_URL + '/partners/partner-4.png'} alt='partner'/>
+                        <img className='partners-list__img' src={process.env.PUBLIC_URL + '/partners/partner-5.png'} alt='partner'/>
+                        <img className='partners-list__img' src={process.env.PUBLIC_URL + '/partners/partner-6.jpg'} alt='partner'/>
+                        <img className='partners-list__img' src={process.env.PUBLIC_URL + '/partners/partner-7.jpeg'} alt='partner'/>
                     </div>
                 </div>
 

@@ -5,7 +5,7 @@ const Header = () => {
     return (
         <div className='header'>
             <div className='header__left'>
-                <img className='logo' src='./logo.png' alt='log' />
+                <img className='logo' src={process.env.PUBLIC_URL + '/logo.png'} alt='log' />
             </div>
             <div className='header__right'>
                 <h1 className='company-name'>Native Help</h1>

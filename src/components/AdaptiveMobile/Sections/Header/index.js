@@ -12,7 +12,7 @@ const Header = ({isNavigation, setIsNavigation}) => {
     return (
         <ClickAwayListener onClickAway={() => setIsNavigation(false)}>
             <div className='header'>
-                <img className='logo' src='./logo.png' alt='log' />
+                <img className='logo' src={process.env.PUBLIC_URL  + '/logo.png'} alt='log' />
                 <h1 className='company-name'>Native Help</h1>
                 <MenuIcon
                     className='menu-icon'
