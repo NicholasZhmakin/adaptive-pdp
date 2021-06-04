@@ -5,7 +5,7 @@ import Responsive from './components/Responsive';
 
 const App = () => {
 
-  const [activeDesign, setActiveDesign] = useState(2);
+  const [activeDesign, setActiveDesign] = useState(1);
 
   return (
     <div className='App'>

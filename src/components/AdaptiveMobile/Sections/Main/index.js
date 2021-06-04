@@ -1,24 +1,20 @@
 import React, { useState } from 'react';
 import Carousel from '@brainhubeu/react-carousel';
 import '@brainhubeu/react-carousel/lib/style.css';
+import { ClickAwayListener } from '@material-ui/core';
 import ExampleCard from '../../../UI/ExampleCard';
 import PersonCard from '../../../UI/PersonCard';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import PeopleIcon from '@material-ui/icons/People';
+import TitleWithIcon from '../../../UI/TitleWithIcon/TitleWithIcon';
+import Post from '../../../UI/Post';
+import Indicator from '../../../UI/Indicator';
 import CodeIcon from '@material-ui/icons/Code';
 import LocalCafeIcon from '@material-ui/icons/LocalCafe';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
-import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import TitleWithIcon from "../../../UI/TitleWithIcon/TitleWithIcon";
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import VisionCard from "../../../UI/VisionCard";
-import Post from "../../../UI/Post";
-import Indicator from "../../../UI/Indicator";
-import {ClickAwayListener} from "@material-ui/core";
 
 
 const Main = () => {
@@ -98,6 +94,11 @@ const Main = () => {
                 </Carousel>
             </div>
 
+            <div className='posts'>
+                <Post title={'Helping today. Helping tomorrow'} />
+                <Post title={'New day - new life'} />
+            </div>
+
             <div className='partners'>
                 <TitleWithIcon
                     text={'Our partners'}
@@ -140,11 +141,6 @@ const Main = () => {
                 </div>
             </div>
 
-            {/*<div className='posts'>*/}
-            {/*    <Post title={'Helping today. Helping tomorrow'} />*/}
-            {/*    <Post title={'New day - new life'} />*/}
-            {/*</div>*/}
-
             <ClickAwayListener onClickAway={() => setIsIndicators(false)} >
                 <div className={isIndicators ? 'indicators active' : 'indicators'}>
 
@@ -181,8 +177,6 @@ const Main = () => {
 
                 </div>
             </ClickAwayListener>
-
-
         </div>
     );
 }
