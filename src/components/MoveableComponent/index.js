@@ -7,20 +7,7 @@ import './MoveableComponent.scss';
 
 const MoveableComponent = ({item, previewRef}) => {
 
-    const frameRef = useRef(new Frame({
-        width: "250px",
-        height: "200px",
-        left: "0px",
-        top: "0px",
-        transform: {
-            rotate: "0deg",
-            scaleX: 1,
-            scaleY: 1,
-            matrix3d: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
-        }
-    }));
-
-    const moveableRef = useRef(null);
+    const frameRef = useRef(null);
     const moveableItemRef = useRef(null);
 
     const [target, setTarget] = useState(null);
@@ -40,6 +27,7 @@ const MoveableComponent = ({item, previewRef}) => {
     }, [item]);
 
     const setTransform = (target) => {
+        console.log(target);
         target.style.cssText = frameRef.current.toCSS();
     }
 
@@ -60,6 +48,7 @@ const MoveableComponent = ({item, previewRef}) => {
     const onResize = ({ target, clientX, clientY, width, height }) => {
         frameRef.current.set("width", `${width}px`);
         frameRef.current.set("height", `${height}px`);
+
         setTransform(target);
     };
 
@@ -67,47 +56,47 @@ const MoveableComponent = ({item, previewRef}) => {
        setText(e.target.value);
    }
 
-   const getContentDependingOnType = () => {
-       if (item.type === 'image') {
-           return (
-               <img
-                className='moveable__image'
-                src={item.image.url}
-                alt={'dnd0image'}
-               />
-           );
-       } else {
-           if (isTextAreaActive) {
-               return (
-                   <ClickAwayListener onClickAway={() => setIsTextAreaActive(false)}>
-                            <textarea
-                                className='moveable__textarea'
-                                value={text}
-                                onChange={handleTextChange}
-                            />
-                   </ClickAwayListener>
-               );
-           } else {
-               return (
-                   <p
-                       className="moveable__text"
-                       onDoubleClick={() => {
-                           setIsTextAreaActive(true)
-                       }}
-                   >
-                       {text}
-                   </p>
-               );
-           }
-       }
+   let content;
+
+   if (item.type === 'image') {
+      content = (
+           <img
+               className='moveable__image'
+               src={item.image.url}
+               alt={'dnd0image'}
+           />
+       );
+   } else {
+      content = isTextAreaActive ?
+          <ClickAwayListener onClickAway={() => setIsTextAreaActive(false)}>
+            <textarea
+                className='moveable__textarea'
+                style={{
+                    color: item.styles['color'],
+                    fontSize: item.styles['font-size'],
+                    fontFamily: item.styles['font-family'],
+                    textAlign: item.styles['text-align'],
+                }}
+                value={text}
+                onChange={handleTextChange}
+            />
+          </ClickAwayListener> :
+          <p
+              className="moveable__text"
+              onDoubleClick={() => {
+                  setIsTextAreaActive(true)
+              }}
+          >
+              {text}
+          </p>
    }
 
     return (
         <div className="moveable">
             <Moveable
-                ref={moveableRef}
                 target={target}
-                container={previewRef.current}
+                // container={previewRef.current}
+                container={null}
                 draggable={!isTextAreaActive}
                 scalable={false}
                 resizable={true}
@@ -126,7 +115,7 @@ const MoveableComponent = ({item, previewRef}) => {
             <div className="moveable__container">
 
                 <div ref={moveableItemRef} className="moveable__item">
-                    {getContentDependingOnType()}
+                    {content}
                 </div>
 
             </div>

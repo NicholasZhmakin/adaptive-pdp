@@ -13,9 +13,9 @@ const AddCreatePreview = () => {
             className='addCreatePreview'
             ref={previewRef}
         >
-            {arrayDnd.map((item) =>
+            {arrayDnd.map((item, index) =>
                 <MoveableComponent
-                    key={item.id}
+                    key={item.id + index}
                     previewRef={previewRef}
                     item={item}
                 />

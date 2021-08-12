@@ -1,6 +1,4 @@
 
-
-
 const mockItem1 = {
     id: 1,
     type: 'button',
@@ -8,12 +6,12 @@ const mockItem1 = {
     text: 'enter some',
 
     font: {
-        id: 12,
+        id: 1,
         url: 'fontUrl',
     },
 
     image: {
-        id: 21,
+        id: 1,
         url: 'https://picsum.photos/200/250'
     },
 
@@ -26,9 +24,6 @@ const mockItem1 = {
 
         transform: {
             rotate: "0deg",
-            scaleX: 1,
-            scaleY: 1,
-            matrix3d: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
         },
 
         color: 'yellow',
@@ -51,12 +46,12 @@ const mockItem2 = {
     text: 'enter some',
 
     font: {
-        id: 12,
+        id: 2,
         url: 'fontUrl',
     },
 
     image: {
-        id: 21,
+        id: 2,
         url: 'https://picsum.photos/200/250'
     },
 
@@ -69,9 +64,6 @@ const mockItem2 = {
 
         transform: {
             rotate: "0deg",
-            scaleX: 1,
-            scaleY: 1,
-            matrix3d: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
         },
     }
 };
@@ -84,12 +76,12 @@ const mockItem3 = {
     text: 'enter some',
 
     font: {
-        id: 12,
+        id: 3,
         url: 'fontUrl',
     },
 
     image: {
-        id: 21,
+        id: 3,
         url: 'https://picsum.photos/200/250'
     },
 
@@ -102,9 +94,6 @@ const mockItem3 = {
 
         transform: {
             rotate: "0deg",
-            scaleX: 1,
-            scaleY: 1,
-            matrix3d: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
         },
 
         color: 'black',
