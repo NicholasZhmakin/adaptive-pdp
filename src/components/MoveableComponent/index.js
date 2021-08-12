@@ -5,7 +5,7 @@ import { Frame } from "scenejs";
 import './MoveableComponent.scss';
 
 
-const MoveableComponent = ({item, previewRef}) => {
+const MoveableComponent = ({item, previewRef, handleSelectBannerItem}) => {
 
     const frameRef = useRef(null);
     const moveableItemRef = useRef(null);
@@ -27,7 +27,6 @@ const MoveableComponent = ({item, previewRef}) => {
     }, [item]);
 
     const setTransform = (target) => {
-        console.log(target);
         target.style.cssText = frameRef.current.toCSS();
     }
 
@@ -113,8 +112,11 @@ const MoveableComponent = ({item, previewRef}) => {
             />
 
             <div className="moveable__container">
-
-                <div ref={moveableItemRef} className="moveable__item">
+                <div
+                    ref={moveableItemRef}
+                    className="moveable__item"
+                    onDoubleClick={() => handleSelectBannerItem(item.id)}
+                >
                     {content}
                 </div>
 

@@ -1,0 +1,14 @@
+
+
+.moveable-settings {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+
+  &__text {
+    width: 100px;
+    height: 400px;
+    background: #20dec8;
+  }
+}
