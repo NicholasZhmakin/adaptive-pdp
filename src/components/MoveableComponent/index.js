@@ -5,7 +5,7 @@ import { Frame } from "scenejs";
 import './MoveableComponent.scss';
 
 
-const MoveableComponent = ({item, previewRef, handleSelectBannerItem}) => {
+const MoveableComponent = ({item, replaceBannerItemStyles, handleSelectBannerItem}) => {
 
     const frameRef = useRef(null);
     const moveableItemRef = useRef(null);
@@ -55,6 +55,10 @@ const MoveableComponent = ({item, previewRef, handleSelectBannerItem}) => {
        setText(e.target.value);
    }
 
+   const handleEndAction = ({target}) => {
+      replaceBannerItemStyles(item.id, target.style.cssText);
+   }
+
    let content;
 
    if (item.type === 'image') {
@@ -94,7 +98,6 @@ const MoveableComponent = ({item, previewRef, handleSelectBannerItem}) => {
         <div className="moveable">
             <Moveable
                 target={target}
-                // container={previewRef.current}
                 container={null}
                 draggable={!isTextAreaActive}
                 scalable={false}
@@ -109,6 +112,9 @@ const MoveableComponent = ({item, previewRef, handleSelectBannerItem}) => {
                 onDrag={onDrag}
                 onResize={onResize}
                 onRotate={onRotate}
+                onDragEnd={handleEndAction}
+                onResizeEnd={handleEndAction}
+                onRotateEnd={handleEndAction}
             />
 
             <div className="moveable__container">

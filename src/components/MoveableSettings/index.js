@@ -3,7 +3,7 @@ import React from 'react';
 import './MoveableSettings.scss';
 
 
-const MoveableSettings = ({item, changeBannerItemStyles}) => {
+const MoveableSettings = ({item, changeBannerItemStylesFiled}) => {
 
 
 
@@ -14,7 +14,7 @@ const MoveableSettings = ({item, changeBannerItemStyles}) => {
 
                 <input
                     value={parseInt(item.styles['font-size'])}
-                    onChange={(e) => changeBannerItemStyles('font-size', e.target.value)}
+                    onChange={(e) => changeBannerItemStylesFiled('font-size', e.target.value)}
                 />
 
 

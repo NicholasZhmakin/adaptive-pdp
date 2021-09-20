@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AdaptiveMobile from './components/AdaptiveMobile';
 import Responsive from './components/Responsive';
 import MoveableComponent from './components/MoveableComponent/index';
-import AddCreatePreview from "./components/AddCreatePreview";
+import AdCreatePreview from "./components/AdCreatePreview";
 
 
 const App = () => {
@@ -11,7 +11,7 @@ const App = () => {
 
   return (
     <div className='App'>
-        <AddCreatePreview />
+        <AdCreatePreview />
       {/*{activeDesign === 2 ?*/}
       {/*  <AdaptiveMobile /> :*/}
       {/*  <Responsive />*/}
