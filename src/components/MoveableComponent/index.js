@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
+import classnames from 'classnames';
 import Moveable from "react-moveable";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { Frame } from "scenejs";
+
 import './MoveableComponent.scss';
 
 
-const MoveableComponent = ({item, replaceBannerItemStyles, handleSelectBannerItem}) => {
+const MoveableComponent = ({bannerItem, selectedBannerItem, replaceBannerItemStyles, handleSelectBannerItem}) => {
 
     const frameRef = useRef(null);
     const moveableItemRef = useRef(null);
@@ -20,11 +22,15 @@ const MoveableComponent = ({item, replaceBannerItemStyles, handleSelectBannerIte
 
     useEffect(() => {
         frameRef.current = new Frame({
-            ...item.styles,
+            ...bannerItem.styles,
         });
 
         moveableItemRef.current.style.cssText = frameRef.current.toCSS();
-    }, [item]);
+    }, [bannerItem]);
+
+  const handleSelect = () => {
+    handleSelectBannerItem(bannerItem);
+  }
 
     const setTransform = (target) => {
         target.style.cssText = frameRef.current.toCSS();
@@ -56,16 +62,16 @@ const MoveableComponent = ({item, replaceBannerItemStyles, handleSelectBannerIte
    }
 
    const handleEndAction = ({target}) => {
-      replaceBannerItemStyles(item.id, target.style.cssText);
+      replaceBannerItemStyles(bannerItem.id, target.style.cssText);
    }
 
    let content;
 
-   if (item.type === 'image') {
+   if (bannerItem.type === 'image') {
       content = (
            <img
                className='moveable__image'
-               src={item.image.url}
+               src={bannerItem.image.url}
                alt={'dnd0image'}
            />
        );
@@ -75,10 +81,10 @@ const MoveableComponent = ({item, replaceBannerItemStyles, handleSelectBannerIte
             <textarea
                 className='moveable__textarea'
                 style={{
-                    color: item.styles['color'],
-                    fontSize: item.styles['font-size'],
-                    fontFamily: item.styles['font-family'],
-                    textAlign: item.styles['text-align'],
+                    color: bannerItem.styles['color'],
+                    fontSize: bannerItem.styles['font-size'],
+                    fontFamily: bannerItem.styles['font-family'],
+                    textAlign: bannerItem.styles['text-align'],
                 }}
                 value={text}
                 onChange={handleTextChange}
@@ -95,39 +101,44 @@ const MoveableComponent = ({item, replaceBannerItemStyles, handleSelectBannerIte
    }
 
     return (
-        <div className="moveable">
-            <Moveable
-                target={target}
-                container={null}
-                draggable={!isTextAreaActive}
-                scalable={false}
-                resizable={true}
-                warpable={false}
-                rotatable={true}
-                origin={false}
-                throttleDrag={1}
-                throttleRotate={0.2}
-                throttleResize={1}
-                throttleScale={0.01}
-                onDrag={onDrag}
-                onResize={onResize}
-                onRotate={onRotate}
-                onDragEnd={handleEndAction}
-                onResizeEnd={handleEndAction}
-                onRotateEnd={handleEndAction}
-            />
+      <div
+        className={classnames('moveable', {
+          'selected': selectedBannerItem?.id === bannerItem.id,
+        })}
+      >
+        <Moveable
+          target={target}
+          container={null}
+          edge={false}
+          draggable={!isTextAreaActive}
+          scalable={false}
+          resizable={true}
+          warpable={false}
+          rotatable={true}
+          origin={false}
+          throttleDrag={1}
+          throttleRotate={0.2}
+          throttleResize={1}
+          throttleScale={0.01}
+          onDrag={onDrag}
+          onResize={onResize}
+          onRotate={onRotate}
+          onDragEnd={handleEndAction}
+          onResizeEnd={handleEndAction}
+          onRotateEnd={handleEndAction}
+        />
 
-            <div className="moveable__container">
-                <div
-                    ref={moveableItemRef}
-                    className="moveable__item"
-                    onDoubleClick={() => handleSelectBannerItem(item.id)}
-                >
-                    {content}
-                </div>
+        <div className="moveable__container">
+          <div
+            ref={moveableItemRef}
+            className="moveable__item"
+            onDoubleClick={handleSelect}
+          >
+            {content}
+          </div>
 
-            </div>
         </div>
+      </div>
     );
 }
 

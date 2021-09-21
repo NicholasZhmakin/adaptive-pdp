@@ -6,6 +6,7 @@ import MoveableComponent from "../MoveableComponent";
 import MoveableSettings from "../MoveableSettings";
 
 import './AdCreatePreview.scss';
+import {ClickAwayListener} from '@material-ui/core';
 
 const zoomSettings = {
     step: 0.03,
@@ -15,11 +16,11 @@ const zoomSettings = {
 
 const AdCreatePreview = () => {
 
-    const previewRef = useRef(null);
+    const containerRef = useRef(null);
     const videoRef = useRef(null);
 
     const [bannerItems,  setBannerItems] = useState([...arrayDnd]);
-    const [selectedBannerItemId,  setSelectedBannerItemId] = useState(null);
+    const [selectedBannerItem,  setSelectedBannerItem] = useState(null);
 
     const [isMediaLoaded, setIsMediaLoaded] = useState(false);
     const [aspect, setAspect] = useState(1200 / 1500);
@@ -28,13 +29,9 @@ const AdCreatePreview = () => {
     const [cropComplete, setCropComplete] = useState({ xComplete: 0, yComplete: 0 });
     const [zoom, setZoom] = useState(1);
 
-    const handleSelectBannerItem = (id) => {
-        setSelectedBannerItemId(id);
-    };
-
-    const changeBannerItemStylesFiled = (fieldName, fieldValue) => {
+    const changeBannerItemStylesFiled = (bannerItemId, fieldName, fieldValue) => {
         const cloneBannerItems = cloneDeep(bannerItems);
-        const neededBannerItem = cloneBannerItems.find((item) => item.id === selectedBannerItemId);
+        const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
 
         if (!fieldValue) {
             neededBannerItem.styles[fieldName] = '0px';
@@ -96,60 +93,62 @@ const AdCreatePreview = () => {
 
     return (
       <div className='adCreatePreview'>
-          <div
-            className='adCreatePreview__container'
-            ref={previewRef}
-          >
-              <Cropper
-                ref={videoRef}
-                video={'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
-                crop={crop}
-                zoom={zoom}
-                // cropSize={cropSize}
-                aspect={aspect}
-                onCropChange={(value) => handleCropChange(value)}
-                showGrid={false}
-                onMediaLoaded={handleMediaLoaded}
-                onCropComplete={(value) => handleCropComplete(value)}
-                onZoomChange={(value) => handleZoomChange(value)}
-                zoomWithScroll={true}
-                minZoom={zoomSettings.min}
-                maxZoom={zoomSettings.max}
-                zoomSpeed={zoomSettings.step * 10}
-                mediaProps={{
-                    controls: true,
-                    autoPlay: false,
-                }}
-              />
+          <ClickAwayListener onClickAway={() => setSelectedBannerItem(null)}>
+              <div
+                className='adCreatePreview__container'
+                ref={containerRef}
+              >
+                  <Cropper
+                    ref={videoRef}
+                    video={'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
+                    crop={crop}
+                    zoom={zoom}
+                    // cropSize={cropSize}
+                    aspect={aspect}
+                    onCropChange={(value) => handleCropChange(value)}
+                    showGrid={false}
+                    onMediaLoaded={handleMediaLoaded}
+                    onCropComplete={(value) => handleCropComplete(value)}
+                    onZoomChange={(value) => handleZoomChange(value)}
+                    zoomWithScroll={true}
+                    minZoom={zoomSettings.min}
+                    maxZoom={zoomSettings.max}
+                    zoomSpeed={zoomSettings.step * 10}
+                    mediaProps={{
+                        controls: true,
+                        autoPlay: false,
+                    }}
+                  />
 
-              {!isMediaLoaded &&
+                  {!isMediaLoaded &&
                   <div className='adCreatePreview__preloader'>
                       <p className='adCreatePreview__preloader-text'>Video is preparing, please wait...</p>
                   </div>
-              }
+                  }
 
-              {selectedBannerItemId &&
+                  {selectedBannerItem &&
                   <MoveableSettings
-                    item={bannerItems.find((item) => item.id === selectedBannerItemId)}
+                    bannerItem={selectedBannerItem}
                     changeBannerItemStylesFiled={changeBannerItemStylesFiled}
                   />
-              }
+                  }
 
-              {bannerItems.map((item, index) =>
-                <MoveableComponent
-                  key={item.id}
-                  item={item}
-                  replaceBannerItemStyles={replaceBannerItemStyles}
-                  handleSelectBannerItem={handleSelectBannerItem}
-                />
-              )}
-          </div>
+                  {bannerItems.map((bannerItem, index) =>
+                    <MoveableComponent
+                      key={bannerItem.id}
+                      bannerItem={bannerItem}
+                      selectedBannerItem={selectedBannerItem}
+                      handleSelectBannerItem={setSelectedBannerItem}
+                      replaceBannerItemStyles={replaceBannerItemStyles}
+                    />
+                  )}
+              </div>
+          </ClickAwayListener>
 
           <div className='adCreatePreview__controls'>
               <button onClick={() => videoRef.current.videoRef.play()}>Play</button>
               <button onClick={() => videoRef.current.videoRef.pause()}>Pause</button>
           </div>
-
 
           <div className='adCreatePreview__sizes'>
               {sizesMockData.map((size) => (

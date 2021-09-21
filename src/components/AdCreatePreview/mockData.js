@@ -38,8 +38,8 @@ const mockItem1 = {
         width: "250px",
         height: "50px",
 
-        left: "800px",
-        top: "50px",
+        left: "10px",
+        top: "200px",
 
         transform: {
             rotate: "0deg",
@@ -73,15 +73,15 @@ const mockItem2 = {
 
     image: {
         id: 2,
-        url: 'https://picsum.photos/200/250'
+        url: 'https://picsum.photos/200/200'
     },
 
     styles: {
         width: "200px",
-        height: "250px",
+        height: "200px",
 
-        left: "0px",
-        top: "200px",
+        left: "300px",
+        top: "150px",
 
         transform: {
             rotate: "0deg",
@@ -112,8 +112,8 @@ const mockItem3 = {
         width: "150px",
         height: "100px",
 
-        left: "800px",
-        top: "300px",
+        left: "600px",
+        top: "200px",
 
         transform: {
             rotate: "0deg",

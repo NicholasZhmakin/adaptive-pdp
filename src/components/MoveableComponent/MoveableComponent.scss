@@ -4,6 +4,15 @@
 .moveable {
  position: relative;
 
+  &.selected {
+    .moveable-control,
+    .moveable-line,
+    .moveable-rotation {
+      display: block;
+    }
+  }
+
+
   &__container {
     position: absolute;
     width: 100%;
@@ -41,6 +50,10 @@
   }
 }
 
-
+.moveable-control,
+.moveable-line,
+.moveable-rotation {
+  display: none;
+}
 
 

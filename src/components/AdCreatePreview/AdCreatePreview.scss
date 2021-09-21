@@ -1,6 +1,7 @@
 
 .adCreatePreview {
   position: relative;
+  margin-top: 50px;
 
   &__controls {
     margin-left: 1000px;
@@ -27,7 +28,8 @@
     position: relative;
     width: 814px;
     height: 458px;
-    margin: 100px auto;
+    margin-left: 300px;
+    overflow: hidden;
 
     .reactEasyCrop_CropArea {
       border: 3px solid #e550fb;

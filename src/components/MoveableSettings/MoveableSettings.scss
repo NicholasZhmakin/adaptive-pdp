@@ -2,13 +2,36 @@
 
 .moveable-settings {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
 
+  &__section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background: white;
+    color: black;
 
-  &__text {
-    width: 100px;
-    height: 400px;
-    background: #20dec8;
+    &.active,
+    &:active,
+    &:hover {
+      background: #26b3f9;
+      color: white;
+    }
+  }
+
+  &__section-dropDown {
+    position: absolute;
+    top: 0;
+    left: 45px;
+    width: 200px;
+    min-height: 83px;
+    background: white;
+    padding: 10px 12px 15px;
   }
 }
