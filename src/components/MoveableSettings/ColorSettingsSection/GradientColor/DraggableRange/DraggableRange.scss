@@ -1,0 +1,39 @@
+
+
+.multi-thumb-slider {
+  position: relative;
+  margin-top: -3px;
+  margin-left: -1px;
+  width: 129px;
+  height: 8px;
+
+  &__input {
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    pointer-events: none;
+    position: absolute;
+    border: none;
+    background: orange;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+    width: 132px;
+    outline: none;
+    height: 8px;
+    margin: 0;
+    padding: 0;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      pointer-events: all;
+      position: relative;
+      z-index: 1;
+      outline: 0;
+      width: 8px;
+      height: 8px;
+      border: none;
+      background-color: var(--colorX, #000);
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+  }
+}

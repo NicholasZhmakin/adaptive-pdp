@@ -18,6 +18,7 @@ export const sizesMockData = [
 ]
 
 
+
 const mockItem1 = {
     id: 1,
     type: 'button',

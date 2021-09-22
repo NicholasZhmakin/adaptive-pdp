@@ -2,7 +2,7 @@ import React from 'react';
 
 import './LayerSettingsSection.scss';
 
-const LayerSettingsSection = () => {
+const LayerSettingsSection = ({bannerItem}) => {
 
   return (
     <div className='moveable-settings__section-dropDown layer-settings-section'>

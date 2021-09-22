@@ -12,9 +12,11 @@
     "lodash": "^4.17.21",
     "node-sass": "^6.0.0",
     "react": "^17.0.2",
+    "react-color": "^2.19.3",
     "react-dom": "^17.0.2",
     "react-draggable": "^4.4.3",
     "react-easy-crop": "^3.5.3",
+    "react-linear-gradient-picker": "^2.0.0",
     "react-moveable": "^0.29.0",
     "react-multi-carousel": "^2.6.3",
     "react-resizable-rotatable-draggable": "^0.2.0",
@@ -49,6 +51,7 @@
     ]
   },
   "devDependencies": {
-    "@material-ui/icons": "^4.11.2"
+    "@material-ui/icons": "^4.11.2",
+    "@mui/material": "^5.0.0"
   }
 }

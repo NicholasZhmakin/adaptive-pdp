@@ -3,7 +3,7 @@ import React from 'react';
 import './TextSettingsSection.scss';
 
 
-const TextSettingsSection = () => {
+const TextSettingsSection = ({bannerItem}) => {
 
   return (
     <div className='moveable-settings__section-dropDown text-settings-section'>

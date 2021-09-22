@@ -1,0 +1,94 @@
+
+.color-settings-section {
+  position: relative;
+
+  &__tabs {
+    margin: 10px 0;
+    display: grid;
+    grid-template-columns: 48px 72px 48px;
+    grid-template-rows: 24px;
+    grid-gap: 4px;
+  }
+
+  &__tab {
+    font-size: 12px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: lightgray;
+    color: #26b3f9;
+    cursor: pointer;
+
+    &.active {
+      background: #26b3f9;
+      color: white;
+    }
+  }
+
+  &__solid {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__solid-preview {
+    border: 1px solid black;
+    width: 37px;
+    height: 37px;
+  }
+
+  &__solid-color-picker {
+    position: absolute;
+    top: 69px;
+    z-index: 11;
+  }
+
+  &__gradient {
+
+  }
+
+  &__gradient-range-container {
+    display: grid;
+    grid-template-columns: 129px 37px;
+    grid-template-rows: 37px;
+    grid-gap: 10px;
+  }
+
+  &__gradient-preview {
+    border: 1px solid #F4F4F4;
+  }
+
+  &__gradient-reverse {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #F4F4F4;
+    cursor: pointer;
+  }
+
+  &__gradient-color-picker {
+    position: absolute;
+    top: 15px;
+    left: 0;
+  }
+
+  &__gradient-slider {
+    position: relative;
+  }
+
+  .MuiSlider-root {
+    width: 129px;
+    margin-top: -7px;
+
+    .MuiSlider-thumb {
+      border-radius: unset;
+      color: red;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
+    .MuiSlider-rail,
+    .MuiSlider-track {
+      display: none;
+    }
+  }
+}

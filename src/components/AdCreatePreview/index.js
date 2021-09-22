@@ -29,16 +29,11 @@ const AdCreatePreview = () => {
     const [cropComplete, setCropComplete] = useState({ xComplete: 0, yComplete: 0 });
     const [zoom, setZoom] = useState(1);
 
-    const changeBannerItemStylesFiled = (bannerItemId, fieldName, fieldValue) => {
+    const changeBannerItemStylesField = (bannerItemId, fieldName, fieldValue) => {
         const cloneBannerItems = cloneDeep(bannerItems);
         const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
 
-        if (!fieldValue) {
-            neededBannerItem.styles[fieldName] = '0px';
-        } else {
-            neededBannerItem.styles[fieldName] = fieldValue + 'px';
-        }
-
+        neededBannerItem.styles[fieldName] = fieldValue;
         setBannerItems(cloneBannerItems);
     };
 
@@ -121,16 +116,16 @@ const AdCreatePreview = () => {
                   />
 
                   {!isMediaLoaded &&
-                  <div className='adCreatePreview__preloader'>
-                      <p className='adCreatePreview__preloader-text'>Video is preparing, please wait...</p>
-                  </div>
+                      <div className='adCreatePreview__preloader'>
+                          <p className='adCreatePreview__preloader-text'>Video is preparing, please wait...</p>
+                      </div>
                   }
 
                   {selectedBannerItem &&
-                  <MoveableSettings
-                    bannerItem={selectedBannerItem}
-                    changeBannerItemStylesFiled={changeBannerItemStylesFiled}
-                  />
+                      <MoveableSettings
+                        bannerItem={selectedBannerItem}
+                        changeBannerItemStylesField={changeBannerItemStylesField}
+                      />
                   }
 
                   {bannerItems.map((bannerItem, index) =>
