@@ -1,18 +1,32 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { ClickAwayListener } from '@material-ui/core';
 import { PhotoshopPicker } from 'react-color';
 
+import './SolidGenerator.scss';
 
-const SolidColor = ({bannerItem, changeBannerItemStylesField}) => {
+
+const SolidGenerator = ({bannerItem, changeBannerItemStylesField}) => {
 
   const [isColorPicker, setIsColorPicker] = useState(false);
-  const [selectedSolidColor, setSelectedSolidColor] = useState(bannerItem.styles['background-color']);
-  const [tempSolidColor, setTempSolidColor] = useState({});
+  const [selectedSolidColor, setSelectedSolidColor] = useState(bannerItem.styles['background']);
+  const [tempSolidColor, setTempSolidColor] = useState('#ffffff');
+
+  useEffect(() => {
+    const background = bannerItem.styles['background'];
+
+    if (background.includes('gradient') || background === 'none') {
+      setTempSolidColor('#ffffff');
+      setSelectedSolidColor('#ffffff')
+    } else {
+      setTempSolidColor(background);
+      setSelectedSolidColor(background)
+    }
+  }, [bannerItem]);
 
   const handleAcceptSolidColor = () => {
     setIsColorPicker(false);
     setSelectedSolidColor(tempSolidColor.hex);
-    changeBannerItemStylesField(bannerItem.id, 'background-color', tempSolidColor.hex)
+    changeBannerItemStylesField(bannerItem.id, 'background', tempSolidColor.hex)
   };
 
   const handleChangeColor = (color) => {
@@ -20,9 +34,9 @@ const SolidColor = ({bannerItem, changeBannerItemStylesField}) => {
   };
 
   return (
-    <div className='color-settings-section__solid'>
+    <div className='solid-generator'>
       <div
-        className='color-settings-section__solid-preview'
+        className='solid-generator__preview'
         style={{background: selectedSolidColor}}
         onClick={() => setIsColorPicker(true)}
       />
@@ -34,7 +48,7 @@ const SolidColor = ({bannerItem, changeBannerItemStylesField}) => {
 
       {isColorPicker &&
         <ClickAwayListener onClickAway={() => setIsColorPicker(false)}>
-          <div className='color-settings-section__solid-color-picker'>
+          <div className='solid-generator__color-picker'>
             <PhotoshopPicker
               color={tempSolidColor}
               onChange={((color) => setTempSolidColor(color))}
@@ -48,4 +62,4 @@ const SolidColor = ({bannerItem, changeBannerItemStylesField}) => {
   );
 };
 
-export default SolidColor;
+export default SolidGenerator;

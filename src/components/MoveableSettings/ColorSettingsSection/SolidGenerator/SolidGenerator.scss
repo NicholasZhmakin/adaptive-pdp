@@ -1,0 +1,17 @@
+
+.solid-generator {
+  display: flex;
+  gap: 8px;
+
+  &__preview {
+    border: 1px solid black;
+    width: 37px;
+    height: 37px;
+  }
+
+  &__color-picker {
+    position: absolute;
+    top: 69px;
+    z-index: 11;
+  }
+}

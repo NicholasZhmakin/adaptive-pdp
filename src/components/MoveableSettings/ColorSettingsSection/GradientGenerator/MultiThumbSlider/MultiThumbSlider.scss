@@ -1,11 +1,12 @@
 
 
 .multi-thumb-slider {
-  position: relative;
-  margin-top: -3px;
-  margin-left: -1px;
-  width: 129px;
+  position: absolute;
+  top: -1px;
+  left: -2px;
+  width: 133px;
   height: 8px;
+  cursor: copy;
 
   &__input {
     -webkit-appearance: none;
@@ -13,10 +14,8 @@
     pointer-events: none;
     position: absolute;
     border: none;
-    background: orange;
-    overflow: hidden;
     left: 0;
-    top: 0;
+    top: 3px;
     width: 132px;
     outline: none;
     height: 8px;
@@ -33,7 +32,12 @@
       height: 8px;
       border: none;
       background-color: var(--colorX, #000);
-      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      cursor: pointer;
+      transform: rotate(45deg);
+
+      &:hover {
+        outline: 1px solid #26b3f9;
+      }
     }
   }
 }

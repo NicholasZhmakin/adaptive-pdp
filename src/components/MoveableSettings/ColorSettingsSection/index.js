@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
+import SolidGenerator from './SolidGenerator';
+import GradientGenerator from './GradientGenerator';
 
 import './ColorSettingsSection.scss';
-import SolidColor from './SolidColor';
-import GradientColor from './GradientColor';
-
 
 const COLOR_TYPE = {
   SOLID: 'solid',
   GRADIENT: 'gradient',
   NONE: 'none',
 };
-
 
 const ColorSettingsSection = ({bannerItem, changeBannerItemStylesField}) => {
 
@@ -20,9 +18,19 @@ const ColorSettingsSection = ({bannerItem, changeBannerItemStylesField}) => {
   let mainContent = null;
 
   if (activeTab === COLOR_TYPE.SOLID) {
-    mainContent = <SolidColor bannerItem={bannerItem} changeBannerItemStylesField={changeBannerItemStylesField} />;
+    mainContent = (
+      <SolidGenerator
+        bannerItem={bannerItem}
+        changeBannerItemStylesField={changeBannerItemStylesField}
+      />
+    );
   } else if (activeTab === COLOR_TYPE.GRADIENT) {
-    mainContent = <GradientColor bannerItem={bannerItem} changeBannerItemStylesField={changeBannerItemStylesField} />
+    mainContent = (
+      <GradientGenerator
+        bannerItem={bannerItem}
+        changeBannerItemStylesField={changeBannerItemStylesField}
+      />
+    );
   }
 
   return (

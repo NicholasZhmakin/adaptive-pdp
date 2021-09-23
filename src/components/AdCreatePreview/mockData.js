@@ -52,8 +52,9 @@ const mockItem1 = {
         'font-size': '20px',
         'font-family': '"Roboto", sans-serif',
         'text-align': 'center',
+        // 'background': 'radial-gradient(circle, rgba(34,193,195,1) 48%, rgba(36,131,68,1) 67%, rgba(198,189,83,1) 87%, rgba(253,187,45,1) 100%)',
 
-        'background-color': 'blue',
+        'background': '#fdbb2d',
         'border-color': 'red',
         'border-width': '3px',
         'border-radius': '30px',

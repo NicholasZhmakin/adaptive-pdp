@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import cloneDeep from 'lodash/cloneDeep';
+import React, { useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import './DraggableRange.scss';
+
+import './MultiThumbSlider.scss';
 
 
-const DraggableRange = ({palettes, setPalettes, handleSliderThumbClick}) => {
+const MultiThumbSlider = ({palettes, setPalettes, handleSliderThumbClick}) => {
 
   const sliderContainerRef = useRef(null);
-
 
   useEffect(() => {
     const sliders = sliderContainerRef.current.querySelectorAll('.multi-thumb-slider__input');
@@ -45,12 +44,12 @@ const DraggableRange = ({palettes, setPalettes, handleSliderThumbClick}) => {
   return (
     <div
       ref={sliderContainerRef}
-      className="multi-thumb-slider"
+      className='multi-thumb-slider'
       onClick={handleAddNewSlider}
     >
       {palettes.map((palette) =>
         <input
-          className="multi-thumb-slider__input"
+          className='multi-thumb-slider__input'
           key={palette.id}
           style={{['--colorX']: palette.color}}
           onDoubleClick={() => handleSliderThumbClick(palette)}
@@ -67,4 +66,4 @@ const DraggableRange = ({palettes, setPalettes, handleSliderThumbClick}) => {
   );
 };
 
-export default DraggableRange;
+export default MultiThumbSlider;
