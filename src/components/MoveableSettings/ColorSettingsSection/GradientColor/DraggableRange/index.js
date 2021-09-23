@@ -4,17 +4,10 @@ import { v4 as uuidv4 } from 'uuid';
 import './DraggableRange.scss';
 
 
-const DraggableRange = () => {
+const DraggableRange = ({palettes, setPalettes, handleSliderThumbClick}) => {
 
   const sliderContainerRef = useRef(null);
 
-  const [colors, setColors] = useState([
-    {id: uuidv4(), color: '#f4f4f4', position: 5},
-    {id: uuidv4(), color: '#3ec419', position: 20},
-    {id: uuidv4(), color: '#67245d', position: 40},
-    {id: uuidv4(), color: '#0f7ee9', position: 60},
-    {id: uuidv4(), color: '#e00b74', position: 90}
-  ]);
 
   useEffect(() => {
     const sliders = sliderContainerRef.current.querySelectorAll('.multi-thumb-slider__input');
@@ -23,7 +16,7 @@ const DraggableRange = () => {
       slider.oninput = handleRangeChange;
       slider.oninput();
     })
-  }, [colors.length]);
+  }, [palettes.length]);
 
   const handleRangeChange = () => {
     const sliders = sliderContainerRef.current.querySelectorAll('.multi-thumb-slider__input');
@@ -34,7 +27,7 @@ const DraggableRange = () => {
       color: element.dataset.color,
     }))
 
-    setColors(newArray);
+    setPalettes(newArray);
   }
 
   const handleAddNewSlider = (e) => {
@@ -42,7 +35,7 @@ const DraggableRange = () => {
     const positionForInput = mousePosition * 100 / 129;
 
     if (e.target === sliderContainerRef.current) {
-      setColors((prevState) => ([
+      setPalettes((prevState) => ([
         ...prevState,
         {id: uuidv4(), color: '#f4f4f4', position: positionForInput},
       ]))
@@ -55,14 +48,15 @@ const DraggableRange = () => {
       className="multi-thumb-slider"
       onClick={handleAddNewSlider}
     >
-      {colors.map((color) =>
+      {palettes.map((palette) =>
         <input
           className="multi-thumb-slider__input"
-          key={color.id}
-          style={{['--colorX']: color.color}}
-          data-color={color.color}
-          data-id={color.id}
-          value={color.position}
+          key={palette.id}
+          style={{['--colorX']: palette.color}}
+          onDoubleClick={() => handleSliderThumbClick(palette)}
+          data-color={palette.color}
+          data-id={palette.id}
+          value={palette.position}
           min="0"
           max="100"
           step="1"
