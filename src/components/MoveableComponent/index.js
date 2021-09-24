@@ -25,7 +25,7 @@ const MoveableComponent = ({bannerItem, selectedBannerItem, replaceBannerItemSty
             ...bannerItem.styles,
         });
 
-        moveableItemRef.current.style.cssText = frameRef.current.toCSS();
+      moveableItemRef.current.style.cssText = frameRef.current.toCSS();
     }, [bannerItem]);
 
   const handleSelect = () => {

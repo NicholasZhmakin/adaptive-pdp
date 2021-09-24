@@ -53,6 +53,7 @@ const MultiThumbSlider = ({palettes, setPalettes, handleSliderThumbClick}) => {
           key={palette.id}
           style={{['--colorX']: palette.color}}
           onDoubleClick={() => handleSliderThumbClick(palette)}
+          readOnly
           data-color={palette.color}
           data-id={palette.id}
           value={palette.position}

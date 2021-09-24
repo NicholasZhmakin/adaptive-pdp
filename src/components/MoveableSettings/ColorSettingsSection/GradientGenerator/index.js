@@ -6,8 +6,10 @@ import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import { ClickAwayListener } from '@material-ui/core';
 import { PhotoshopPicker } from 'react-color';
 import MultiThumbSlider from './MultiThumbSlider';
+import { COLOR_TYPE } from '../index';
 
 import './GradientGenerator.scss'
+
 
 const linearAnglePoints = [
   {classModifier: 'top-center', value: '0deg'},
@@ -21,78 +23,58 @@ const linearAnglePoints = [
 ];
 
 const radialAnglePoints = [
-  {classModifier: 'top-center', value: 'circle at 0%'},
-  {classModifier: 'top-right', value: 'circle at 12.5%'},
-  {classModifier: 'center-right', value: 'circle at 25%'},
-  {classModifier: 'bottom-right', value: 'circle at 37.5%'},
-  {classModifier: 'bottom-center', value: 'circle at 50%'},
-  {classModifier: 'bottom-left', value: 'circle at 62,5%'},
-  {classModifier: 'center-left', value: 'circle at 75%'},
-  {classModifier: 'top-left', value: 'circle at 87.5%'},
+  {classModifier: 'top-center', value: 'circle at 0% center'},
+  {classModifier: 'top-right', value: 'circle at 12.5% center'},
+  {classModifier: 'center-right', value: 'circle at 25% center'},
+  {classModifier: 'bottom-right', value: 'circle at 37.5% center'},
+  {classModifier: 'bottom-center', value: 'circle at 50% center'},
+  {classModifier: 'bottom-left', value: 'circle at 62.5% center'},
+  {classModifier: 'center-left', value: 'circle at 75% center'},
+  {classModifier: 'top-left', value: 'circle at 87.5% center'},
   {classModifier: 'center-center', value: 'circle'},
 ];
 
-const GradientGenerator = ({bannerItem}) => {
+const GradientGenerator = ({currentGradientColor, handleBackgroundObjectChange}) => {
 
   const [isColorPicker, setIsColorPicker] = useState(false);
   const [activePalette, setActivePalette] = useState(null)
 
-  const [gradientType, setGradientType] = useState('linear');
+  const [gradientType, setGradientType] = useState('');
   const [anglePoints, setAnglePoints] = useState([...linearAnglePoints]);
-  const [activeAnglePoint, setActiveAnglePoint] = useState('90deg');
+  const [activeAnglePoint, setActiveAnglePoint] = useState('');
 
-
-  const [gradientPreview, setGradientPreview] = useState('red');
   const [palettes, setPalettes] = useState([]);
 
-
   useEffect(() => {
-    const background = bannerItem.styles['background'];
+    const regex = new RegExp(/,(?![^(]*\))(?![^"']*["'](?:[^"']*["'][^"']*["'])*[^"']*$)/,'gi');
+    const gradientType = currentGradientColor.substring(0, currentGradientColor.indexOf('(')).split('-')[0];
+    const secondPartOfGradient = currentGradientColor.substring(currentGradientColor.indexOf('(') + 1, currentGradientColor.lastIndexOf(')')).split(regex);
+    let gradientAnglePoint = secondPartOfGradient[0];
+    const isDefaultAngle = !gradientAnglePoint.includes('rgb');
 
-    if (background.includes('gradient')) {
-      const splitGradient = background.split(', ');
-      const gradientType = splitGradient[0].split('(')[0];
-      const gradientAnglePoint = splitGradient[0].split('(')[1];
-      const gradientPalettesArray = splitGradient.slice(1).map((palette) => ({
+    if (!isDefaultAngle) {
+      gradientAnglePoint = '180deg';
+    }
+
+    const gradientPalettesArray = secondPartOfGradient.slice(Number(!!isDefaultAngle)).map((palette) => {
+      const color = palette.substring(0, palette.indexOf(')') + 1).trim();
+      const position = palette.substring(palette.indexOf(')') + 1, palette.length - 1).trim();
+
+      return ({
         id: uuidv4(),
-        color: palette.split(' ')[0],
-        position: palette.split(' ')[1].slice(0, -1),
-      }));
+        color,
+        position,
+      })
+    });
 
-      setGradientType(gradientType);
-      setActiveAnglePoint(gradientAnglePoint);
+    console.log(gradientType, gradientAnglePoint, gradientPalettesArray);
 
-      console.log(gradientPalettesArray, 'gradientPalettesArray');
+    handleGradientTypeChange(gradientType, gradientAnglePoint);
 
-      setPalettes([
-        {id: uuidv4(), color: '#f4f4f4', position: 5},
-        {id: uuidv4(), color: '#3ec419', position: 20},
-        {id: uuidv4(), color: '#67245d', position: 40},
-        {id: uuidv4(), color: '#0f7ee9', position: 60},
-        {id: uuidv4(), color: '#e00b74', position: 90}
-      ])
-    } else if (background === 'none') {
-      setPalettes([
-        {id: uuidv4(), color: '#ffffff', position: 35},
-        {id: uuidv4(), color: '#000000', position: 65},
-      ])
-    } else {
-      setPalettes([
-        {id: uuidv4(), color: '#ffffff', position: 35},
-        {id: uuidv4(), color: background, position: 65},
-      ])
-    }
-  }, [bannerItem]);
-
-  useEffect(() => {
-    if (gradientType === 'linear') {
-      setAnglePoints(linearAnglePoints);
-      setActiveAnglePoint('90deg');
-    } else {
-      setAnglePoints(radialAnglePoints);
-      setActiveAnglePoint('circle');
-    }
-  }, [gradientType]);
+    setGradientType(gradientType);
+    setActiveAnglePoint(gradientAnglePoint);
+    setPalettes(gradientPalettesArray);
+  }, []);
 
   useEffect(() => {
     handleCreateGradientBackground();
@@ -103,7 +85,7 @@ const GradientGenerator = ({bannerItem}) => {
     const colorsAndPositionsString = sortedPallets.map((palette) => `${palette.color} ${palette.position}%`).join(', ');
     const result = `${gradientType}-gradient(${activeAnglePoint}, ${colorsAndPositionsString})`;
 
-    setGradientPreview(result);
+    handleBackgroundObjectChange(COLOR_TYPE.GRADIENT, result);
   };
 
   const handleGradientColorChange = (colorsObject) => {
@@ -131,13 +113,29 @@ const GradientGenerator = ({bannerItem}) => {
     setIsColorPicker(true);
   };
 
+  const handleGradientTypeChange = (type, angle) => {
+
+    if (!angle) {
+      setGradientType(type);
+    }
+
+   if (type === 'linear') {
+     setActiveAnglePoint(angle ?? '90deg');
+     setAnglePoints(linearAnglePoints);
+   } else {
+     setActiveAnglePoint(angle ?? 'circle');
+     setAnglePoints(radialAnglePoints);
+   }
+
+  };
+
   return (
     <div className='gradient-generator'>
 
       <div className='gradient-generator__gradient-range-container'>
         <div
           className='gradient-generator__gradient-preview'
-          style={{background: gradientPreview}}
+          style={{background: currentGradientColor}}
         />
         <div
           className='gradient-generator__swap-button'
@@ -174,13 +172,13 @@ const GradientGenerator = ({bannerItem}) => {
             className={classnames('gradient-generator__type-linear', {
               'active': gradientType === 'linear',
             })}
-            onClick={() => setGradientType('linear')}
+            onClick={() => handleGradientTypeChange('linear')}
           />
           <div
             className={classnames('gradient-generator__type-radial', {
               'active': gradientType === 'radial',
             })}
-            onClick={() => setGradientType('radial')}
+            onClick={() => handleGradientTypeChange('radial')}
           />
         </div>
 
@@ -191,6 +189,7 @@ const GradientGenerator = ({bannerItem}) => {
             {anglePoints.map((anglePoint) => {
               return (
                 <div
+                  key={anglePoint.value}
                   className={`
                     gradient-generator__angle-point 
                     gradient-generator__angle-point--${anglePoint.classModifier}

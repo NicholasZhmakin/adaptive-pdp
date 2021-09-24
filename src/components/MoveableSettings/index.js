@@ -26,7 +26,15 @@ const MoveableSettings = ({bannerItem, changeBannerItemStylesField}) => {
 
   useEffect(() => {
     setOpenSection(null);
-  }, [bannerItem]);
+  }, [bannerItem.id]);
+
+  const handleSettingSectionClick = (sectionName) => {
+    if (openSection === sectionName) {
+      setOpenSection(null);
+    } else {
+      setOpenSection(sectionName);
+    }
+  };
 
   let dropDown;
 
@@ -35,7 +43,11 @@ const MoveableSettings = ({bannerItem, changeBannerItemStylesField}) => {
       dropDown = <TextSettingsSection bannerItem={bannerItem} />;
       break;
     case MOVEABLE_SETTINGS_SECTIONS.COLOR:
-      dropDown = <ColorSettingsSection bannerItem={bannerItem} changeBannerItemStylesField={changeBannerItemStylesField} />;
+      dropDown = (
+        <ColorSettingsSection
+          bannerItem={bannerItem}
+          changeBannerItemStylesField={changeBannerItemStylesField} />
+        );
       break;
     case MOVEABLE_SETTINGS_SECTIONS.LAYER:
       dropDown = <LayerSettingsSection bannerItem={bannerItem} />;
@@ -43,7 +55,6 @@ const MoveableSettings = ({bannerItem, changeBannerItemStylesField}) => {
     default:
       dropDown = null;
   }
-
 
     return (
       <ClickAwayListener onClickAway={() => setOpenSection(null)}>
@@ -57,7 +68,7 @@ const MoveableSettings = ({bannerItem, changeBannerItemStylesField}) => {
               >
                 <TextFieldsIcon
                   className='moveable-settings__section-icon'
-                  onClick={() => setOpenSection(MOVEABLE_SETTINGS_SECTIONS.TEXT)}
+                  onClick={() => handleSettingSectionClick(MOVEABLE_SETTINGS_SECTIONS.TEXT)}
                 />
               </div>
 
@@ -68,7 +79,7 @@ const MoveableSettings = ({bannerItem, changeBannerItemStylesField}) => {
               >
                 <ColorLensIcon
                   className='moveable-settings__section-icon'
-                  onClick={() => setOpenSection(MOVEABLE_SETTINGS_SECTIONS.COLOR)}
+                  onClick={() => handleSettingSectionClick(MOVEABLE_SETTINGS_SECTIONS.COLOR)}
                 />
               </div>
             </>
@@ -81,7 +92,7 @@ const MoveableSettings = ({bannerItem, changeBannerItemStylesField}) => {
           >
             <LayersIcon
               className='moveable-settings__section-icon'
-              onClick={() => setOpenSection(MOVEABLE_SETTINGS_SECTIONS.LAYER)}
+              onClick={() => handleSettingSectionClick(MOVEABLE_SETTINGS_SECTIONS.LAYER)}
             />
           </div>
 
@@ -100,17 +111,6 @@ const MoveableSettings = ({bannerItem, changeBannerItemStylesField}) => {
           </div>
 
           {dropDown}
-
-
-
-
-          {/*<div className='moveable-settings__text'>*/}
-          {/*    <input*/}
-          {/*        value={parseInt(bannerItem.styles['font-size'])}*/}
-          {/*        onChange={(e) => changeBannerItemStylesFiled(bannerItem.id, 'font-size', e.target.value)}*/}
-          {/*    />*/}
-          {/*</div>*/}
-
 
         </div>
       </ClickAwayListener>

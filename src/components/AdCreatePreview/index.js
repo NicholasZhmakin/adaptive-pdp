@@ -19,7 +19,7 @@ const AdCreatePreview = () => {
     const containerRef = useRef(null);
     const videoRef = useRef(null);
 
-    const [bannerItems,  setBannerItems] = useState([...arrayDnd]);
+    const [bannerItems,  setBannerItems] = useState([]);
     const [selectedBannerItem,  setSelectedBannerItem] = useState(null);
 
     const [isMediaLoaded, setIsMediaLoaded] = useState(false);
@@ -29,14 +29,18 @@ const AdCreatePreview = () => {
     const [cropComplete, setCropComplete] = useState({ xComplete: 0, yComplete: 0 });
     const [zoom, setZoom] = useState(1);
 
+    useEffect(() => {
+        setBannerItems(cloneDeep(arrayDnd));
+    }, []);
+
     const changeBannerItemStylesField = (bannerItemId, fieldName, fieldValue) => {
         const cloneBannerItems = cloneDeep(bannerItems);
         const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
 
         neededBannerItem.styles[fieldName] = fieldValue;
+        setSelectedBannerItem(neededBannerItem);
         setBannerItems(cloneBannerItems);
     };
-
 
     const replaceBannerItemStyles = (bannerItemId, newStylesString) => {
         const result = {};
@@ -146,8 +150,9 @@ const AdCreatePreview = () => {
           </div>
 
           <div className='adCreatePreview__sizes'>
-              {sizesMockData.map((size) => (
+              {sizesMockData.map((size, index) => (
                 <p
+                  key={index}
                   className='adCreatePreview__size'
                   onClick={() => handleSizeChange(size)}
                 >
