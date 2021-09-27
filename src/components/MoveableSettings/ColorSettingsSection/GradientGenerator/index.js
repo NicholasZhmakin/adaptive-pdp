@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import cloneDeep from 'lodash/cloneDeep';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import { ClickAwayListener } from '@material-ui/core';
-import { PhotoshopPicker } from 'react-color';
+import { SketchPicker } from 'react-color';
 import MultiThumbSlider from './MultiThumbSlider';
 import { COLOR_TYPE } from '../index';
 
@@ -37,7 +37,8 @@ const radialAnglePoints = [
 const GradientGenerator = ({currentGradientColor, handleBackgroundObjectChange}) => {
 
   const [isColorPicker, setIsColorPicker] = useState(false);
-  const [activePalette, setActivePalette] = useState(null)
+  const [activePalette, setActivePalette] = useState(null);
+  const [focusPalette, setFocusPalette] = useState(null);
 
   const [gradientType, setGradientType] = useState('');
   const [anglePoints, setAnglePoints] = useState([...linearAnglePoints]);
@@ -67,13 +68,18 @@ const GradientGenerator = ({currentGradientColor, handleBackgroundObjectChange})
       })
     });
 
-    console.log(gradientType, gradientAnglePoint, gradientPalettesArray);
-
     handleGradientTypeChange(gradientType, gradientAnglePoint);
 
     setGradientType(gradientType);
     setActiveAnglePoint(gradientAnglePoint);
     setPalettes(gradientPalettesArray);
+
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   useEffect(() => {
@@ -108,9 +114,13 @@ const GradientGenerator = ({currentGradientColor, handleBackgroundObjectChange})
     setPalettes(swappedPalettes);
   };
 
-  const handleSliderThumbClick = (palette) => {
+  const handleSliderThumbDoubleClick = (palette) => {
     setActivePalette(palette);
     setIsColorPicker(true);
+  };
+
+  const handleSliderThumbClick = (palette) => {
+    setFocusPalette(palette);
   };
 
   const handleGradientTypeChange = (type, angle) => {
@@ -127,6 +137,12 @@ const GradientGenerator = ({currentGradientColor, handleBackgroundObjectChange})
      setAnglePoints(radialAnglePoints);
    }
 
+  };
+
+  const handleKeyDown = (e) => {
+    if ((e.which === 8 || e.which === 46)) {
+      console.log('delete', focusPalette);
+    }
   };
 
   return (
@@ -148,18 +164,18 @@ const GradientGenerator = ({currentGradientColor, handleBackgroundObjectChange})
       <div className='gradient-generator__gradient-slider-container'>
         <MultiThumbSlider
           palettes={palettes}
+          focusPalette={focusPalette}
           setPalettes={setPalettes}
           handleSliderThumbClick={handleSliderThumbClick}
+          handleSliderThumbDoubleClick={handleSliderThumbDoubleClick}
         />
 
         {isColorPicker &&
           <ClickAwayListener onClickAway={() => setIsColorPicker(false)}>
             <div className='gradient-generator__color-picker'>
-              <PhotoshopPicker
+              <SketchPicker
                 color={activePalette.color}
                 onChange={(color) => handleGradientColorChange(color)}
-                onAccept={() => setIsColorPicker(false)}
-                onCancel={() => setIsColorPicker(false)}
               />
             </div>
           </ClickAwayListener>

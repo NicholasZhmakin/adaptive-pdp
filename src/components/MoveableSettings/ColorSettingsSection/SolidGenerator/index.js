@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ClickAwayListener } from '@material-ui/core';
-import { PhotoshopPicker } from 'react-color';
+import { SketchPicker } from 'react-color';
 import { COLOR_TYPE } from '../index';
 
 import './SolidGenerator.scss';
@@ -30,7 +30,7 @@ const SolidGenerator = ({currentSolidColor, handleBackgroundObjectChange}) => {
       {isColorPicker &&
         <ClickAwayListener onClickAway={() => setIsColorPicker(false)}>
           <div className='solid-generator__color-picker'>
-            <PhotoshopPicker
+            <SketchPicker
               color={currentSolidColor}
               onChange={((color) => handleChangeColor(color.hex))}
               onAccept={() => setIsColorPicker(false)}

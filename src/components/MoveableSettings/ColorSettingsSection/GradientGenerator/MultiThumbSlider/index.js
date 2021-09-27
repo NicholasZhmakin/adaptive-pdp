@@ -2,9 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import './MultiThumbSlider.scss';
+import classnames from 'classnames';
 
 
-const MultiThumbSlider = ({palettes, setPalettes, handleSliderThumbClick}) => {
+const MultiThumbSlider = ({palettes, focusPalette, setPalettes, handleSliderThumbClick, handleSliderThumbDoubleClick}) => {
 
   const sliderContainerRef = useRef(null);
 
@@ -20,7 +21,7 @@ const MultiThumbSlider = ({palettes, setPalettes, handleSliderThumbClick}) => {
   const handleRangeChange = () => {
     const sliders = sliderContainerRef.current.querySelectorAll('.multi-thumb-slider__input');
 
-    const newArray = Array.from(sliders).map((element, elementIndex) => ({
+    const newArray = Array.from(sliders).map((element) => ({
       id: element.dataset.id,
       position: element.value,
       color: element.dataset.color,
@@ -49,10 +50,13 @@ const MultiThumbSlider = ({palettes, setPalettes, handleSliderThumbClick}) => {
     >
       {palettes.map((palette) =>
         <input
-          className='multi-thumb-slider__input'
+          className={classnames('multi-thumb-slider__input', {
+            'active': focusPalette?.id === palette.id,
+          })}
           key={palette.id}
-          style={{['--colorX']: palette.color}}
-          onDoubleClick={() => handleSliderThumbClick(palette)}
+          style={{['--gradient-thumb-color']: palette.color}}
+          onClick={() => handleSliderThumbClick(palette)}
+          onDoubleClick={() => handleSliderThumbDoubleClick(palette)}
           readOnly
           data-color={palette.color}
           data-id={palette.id}
