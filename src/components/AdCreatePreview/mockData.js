@@ -89,9 +89,7 @@ const mockItem2 = {
         left: "300px",
         top: "150px",
 
-        transform: {
-            rotate: "0deg",
-        },
+        transform: "rotate(21.2deg)",
 
         'z-index': 2,
     }

@@ -34,7 +34,7 @@ const AdCreatePreview = () => {
 
     useEffect(() => {
         setBannerItems(cloneDeep(arrayDnd));
-        addFontFace('ZonaPro-BlackItalic', `${process.env.PUBLIC_URL + '/ZonaPro-BlackItalic.ttf'}`);
+        // addFontFace('ZonaPro-BlackItalic', `${process.env.PUBLIC_URL + '/ZonaPro-BlackItalic.ttf'}`);
     }, []);
 
     const changeBannerItemStylesField = (bannerItemId, fieldName, fieldValue) => {
@@ -105,11 +105,26 @@ const AdCreatePreview = () => {
 
     const drawSVG = () => {
         drawSVGButton(bannerItems[0]);
+        drawSVGOverlay(bannerItems[1]);
+    }
+
+    const drawSVGOverlay = (element) => {
+        const styles = element.styles;
+        const svg = SVG().addTo('.adCreatePreview__svgs').size(parseInt(styles.width) + 10, parseInt(styles.height) + 10);
+        const rotate = parseInt(styles.transform.substring(styles.transform.indexOf('(') + 1));
+
+        svg
+          .image(element.image.url)
+          .size(styles.width, styles.height)
+          .move(5, 5)
+          .transform({
+              rotate: rotate,
+          })
     }
 
     const drawSVGButton = (element) => {
-        const svg = SVG().addTo('.adCreatePreview__svgs').size('100%', '100%');
         const styles = element.styles;
+        const svg = SVG().addTo('.adCreatePreview__svgs').size(parseInt(styles.width) + 10, parseInt(styles.height) + 10);
 
         const elementBackground = getElementBackground(svg, styles['background'], parseInt(styles.width), parseInt(styles.height));
 
@@ -120,6 +135,10 @@ const AdCreatePreview = () => {
           .move(5, 5)
           .fill({ color: elementBackground, opacity: 1 })
           .stroke({ color: styles['border-color'], opacity: styles['border-opacity'], width: styles['border-width']})
+
+        svg
+          .style()
+          .font('ZonaPro-BlackItalic', `${process.env.PUBLIC_URL + '/ZonaPro-BlackItalic.ttf'}`)
 
         svg
           .text(element.text)

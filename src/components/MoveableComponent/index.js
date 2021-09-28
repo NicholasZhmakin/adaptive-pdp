@@ -16,10 +16,6 @@ const MoveableComponent = ({bannerItem, selectedBannerItem, replaceBannerItemSty
     const [isTextAreaActive, setIsTextAreaActive] = useState(false)
     const [text, setText] = useState('text');
 
-  useEffect(() => {
-    console.log(text);
-  }, [text]);
-
     useEffect(() => {
         setTarget(moveableItemRef.current);
         setText(bannerItem.text);
