@@ -81,7 +81,9 @@ const MoveableComponent = ({bannerItem, selectedBannerItem, replaceBannerItemSty
       content = isTextAreaActive ?
           <ClickAwayListener onClickAway={() => setIsTextAreaActive(false)}>
             <textarea
-                className='moveable__textarea'
+                className={classnames('moveable__textarea', {
+                  'button': bannerItem.type === 'button',
+                })}
                 style={{
                     color: bannerItem.styles['color'],
                     fontSize: bannerItem.styles['font-size'],
@@ -93,7 +95,9 @@ const MoveableComponent = ({bannerItem, selectedBannerItem, replaceBannerItemSty
             />
           </ClickAwayListener> :
           <p
-              className="moveable__text"
+              className={classnames('moveable__text', {
+                'button': bannerItem.type === 'button',
+              })}
               onDoubleClick={() => {
                   setIsTextAreaActive(true)
               }}

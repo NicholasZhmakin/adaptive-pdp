@@ -38,6 +38,12 @@
     word-break: break-word;
     white-space: pre-wrap;
     cursor: grab;
+
+    &.button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   &__textarea {

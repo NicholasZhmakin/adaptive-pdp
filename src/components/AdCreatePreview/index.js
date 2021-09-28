@@ -127,19 +127,16 @@ const AdCreatePreview = () => {
 
         const elementBackground = getElementBackground(svg, styles['background'], parseInt(styles.width), parseInt(styles.height));
 
-        svg
-          .rect()
+       const rect = svg.rect()
           .size(styles.width, styles.height)
           .radius(styles['border-radius'])
           .move(5, 5)
           .fill({ color: elementBackground, opacity: 1 })
           .stroke({ color: styles['border-color'], opacity: styles['border-opacity'], width: styles['border-width']})
 
-        svg
-          .style(`@import url(${element.font.url})`)
+      const style = svg.style(`@import url(${element.font.url})`)
 
-        svg
-          .text(element.text)
+      const text = svg.text(element.text)
           .move(parseInt(styles.width) / 2, 10)
           .fill(styles.color)
           .font({
@@ -147,6 +144,9 @@ const AdCreatePreview = () => {
               size: styles['font-size'],
               weight: styles['font-weight'],
               anchor: 'middle'
+          })
+          .css({
+
           })
     }
 
@@ -181,7 +181,7 @@ const AdCreatePreview = () => {
               >
                   <Cropper
                     ref={videoRef}
-                    video={'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
+                    video={'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4#t=10,20'}
                     crop={crop}
                     zoom={zoom}
                     // cropSize={cropSize}
@@ -198,6 +198,7 @@ const AdCreatePreview = () => {
                     mediaProps={{
                         controls: true,
                         autoPlay: false,
+
                     }}
                   />
 
