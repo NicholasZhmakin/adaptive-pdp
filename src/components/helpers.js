@@ -24,14 +24,3 @@ export const splitGradientString = (gradientString) => {
   return [gradientType, gradientAnglePoint, gradientPalettes];
 }
 
-
-export const addFontFace = async (fontName, fontUrl) => {
-  const fontFace = new FontFace(fontName, `url(${fontUrl})`);
-  document.fonts.add(fontFace);
-  fontFace.load();
-
-  return fontFace.loaded;
-};
-
-
-

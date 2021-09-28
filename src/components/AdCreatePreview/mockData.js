@@ -27,7 +27,7 @@ const mockItem1 = {
 
     font: {
         id: 1,
-        url: 'fontUrl',
+        url: 'https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@200&display=swap',
     },
 
     image: {
@@ -51,7 +51,7 @@ const mockItem1 = {
         color: 'yellow',
         'font-size': '20px',
         'font-weight': '900',
-        'font-family': 'ZonaPro-BlackItalic',
+        'font-family': 'Gemunu Libre',
         'text-align': 'center',
         // 'background': 'orange',
         // 'background': 'radial-gradient(circle, rgba(34,193,195,1) 48%, rgba(36,131,68,1) 67%, rgba(198,189,83,1) 87%, rgba(253,187,45,1) 100%)',

@@ -34,7 +34,6 @@ const AdCreatePreview = () => {
 
     useEffect(() => {
         setBannerItems(cloneDeep(arrayDnd));
-        // addFontFace('ZonaPro-BlackItalic', `${process.env.PUBLIC_URL + '/ZonaPro-BlackItalic.ttf'}`);
     }, []);
 
     const changeBannerItemStylesField = (bannerItemId, fieldName, fieldValue) => {
@@ -137,8 +136,7 @@ const AdCreatePreview = () => {
           .stroke({ color: styles['border-color'], opacity: styles['border-opacity'], width: styles['border-width']})
 
         svg
-          .style()
-          .font('ZonaPro-BlackItalic', `${process.env.PUBLIC_URL + '/ZonaPro-BlackItalic.ttf'}`)
+          .style(`@import url(${element.font.url})`)
 
         svg
           .text(element.text)
