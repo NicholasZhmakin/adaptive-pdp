@@ -4,9 +4,12 @@ import Cropper from 'react-easy-crop';
 import cloneDeep from 'lodash/cloneDeep';
 import MoveableComponent from "../MoveableComponent";
 import MoveableSettings from "../MoveableSettings";
+import { SVG } from '@svgdotjs/svg.js'
+
 
 import './AdCreatePreview.scss';
 import {ClickAwayListener} from '@material-ui/core';
+import {addFontFace, splitGradientString} from '../helpers';
 
 const zoomSettings = {
     step: 0.03,
@@ -31,6 +34,7 @@ const AdCreatePreview = () => {
 
     useEffect(() => {
         setBannerItems(cloneDeep(arrayDnd));
+        addFontFace('ZonaPro-BlackItalic', `${process.env.PUBLIC_URL + '/ZonaPro-BlackItalic.ttf'}`);
     }, []);
 
     const changeBannerItemStylesField = (bannerItemId, fieldName, fieldValue) => {
@@ -55,6 +59,14 @@ const AdCreatePreview = () => {
         const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
 
         neededBannerItem.styles = result;
+        setBannerItems(cloneBannerItems);
+    }
+
+    const changeBannerItemText = (bannerItemId, newText) => {
+        const cloneBannerItems = cloneDeep(bannerItems);
+        const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
+
+        neededBannerItem.text = newText;
         setBannerItems(cloneBannerItems);
     }
 
@@ -89,6 +101,59 @@ const AdCreatePreview = () => {
     const handleSizeChange = (size) => {
         setAspect(size.width / size.height);
     };
+
+
+    const drawSVG = () => {
+        drawSVGButton(bannerItems[0]);
+    }
+
+    const drawSVGButton = (element) => {
+        const svg = SVG().addTo('.adCreatePreview__svgs').size('100%', '100%');
+        const styles = element.styles;
+
+        const elementBackground = getElementBackground(svg, styles['background'], parseInt(styles.width), parseInt(styles.height));
+
+        svg
+          .rect()
+          .size(styles.width, styles.height)
+          .radius(styles['border-radius'])
+          .move(5, 5)
+          .fill({ color: elementBackground, opacity: 1 })
+          .stroke({ color: styles['border-color'], opacity: styles['border-opacity'], width: styles['border-width']})
+
+        svg
+          .text(element.text)
+          .move(parseInt(styles.width) / 2, 10)
+          .fill(styles.color)
+          .font({
+              family: styles['font-family'],
+              size: styles['font-size'],
+              weight: styles['font-weight'],
+              anchor: 'middle'
+          })
+    }
+
+    const getElementBackground = (svg, background, width, height) => {
+        if (background.includes('gradient')) {
+            const [gradientType, gradientAnglePoint, gradientPalettes] = splitGradientString(background);
+
+            const gradient = svg
+              .gradient(gradientType, (add) => {
+                    gradientPalettes.forEach((palette) => {
+                        add.stop((palette.position / 100), palette.color);
+                    });
+                })
+              .attr({
+                gradientTransform: `rotate(${parseInt(gradientAnglePoint)})`,
+                })
+              .from(0, 0)
+              .to(0, 0);
+
+            return gradient;
+        } else {
+            return background;
+        }
+    }
 
     return (
       <div className='adCreatePreview'>
@@ -138,6 +203,7 @@ const AdCreatePreview = () => {
                       bannerItem={bannerItem}
                       selectedBannerItem={selectedBannerItem}
                       handleSelectBannerItem={setSelectedBannerItem}
+                      changeBannerItemText={changeBannerItemText}
                       replaceBannerItemStyles={replaceBannerItemStyles}
                     />
                   )}
@@ -145,7 +211,7 @@ const AdCreatePreview = () => {
           </ClickAwayListener>
 
           <div className='adCreatePreview__controls'>
-              <button onClick={() => videoRef.current.videoRef.play()}>Play</button>
+              <button className='button-svg-test' onClick={() => videoRef.current.videoRef.play()}>Play</button>
               <button onClick={() => videoRef.current.videoRef.pause()}>Pause</button>
           </div>
 
@@ -159,6 +225,12 @@ const AdCreatePreview = () => {
                     {size.width} X {size.height}
                 </p>
               ))}
+          </div>
+
+          <button className='adCreatePreview__draw-btn' onClick={drawSVG}>Draw</button>
+
+          <div className='adCreatePreview__svgs'>
+
           </div>
       </div>
     );

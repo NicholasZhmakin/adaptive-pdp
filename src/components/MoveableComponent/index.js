@@ -7,7 +7,7 @@ import { Frame } from "scenejs";
 import './MoveableComponent.scss';
 
 
-const MoveableComponent = ({bannerItem, selectedBannerItem, replaceBannerItemStyles, handleSelectBannerItem}) => {
+const MoveableComponent = ({bannerItem, selectedBannerItem, replaceBannerItemStyles, changeBannerItemText, handleSelectBannerItem}) => {
 
     const frameRef = useRef(null);
     const moveableItemRef = useRef(null);
@@ -16,8 +16,13 @@ const MoveableComponent = ({bannerItem, selectedBannerItem, replaceBannerItemSty
     const [isTextAreaActive, setIsTextAreaActive] = useState(false)
     const [text, setText] = useState('text');
 
+  useEffect(() => {
+    console.log(text);
+  }, [text]);
+
     useEffect(() => {
         setTarget(moveableItemRef.current);
+        setText(bannerItem.text);
     }, []);
 
     useEffect(() => {
@@ -59,6 +64,7 @@ const MoveableComponent = ({bannerItem, selectedBannerItem, replaceBannerItemSty
 
    const handleTextChange = (e) => {
        setText(e.target.value);
+       changeBannerItemText(bannerItem.id, e.target.value);
    }
 
    const handleEndAction = ({target}) => {

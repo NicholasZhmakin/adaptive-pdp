@@ -9,6 +9,7 @@ import MultiThumbSlider from './MultiThumbSlider';
 import { COLOR_TYPE } from '../index';
 
 import './GradientGenerator.scss'
+import { splitGradientString } from '../../../helpers';
 
 
 const linearAnglePoints = [
@@ -47,39 +48,18 @@ const GradientGenerator = ({currentGradientColor, handleBackgroundObjectChange})
   const [palettes, setPalettes] = useState([]);
 
   useEffect(() => {
-    const regex = new RegExp(/,(?![^(]*\))(?![^"']*["'](?:[^"']*["'][^"']*["'])*[^"']*$)/,'gi');
-    const gradientType = currentGradientColor.substring(0, currentGradientColor.indexOf('(')).split('-')[0];
-    const secondPartOfGradient = currentGradientColor.substring(currentGradientColor.indexOf('(') + 1, currentGradientColor.lastIndexOf(')')).split(regex);
-    let gradientAnglePoint = secondPartOfGradient[0];
-    const isDefaultAngle = !gradientAnglePoint.includes('rgb');
+    const [gradientType, gradientAnglePoint, gradientPalettes] = splitGradientString(currentGradientColor);
 
-    if (!isDefaultAngle) {
-      gradientAnglePoint = '180deg';
-    }
-
-    const gradientPalettesArray = secondPartOfGradient.slice(Number(!!isDefaultAngle)).map((palette) => {
-      const color = palette.substring(0, palette.indexOf(')') + 1).trim();
-      const position = palette.substring(palette.indexOf(')') + 1, palette.length - 1).trim();
-
-      return ({
+    const newGradientPalettes = gradientPalettes.map((palette) => ({
+        ...palette,
         id: uuidv4(),
-        color,
-        position,
-      })
-    });
+    }));
 
     handleGradientTypeChange(gradientType, gradientAnglePoint);
 
     setGradientType(gradientType);
     setActiveAnglePoint(gradientAnglePoint);
-    setPalettes(gradientPalettesArray);
-
-
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
+    setPalettes(newGradientPalettes);
   }, []);
 
   useEffect(() => {
@@ -139,11 +119,6 @@ const GradientGenerator = ({currentGradientColor, handleBackgroundObjectChange})
 
   };
 
-  const handleKeyDown = (e) => {
-    if ((e.which === 8 || e.which === 46)) {
-      console.log('delete', focusPalette);
-    }
-  };
 
   return (
     <div className='gradient-generator'>
