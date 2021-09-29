@@ -49,9 +49,9 @@ const mockItem1 = {
         'z-index': 3,
 
         color: 'yellow',
-        'font-size': '20px',
+        'font-size': '40px',
         'font-weight': '900',
-        'font-family': 'Gemunu Libre',
+        'font-family': 'Mathechester',
         'text-align': 'center',
         // 'background': 'orange',
         // 'background': 'radial-gradient(circle, rgba(34,193,195,1) 48%, rgba(36,131,68,1) 67%, rgba(198,189,83,1) 87%, rgba(253,187,45,1) 100%)',
@@ -116,8 +116,8 @@ const mockItem3 = {
         width: "150px",
         height: "100px",
 
-        left: "600px",
-        top: "200px",
+        left: "0px",
+        top: "0px",
 
         transform: {
             rotate: "0deg",
@@ -129,8 +129,42 @@ const mockItem3 = {
         'font-size': '30px',
         'font-family': '"Roboto", sans-serif',
         'text-align': 'center',
+        'border-color': 'blue',
+        'border-width': '3px',
+        'border-style': 'solid',
+        'border-radius': '30px',
     }
 };
+
+
+const mockItem4 = {
+    id: 4,
+    type: 'textBlock',
+
+    nestedText: [
+        {...mockItem3}
+    ],
+
+    styles: {
+        width: "450px",
+        height: "200px",
+
+        left: "30px",
+        top: "100px",
+
+        transform: {
+            rotate: "0deg",
+        },
+
+        'border-color': 'red',
+        'border-width': '3px',
+        'border-style': 'solid',
+        'border-radius': '30px',
+
+        'z-index': 4,
+    }
+};
+
 
 
 export const arrayDnd = [{...mockItem1}, {...mockItem2}, {...mockItem3}];

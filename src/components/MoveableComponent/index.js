@@ -77,6 +77,17 @@ const MoveableComponent = ({bannerItem, selectedBannerItem, replaceBannerItemSty
                alt={'dnd0image'}
            />
        );
+   } else if (bannerItem.type === 'textBlock') {
+     content = bannerItem.nestedText.map((bannerItem, index) =>
+         <MoveableComponent
+           key={bannerItem.id}
+           bannerItem={bannerItem}
+           selectedBannerItem={selectedBannerItem}
+           handleSelectBannerItem={handleSelectBannerItem}
+           changeBannerItemText={changeBannerItemText}
+           replaceBannerItemStyles={replaceBannerItemStyles}
+         />
+       );
    } else {
       content = isTextAreaActive ?
           <ClickAwayListener onClickAway={() => setIsTextAreaActive(false)}>
