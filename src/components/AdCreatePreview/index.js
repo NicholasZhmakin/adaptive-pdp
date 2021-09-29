@@ -235,7 +235,7 @@ const AdCreatePreview = () => {
                       key={bannerItem.id}
                       bannerItem={bannerItem}
                       selectedBannerItem={selectedBannerItem}
-                      handleSelectBannerItem={setSelectedBannerItem}
+                      setSelectedBannerItem={setSelectedBannerItem}
                       changeBannerItemText={changeBannerItemText}
                       replaceBannerItemStyles={replaceBannerItemStyles}
                     />

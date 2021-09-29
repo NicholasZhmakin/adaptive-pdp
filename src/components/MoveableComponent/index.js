@@ -5,20 +5,19 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { Frame } from "scenejs";
 
 import './MoveableComponent.scss';
+import TextBlock from './TextBlock';
 
 
-const MoveableComponent = ({bannerItem, selectedBannerItem, replaceBannerItemStyles, changeBannerItemText, handleSelectBannerItem}) => {
+const MoveableComponent = ({bannerItem, selectedBannerItem, replaceBannerItemStyles, changeBannerItemText, setSelectedBannerItem}) => {
 
     const frameRef = useRef(null);
     const moveableItemRef = useRef(null);
 
     const [target, setTarget] = useState(null);
     const [isTextAreaActive, setIsTextAreaActive] = useState(false)
-    const [text, setText] = useState('text');
 
     useEffect(() => {
         setTarget(moveableItemRef.current);
-        setText(bannerItem.text);
     }, []);
 
     useEffect(() => {
@@ -30,91 +29,95 @@ const MoveableComponent = ({bannerItem, selectedBannerItem, replaceBannerItemSty
     }, [bannerItem]);
 
   const handleSelect = () => {
-    handleSelectBannerItem(bannerItem);
+    setSelectedBannerItem(bannerItem);
   }
 
     const setTransform = (target) => {
         target.style.cssText = frameRef.current.toCSS();
     }
 
-    const onDrag = ({ target, clientX, clientY, top, left }) => {
-        frameRef.current.set("left", `${left}px`);
-        frameRef.current.set("top", `${top}px`);
+    const onDrag = ({ inputEvent, target, clientX, clientY, top, left}) => {
+        const currentTargetId = Number(inputEvent.target.dataset.id);
 
-        setTransform(target);
+      console.log(currentTargetId, inputEvent.target, bannerItem.id);
+
+      frameRef.current.set("left", `${left}px`);
+      frameRef.current.set("top", `${top}px`);
+
+      setTransform(target);
+
+        // if (currentTargetId === bannerItem.id) {
+        //   frameRef.current.set("left", `${left}px`);
+        //   frameRef.current.set("top", `${top}px`);
+        //
+        //   setTransform(target);
+        // }
     };
 
-    const onRotate = ({ target, clientX, clientY, beforeDelta }) => {
+    const onRotate = ({inputEvent, target, clientX, clientY, beforeDelta }) => {
+        // inputEvent.stopImmediatePropagation();
         const deg = parseFloat(frameRef.current.get("transform", "rotate")) + beforeDelta;
 
         frameRef.current.set("transform", "rotate", `${deg}deg`);
         setTransform(target);
     };
 
-    const onResize = ({ target, clientX, clientY, width, height }) => {
+    const onResize = ({inputEvent, target, clientX, clientY, width, height}) => {
         frameRef.current.set("width", `${width}px`);
         frameRef.current.set("height", `${height}px`);
 
         setTransform(target);
     };
 
-   const handleTextChange = (e) => {
-       setText(e.target.value);
-       changeBannerItemText(bannerItem.id, e.target.value);
-   }
 
-   const handleEndAction = ({target}) => {
-      replaceBannerItemStyles(bannerItem.id, target.style.cssText);
+   const handleEndAction = ({inputEvent, target, moveable}) => {
+     // inputEvent.stopImmediatePropagation();
+     // inputEvent.preventDefault();
+     // inputEvent.stopPropagation();
+
+      // console.log(target, inputEvent.currentTarget, moveable.props, bannerItem.id);
+
+      if (bannerItem.type === 'nestedText') {
+        // console.log(target, bannerItem.id);
+        // replaceBannerItemStyles(bannerItem.id, target.style.cssText);
+      } else if (bannerItem.id) {
+        // replaceBannerItemStyles(bannerItem.id, target.style.cssText);
+      }
+
    }
 
    let content;
 
    if (bannerItem.type === 'image') {
-      content = (
-           <img
-               className='moveable__image'
-               src={bannerItem.image.url}
-               alt={'dnd0image'}
-           />
-       );
-   } else if (bannerItem.type === 'textBlock') {
-     content = bannerItem.nestedText.map((bannerItem, index) =>
+    content = (
+       <img
+           className='moveable__image'
+           src={bannerItem.image.url}
+           alt={'dnd0image'}
+       />
+     );
+   } else if (bannerItem.type === 'button') {
+     content = (
+       <TextBlock
+         bannerItem={bannerItem}
+         isTextAreaActive={isTextAreaActive}
+         changeBannerItemText={changeBannerItemText}
+         setIsTextAreaActive={setIsTextAreaActive}
+       />
+     )
+   } else if (bannerItem.type === 'nestedText') {
+     content = bannerItem.nestedBannerItems.map((nestedBannerItem) => {
+       return (
          <MoveableComponent
-           key={bannerItem.id}
-           bannerItem={bannerItem}
+           key={nestedBannerItem.id}
+           bannerItem={nestedBannerItem}
            selectedBannerItem={selectedBannerItem}
-           handleSelectBannerItem={handleSelectBannerItem}
+           setSelectedBannerItem={setSelectedBannerItem}
            changeBannerItemText={changeBannerItemText}
            replaceBannerItemStyles={replaceBannerItemStyles}
          />
        );
-   } else {
-      content = isTextAreaActive ?
-          <ClickAwayListener onClickAway={() => setIsTextAreaActive(false)}>
-            <textarea
-                className={classnames('moveable__textarea', {
-                  'button': bannerItem.type === 'button',
-                })}
-                style={{
-                    color: bannerItem.styles['color'],
-                    fontSize: bannerItem.styles['font-size'],
-                    fontFamily: bannerItem.styles['font-family'],
-                    textAlign: bannerItem.styles['text-align'],
-                }}
-                value={text}
-                onChange={handleTextChange}
-            />
-          </ClickAwayListener> :
-          <p
-              className={classnames('moveable__text', {
-                'button': bannerItem.type === 'button',
-              })}
-              onDoubleClick={() => {
-                  setIsTextAreaActive(true)
-              }}
-          >
-              {text}
-          </p>
+     })
    }
 
     return (
@@ -125,6 +128,7 @@ const MoveableComponent = ({bannerItem, selectedBannerItem, replaceBannerItemSty
       >
         <Moveable
           target={target}
+          dragArea={false}
           container={null}
           edge={false}
           draggable={!isTextAreaActive}
@@ -144,16 +148,13 @@ const MoveableComponent = ({bannerItem, selectedBannerItem, replaceBannerItemSty
           onResizeEnd={handleEndAction}
           onRotateEnd={handleEndAction}
         />
-
-        <div className="moveable__container">
-          <div
-            ref={moveableItemRef}
-            className="moveable__item"
-            onDoubleClick={handleSelect}
-          >
-            {content}
-          </div>
-
+        <div
+          data-id={bannerItem.id}
+          ref={moveableItemRef}
+          className="moveable__item"
+          onDoubleClick={handleSelect}
+        >
+          {content}
         </div>
       </div>
     );

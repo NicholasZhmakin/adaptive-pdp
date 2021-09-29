@@ -100,7 +100,7 @@ const mockItem3 = {
     id: 3,
     type: 'text',
 
-    text: 'enter some',
+    text: 'first nested',
 
     font: {
         id: 3,
@@ -123,7 +123,7 @@ const mockItem3 = {
             rotate: "0deg",
         },
 
-        'z-index': 1,
+        'z-index': 5,
 
         color: 'black',
         'font-size': '30px',
@@ -136,13 +136,54 @@ const mockItem3 = {
     }
 };
 
-
 const mockItem4 = {
     id: 4,
-    type: 'textBlock',
+    type: 'text',
 
-    nestedText: [
-        {...mockItem3}
+    text: 'second nested',
+
+    font: {
+        id: 3,
+        url: 'fontUrl',
+    },
+
+    // image: {
+    //     id: 4,
+    //     url: 'https://picsum.photos/200/250'
+    // },
+
+    styles: {
+        width: "150px",
+        height: "100px",
+
+        left: "0px",
+        top: "0px",
+
+        transform: {
+            rotate: "0deg",
+        },
+
+        'z-index': 5,
+
+        color: 'black',
+        'font-size': '30px',
+        'font-family': '"Roboto", sans-serif',
+        'text-align': 'center',
+        'border-color': 'pink',
+        'border-width': '3px',
+        'border-style': 'solid',
+        'border-radius': '30px',
+    }
+};
+
+
+const mockItem5 = {
+    id: 5,
+    type: 'nestedText',
+
+    nestedBannerItems: [
+        {...mockItem3},
+        {...mockItem4}
     ],
 
     styles: {
@@ -159,12 +200,10 @@ const mockItem4 = {
         'border-color': 'red',
         'border-width': '3px',
         'border-style': 'solid',
-        'border-radius': '30px',
-
-        'z-index': 4,
+        'z-index': 1,
     }
 };
 
 
 
-export const arrayDnd = [{...mockItem1}, {...mockItem2}, {...mockItem3}];
+export const arrayDnd = [{...mockItem1}, {...mockItem2}, {...mockItem5}];
