@@ -47,12 +47,14 @@
     text-align: center;
     background: transparent;
   }
+
+  .moveable-control,
+  .moveable-line,
+  .moveable-rotation {
+    display: none;
+  }
 }
 
-.moveable-control,
-.moveable-line,
-.moveable-rotation {
-  display: none;
-}
+
 
 

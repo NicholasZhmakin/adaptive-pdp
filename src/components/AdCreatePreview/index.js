@@ -36,6 +36,14 @@ const AdCreatePreview = () => {
         setBannerItems(cloneDeep(arrayDnd));
     }, []);
 
+  const setIsDraggableForContainer = (containerId, value) => {
+    const cloneBannerItems = cloneDeep(bannerItems);
+    const neededContainer = cloneBannerItems.find((item) => item.id === containerId);
+
+    neededContainer.isDraggable = value;
+    setBannerItems(cloneBannerItems);
+  };
+
     const changeBannerItemStylesField = (bannerItemId, fieldName, fieldValue) => {
         const cloneBannerItems = cloneDeep(bannerItems);
         const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
@@ -45,7 +53,7 @@ const AdCreatePreview = () => {
         setBannerItems(cloneBannerItems);
     };
 
-    const replaceBannerItemStyles = (bannerItemId, newStylesString) => {
+    const replaceBannerItemStyles = (bannerItemId, newStylesString, containerId) => {
         const result = {};
         const attributes = newStylesString.trim().split(';');
 
@@ -55,18 +63,36 @@ const AdCreatePreview = () => {
         }
 
         const cloneBannerItems = cloneDeep(bannerItems);
-        const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
 
-        neededBannerItem.styles = result;
-        setBannerItems(cloneBannerItems);
+        if (containerId) {
+          const neededContainer = cloneBannerItems.find((item) => item.id === containerId);
+          const neededBannerItem = neededContainer.nestedBannerItems.find((item) => item.id === bannerItemId);
+
+          neededBannerItem.styles = result;
+          setBannerItems(cloneBannerItems);
+        } else {
+          const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
+
+          neededBannerItem.styles = result;
+          setBannerItems(cloneBannerItems);
+        }
     }
 
-    const changeBannerItemText = (bannerItemId, newText) => {
+    const changeBannerItemText = (bannerItemId, newText, containerId) => {
         const cloneBannerItems = cloneDeep(bannerItems);
-        const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
 
-        neededBannerItem.text = newText;
-        setBannerItems(cloneBannerItems);
+        if (containerId) {
+          const neededContainer = cloneBannerItems.find((item) => item.id === containerId);
+          const neededBannerItem = neededContainer.nestedBannerItems.find((item) => item.id === bannerItemId);
+
+          neededBannerItem.text = newText;
+          setBannerItems(cloneBannerItems);
+        } else {
+          const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
+
+          neededBannerItem.text = newText;
+          setBannerItems(cloneBannerItems);
+        }
     }
 
     const handleMediaLoaded = () => {
@@ -234,8 +260,9 @@ const AdCreatePreview = () => {
                     <MoveableComponent
                       key={bannerItem.id}
                       bannerItem={bannerItem}
-                      selectedBannerItem={selectedBannerItem}
+                      selectedBannerItemId={selectedBannerItem?.id}
                       setSelectedBannerItem={setSelectedBannerItem}
+                      setIsDraggableForContainer={setIsDraggableForContainer}
                       changeBannerItemText={changeBannerItemText}
                       replaceBannerItemStyles={replaceBannerItemStyles}
                     />

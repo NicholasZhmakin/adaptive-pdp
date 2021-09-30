@@ -22,17 +22,11 @@ export const sizesMockData = [
 const mockItem1 = {
     id: 1,
     type: 'button',
-
     text: 'enter some',
 
     font: {
         id: 1,
         url: 'https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@200&display=swap',
-    },
-
-    image: {
-        id: 1,
-        url: 'https://picsum.photos/200/250'
     },
 
     styles: {
@@ -42,9 +36,7 @@ const mockItem1 = {
         left: "10px",
         top: "200px",
 
-        transform: {
-            rotate: "0deg",
-        },
+        transform: "rotate(21.2deg)",
 
         'z-index': 3,
 
@@ -69,13 +61,6 @@ const mockItem1 = {
 const mockItem2 = {
     id: 2,
     type: 'image',
-
-    text: 'enter some',
-
-    font: {
-        id: 2,
-        url: 'fontUrl',
-    },
 
     image: {
         id: 2,
@@ -107,11 +92,6 @@ const mockItem3 = {
         url: 'fontUrl',
     },
 
-    image: {
-        id: 3,
-        url: 'https://picsum.photos/200/250'
-    },
-
     styles: {
         width: "150px",
         height: "100px",
@@ -119,9 +99,7 @@ const mockItem3 = {
         left: "0px",
         top: "0px",
 
-        transform: {
-            rotate: "0deg",
-        },
+        transform: "rotate(0deg)",
 
         'z-index': 5,
 
@@ -147,11 +125,6 @@ const mockItem4 = {
         url: 'fontUrl',
     },
 
-    // image: {
-    //     id: 4,
-    //     url: 'https://picsum.photos/200/250'
-    // },
-
     styles: {
         width: "150px",
         height: "100px",
@@ -159,9 +132,7 @@ const mockItem4 = {
         left: "0px",
         top: "0px",
 
-        transform: {
-            rotate: "0deg",
-        },
+        transform: "rotate(0deg)",
 
         'z-index': 5,
 
@@ -176,14 +147,14 @@ const mockItem4 = {
     }
 };
 
-
 const mockItem5 = {
     id: 5,
-    type: 'nestedText',
+    type: 'container',
+    isDraggable: 'false',
 
     nestedBannerItems: [
-        {...mockItem3},
-        {...mockItem4}
+        mockItem3,
+        mockItem4,
     ],
 
     styles: {
@@ -193,17 +164,57 @@ const mockItem5 = {
         left: "30px",
         top: "100px",
 
-        transform: {
-            rotate: "0deg",
-        },
+        transform: "rotate(0deg)",
 
         'border-color': 'red',
         'border-width': '3px',
         'border-style': 'solid',
-        'z-index': 1,
+        'z-index': 3,
     }
 };
 
 
+const mockItem6 = {
+    id: 6,
+    type: 'text',
 
-export const arrayDnd = [{...mockItem1}, {...mockItem2}, {...mockItem5}];
+    text: 'alone text',
+
+    font: {
+        id: 6,
+        url: 'fontUrl',
+    },
+
+    styles: {
+        width: "250px",
+        height: "50px",
+
+        left: "0px",
+        top: "0px",
+
+        transform: "rotate(21.2deg)",
+
+        'z-index': 6,
+
+        color: 'red',
+        'font-size': '30px',
+        'font-family': '"Roboto", sans-serif',
+        'text-align': 'center',
+        'border-color': 'orange',
+        'border-width': '3px',
+        'border-style': 'solid',
+        'border-radius': '30px',
+    }
+};
+
+
+export const arrayDnd = [
+  // {...mockItem1},
+  // {...mockItem2},
+  {...mockItem6},
+  {...mockItem5},
+];
+
+
+
+
