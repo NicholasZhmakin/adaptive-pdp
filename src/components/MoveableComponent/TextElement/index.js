@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import TextareaAutosize from 'react-textarea-autosize';
 import classnames from 'classnames';
 
 
 const TextElement = ({
    isTextAreaActive,
-   handleTextareaActivation,
    bannerItem,
    containerItemId,
    changeBannerItemText
@@ -25,7 +24,7 @@ const TextElement = ({
   return (
     <>
       {isTextAreaActive ?
-        <textarea
+        <TextareaAutosize
           className={classnames('moveable__textarea', {
             'button': bannerItem.type === 'button',
           })}
@@ -33,21 +32,14 @@ const TextElement = ({
             color: bannerItem.styles['color'],
             fontSize: bannerItem.styles['font-size'],
             fontFamily: bannerItem.styles['font-family'],
+            fontWeight: bannerItem.styles['font-weight'],
             textAlign: bannerItem.styles['text-align'],
           }}
           value={text}
           onChange={handleTextChange}
         /> :
-        <p
-          className={classnames('moveable__text', {
-            'button': bannerItem.type === 'button',
-          })}
-          onDoubleClick={() => {
-            handleTextareaActivation(true)
-          }}
-        >
-          {text}
-        </p>}
+        text
+      }
     </>
   );
 }

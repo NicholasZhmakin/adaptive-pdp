@@ -119,11 +119,10 @@ const MoveableComponent = ({
    } else {
      content = (
        <TextElement
+         isTextAreaActive={isTextAreaActive}
          bannerItem={bannerItem}
          containerItemId={containerItemId}
-         isTextAreaActive={isTextAreaActive}
          changeBannerItemText={changeBannerItemText}
-         handleTextareaActivation={handleTextareaActivation}
        />
      )
    }
@@ -164,8 +163,15 @@ const MoveableComponent = ({
           <div
             ref={moveableItemRef}
             className={classnames('moveable__item', {
-              'container': bannerItem.type === 'container',
+              'text': bannerItem.type === 'container' || bannerItem.type === 'text',
             })}
+            onDoubleClick={() => handleTextareaActivation(true)}
+            style={{
+              color: bannerItem.styles['color'],
+              fontSize: bannerItem.styles['font-size'],
+              fontFamily: bannerItem.styles['font-family'],
+              textAlign: bannerItem.styles['text-align'],
+            }}
           >
             {content}
           </div>

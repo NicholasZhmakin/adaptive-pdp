@@ -32,19 +32,18 @@ const mockItem1 = {
     styles: {
         width: "250px",
         height: "50px",
-
         left: "10px",
+        display: 'flex',
+        'justify-content': 'center',
+        'align-items': 'center',
         top: "200px",
-
-        transform: "rotate(21.2deg)",
-
-        'z-index': 3,
-
         color: 'yellow',
         'font-size': '40px',
         'font-weight': '900',
         'font-family': 'Mathechester',
         'text-align': 'center',
+        'word-break': 'break-word',
+        'white-space': 'pre-wrap',
         // 'background': 'orange',
         // 'background': 'radial-gradient(circle, rgba(34,193,195,1) 48%, rgba(36,131,68,1) 67%, rgba(198,189,83,1) 87%, rgba(253,187,45,1) 100%)',
         // 'background': 'linear-gradient(180deg, rgb(34, 193, 195) 48%, rgb(36, 131, 68) 67%, rgb(198, 189, 83) 87%, rgb(253, 187, 45) 100%)',
@@ -54,6 +53,8 @@ const mockItem1 = {
         'border-style': 'solid',
         'border-radius': '30px',
         'border-opacity': 0.7,
+        transform: "rotate(0deg)",
+        'z-index': 3,
     }
 };
 
@@ -70,12 +71,9 @@ const mockItem2 = {
     styles: {
         width: "200px",
         height: "200px",
-
         left: "300px",
         top: "150px",
-
         transform: "rotate(21.2deg)",
-
         'z-index': 2,
     }
 };
@@ -93,24 +91,18 @@ const mockItem3 = {
     },
 
     styles: {
-        width: "150px",
-        height: "100px",
-
+        width: "auto",
+        height: "auto",
         left: "0px",
         top: "0px",
-
-        transform: "rotate(0deg)",
-
-        'z-index': 5,
-
         color: 'black',
         'font-size': '30px',
         'font-family': '"Roboto", sans-serif',
         'text-align': 'center',
-        'border-color': 'blue',
-        'border-width': '3px',
-        'border-style': 'solid',
-        'border-radius': '30px',
+        'word-break': 'break-word',
+        'white-space': 'pre-wrap',
+        transform: "rotate(0deg)",
+        'z-index': 5,
     }
 };
 
@@ -126,24 +118,18 @@ const mockItem4 = {
     },
 
     styles: {
-        width: "150px",
-        height: "100px",
-
+        width: "auto",
+        height: "auto",
         left: "0px",
         top: "0px",
-
-        transform: "rotate(0deg)",
-
-        'z-index': 5,
-
         color: 'black',
         'font-size': '30px',
         'font-family': '"Roboto", sans-serif',
         'text-align': 'center',
-        'border-color': 'pink',
-        'border-width': '3px',
-        'border-style': 'solid',
-        'border-radius': '30px',
+        'word-break': 'break-word',
+        'white-space': 'pre-wrap',
+        transform: "rotate(0deg)",
+        'z-index': 5,
     }
 };
 
@@ -160,15 +146,9 @@ const mockItem5 = {
     styles: {
         width: "450px",
         height: "200px",
-
         left: "30px",
         top: "100px",
-
         transform: "rotate(0deg)",
-
-        'border-color': 'red',
-        'border-width': '3px',
-        'border-style': 'solid',
         'z-index': 3,
     }
 };
@@ -188,22 +168,14 @@ const mockItem6 = {
     styles: {
         width: "250px",
         height: "50px",
-
         left: "0px",
         top: "0px",
-
-        transform: "rotate(21.2deg)",
-
-        'z-index': 6,
-
         color: 'red',
         'font-size': '30px',
         'font-family': '"Roboto", sans-serif',
         'text-align': 'center',
-        'border-color': 'orange',
-        'border-width': '3px',
-        'border-style': 'solid',
-        'border-radius': '30px',
+        transform: "rotate(0deg)",
+        'z-index': 6,
     }
 };
 
