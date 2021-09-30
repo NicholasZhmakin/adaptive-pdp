@@ -37,7 +37,7 @@ const MultiThumbSlider = ({palettes, focusPalette, setPalettes, handleSliderThum
     if (e.target === sliderContainerRef.current) {
       setPalettes((prevState) => ([
         ...prevState,
-        {id: uuidv4(), color: '#f4f4f4', position: positionForInput},
+        {id: uuidv4(), color: 'rgb(0, 0, 0)', position: positionForInput},
       ]))
     }
   }

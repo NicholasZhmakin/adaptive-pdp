@@ -5,11 +5,10 @@ import cloneDeep from 'lodash/cloneDeep';
 import MoveableComponent from "../MoveableComponent";
 import MoveableSettings from "../MoveableSettings";
 import { SVG } from '@svgdotjs/svg.js'
-
+import { ClickAwayListener } from '@material-ui/core';
+import { splitGradientString } from '../helpers';
 
 import './AdCreatePreview.scss';
-import {ClickAwayListener} from '@material-ui/core';
-import {addFontFace, splitGradientString} from '../helpers';
 
 const zoomSettings = {
     step: 0.03,
@@ -239,34 +238,38 @@ const AdCreatePreview = () => {
                     mediaProps={{
                         controls: true,
                         autoPlay: false,
-
                     }}
                   />
 
                   {!isMediaLoaded &&
-                      <div className='adCreatePreview__preloader'>
-                          <p className='adCreatePreview__preloader-text'>Video is preparing, please wait...</p>
-                      </div>
+                    <div className='adCreatePreview__preloader'>
+                        <p className='adCreatePreview__preloader-text'>Video is preparing, please wait...</p>
+                    </div>
                   }
 
-                  {selectedBannerItem &&
+                <ClickAwayListener onClickAway={() => setSelectedBannerItem(null)}>
+                  <div>
+                    {selectedBannerItem &&
                       <MoveableSettings
                         bannerItem={selectedBannerItem}
                         changeBannerItemStylesField={changeBannerItemStylesField}
                       />
-                  }
+                    }
 
-                  {bannerItems.map((bannerItem, index) =>
-                    <MoveableComponent
-                      key={bannerItem.id}
-                      bannerItem={bannerItem}
-                      selectedBannerItemId={selectedBannerItem?.id}
-                      setSelectedBannerItem={setSelectedBannerItem}
-                      setIsDraggableForContainer={setIsDraggableForContainer}
-                      changeBannerItemText={changeBannerItemText}
-                      replaceBannerItemStyles={replaceBannerItemStyles}
-                    />
-                  )}
+                    {bannerItems.map((bannerItem, index) =>
+                      <MoveableComponent
+                        key={bannerItem.id}
+                        bannerItem={bannerItem}
+                        selectedBannerItemId={selectedBannerItem?.id}
+                        setSelectedBannerItem={setSelectedBannerItem}
+                        setIsDraggableForContainer={setIsDraggableForContainer}
+                        changeBannerItemText={changeBannerItemText}
+                        replaceBannerItemStyles={replaceBannerItemStyles}
+                      />
+                    )}
+                  </div>
+                </ClickAwayListener>
+
               </div>
           </ClickAwayListener>
 

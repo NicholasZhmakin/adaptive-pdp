@@ -21,22 +21,26 @@ const ColorSettingsSection = ({bannerItem, changeBannerItemStylesField}) => {
   });
 
   useEffect(() => {
-    const background = bannerItem.styles['background'];
+    if (bannerItem.type === 'button') {
+      const background = bannerItem.styles['background'];
 
-    if (background.includes('gradient')) {
-      handleBackgroundObjectChange(COLOR_TYPE.GRADIENT, background);
-      setActiveTab(COLOR_TYPE.GRADIENT);
-    } else if (background === 'none') {
-      handleBackgroundObjectChange(COLOR_TYPE.NONE, 'none');
-      setActiveTab(COLOR_TYPE.NONE);
-    } else {
-      handleBackgroundObjectChange(COLOR_TYPE.SOLID, background);
-      setActiveTab(COLOR_TYPE.SOLID);
+      if (background.includes('gradient')) {
+        handleBackgroundObjectChange(COLOR_TYPE.GRADIENT, background);
+        setActiveTab(COLOR_TYPE.GRADIENT);
+      } else if (background === 'none') {
+        handleBackgroundObjectChange(COLOR_TYPE.NONE, 'none');
+        setActiveTab(COLOR_TYPE.NONE);
+      } else {
+        handleBackgroundObjectChange(COLOR_TYPE.SOLID, background);
+        setActiveTab(COLOR_TYPE.SOLID);
+      }
     }
   }, []);
 
   useEffect(() => {
-    changeBannerItemStylesField(bannerItem.id, 'background', backgroundObject[activeTab]);
+    if (bannerItem.type === 'button') {
+      changeBannerItemStylesField(bannerItem.id, 'background', backgroundObject[activeTab]);
+    }
   }, [activeTab, backgroundObject]);
 
   const handleBackgroundObjectChange = (name, value) => {
@@ -44,6 +48,10 @@ const ColorSettingsSection = ({bannerItem, changeBannerItemStylesField}) => {
       ...backgroundObject,
       [name]: value,
     })
+  };
+
+  const handleTextColorChange = (name, value) => {
+    changeBannerItemStylesField(bannerItem.id, 'color', value);
   };
 
   const convertRbgToHex = (color) => {
@@ -69,12 +77,21 @@ const ColorSettingsSection = ({bannerItem, changeBannerItemStylesField}) => {
   let mainContent = null;
 
   if (activeTab === COLOR_TYPE.SOLID) {
-    mainContent = (
-      <SolidGenerator
-        currentSolidColor={convertRbgToHex(backgroundObject[COLOR_TYPE.SOLID])}
-        handleBackgroundObjectChange={handleBackgroundObjectChange}
-      />
-    );
+    if (bannerItem.type === 'button') {
+      mainContent = (
+        <SolidGenerator
+          currentSolidColor={convertRbgToHex(backgroundObject[COLOR_TYPE.SOLID])}
+          handleBackgroundObjectChange={handleBackgroundObjectChange}
+        />
+      );
+    } else {
+      mainContent = (
+        <SolidGenerator
+          currentSolidColor={convertRbgToHex(bannerItem.styles['color'])}
+          handleBackgroundObjectChange={handleTextColorChange}
+        />
+      );
+    }
   } else if (activeTab === COLOR_TYPE.GRADIENT) {
     mainContent = (
       <GradientGenerator

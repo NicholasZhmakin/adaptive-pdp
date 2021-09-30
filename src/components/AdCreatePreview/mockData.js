@@ -181,10 +181,10 @@ const mockItem6 = {
 
 
 export const arrayDnd = [
-  // {...mockItem1},
+  {...mockItem1},
   // {...mockItem2},
   {...mockItem6},
-  {...mockItem5},
+  // {...mockItem5},
 ];
 
 

@@ -77,8 +77,9 @@ const GradientGenerator = ({currentGradientColor, handleBackgroundObjectChange})
   const handleGradientColorChange = (colorsObject) => {
       const clonePalettes = cloneDeep(palettes);
       const neededPalette = clonePalettes.find((palette) => palette.id === activePalette.id);
+      const {r, g, b} = colorsObject.rgb;
 
-      neededPalette.color = colorsObject.hex;
+      neededPalette.color = `rgb(${r}, ${g}, ${b})`;
       setPalettes(clonePalettes);
   };
 

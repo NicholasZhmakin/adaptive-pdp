@@ -156,10 +156,8 @@ const MoveableComponent = ({
           onResizeEnd={handleEndAction}
           onRotateEnd={handleEndAction}
         />
-        <ClickAwayListener onClickAway={() => {
-          setSelectedBannerItem(null);
-          handleTextareaActivation(false);
-        }}>
+
+        <ClickAwayListener onClickAway={() => handleTextareaActivation(false)}>
           <div
             ref={moveableItemRef}
             className={classnames('moveable__item', {

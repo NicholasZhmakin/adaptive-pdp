@@ -59,28 +59,24 @@ const MoveableSettings = ({bannerItem, changeBannerItemStylesField}) => {
     return (
       <ClickAwayListener onClickAway={() => setOpenSection(null)}>
         <div className='moveable-settings'>
-          {bannerItem.type !== 'image' &&
+          {(bannerItem.type === 'button' || bannerItem.type === 'text' ) &&
             <>
               <div
                 className={classnames('moveable-settings__section', {
                   'active': openSection === MOVEABLE_SETTINGS_SECTIONS.TEXT,
                 })}
+                onClick={() => handleSettingSectionClick(MOVEABLE_SETTINGS_SECTIONS.TEXT)}
               >
-                <TextFieldsIcon
-                  className='moveable-settings__section-icon'
-                  onClick={() => handleSettingSectionClick(MOVEABLE_SETTINGS_SECTIONS.TEXT)}
-                />
+                <TextFieldsIcon className='moveable-settings__section-icon' />
               </div>
 
               <div
                 className={classnames('moveable-settings__section', {
                   'active': openSection === MOVEABLE_SETTINGS_SECTIONS.COLOR,
                 })}
+                onClick={() => handleSettingSectionClick(MOVEABLE_SETTINGS_SECTIONS.COLOR)}
               >
-                <ColorLensIcon
-                  className='moveable-settings__section-icon'
-                  onClick={() => handleSettingSectionClick(MOVEABLE_SETTINGS_SECTIONS.COLOR)}
-                />
+                <ColorLensIcon className='moveable-settings__section-icon' />
               </div>
             </>
           }
@@ -89,25 +85,23 @@ const MoveableSettings = ({bannerItem, changeBannerItemStylesField}) => {
             className={classnames('moveable-settings__section', {
               'active': openSection === MOVEABLE_SETTINGS_SECTIONS.LAYER,
             })}
+            onClick={() => handleSettingSectionClick(MOVEABLE_SETTINGS_SECTIONS.LAYER)}
           >
-            <LayersIcon
-              className='moveable-settings__section-icon'
-              onClick={() => handleSettingSectionClick(MOVEABLE_SETTINGS_SECTIONS.LAYER)}
-            />
+            <LayersIcon className='moveable-settings__section-icon' />
           </div>
 
-          <div className='moveable-settings__section'>
-            <FileCopyIcon
-              className='moveable-settings__section-icon'
-              onClick={() => setOpenSection(null)}
-            />
+          <div
+            className='moveable-settings__section'
+            onClick={() => setOpenSection(null)}
+          >
+            <FileCopyIcon className='moveable-settings__section-icon' />
           </div>
 
-          <div className='moveable-settings__section'>
-            <DeleteIcon
-              className='moveable-settings__section-icon'
-              onClick={() => setOpenSection(null)}
-            />
+          <div
+            className='moveable-settings__section'
+            onClick={() => setOpenSection(null)}
+          >
+            <DeleteIcon className='moveable-settings__section-icon' />
           </div>
 
           {dropDown}
