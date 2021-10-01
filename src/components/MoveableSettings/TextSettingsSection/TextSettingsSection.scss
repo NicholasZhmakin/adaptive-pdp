@@ -1,0 +1,57 @@
+
+.text-settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__text-align-container {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: left;
+    align-items: center;
+    grid-gap: 8px;
+  }
+
+  &__text-align-option {
+    width: 28px;
+    height: 28px;
+    color: #191C45;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &:nth-child(2) {
+      position: relative;
+
+      &:before,
+      &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 1px;
+        height: 36px;
+        background: #f4f4f4;
+        transform: translateY(-50%) scale(0.5);
+      }
+
+      &:before {
+        left: -4px;
+      }
+
+      &:after {
+        right: -4px;
+      }
+
+    }
+
+    &.active {
+      background: #26B3F9;
+      color: white;
+    }
+  }
+
+  &__text-align-icon {
+    font-size: 14px;
+  }
+}

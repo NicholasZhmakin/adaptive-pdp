@@ -6,12 +6,16 @@ import { COLOR_TYPE } from '../index';
 import './SolidGenerator.scss';
 
 
-const SolidGenerator = ({currentSolidColor, handleBackgroundObjectChange}) => {
+const SolidGenerator = ({currentSolidColor, handleBackgroundObjectChange, textColor}) => {
 
   const [isColorPicker, setIsColorPicker] = useState(false);
 
   const handleChangeColor = (color) => {
-    handleBackgroundObjectChange(COLOR_TYPE.SOLID, color);
+    if (textColor) {
+      handleBackgroundObjectChange(color, 'color');
+    } else {
+      handleBackgroundObjectChange(COLOR_TYPE.SOLID, color);
+    }
   };
 
   return (
