@@ -30,6 +30,7 @@ const mockItem1 = {
     },
 
     styles: {
+        position: 'absolute',
         width: "250px",
         height: "50px",
         left: "10px",
@@ -69,6 +70,7 @@ const mockItem2 = {
     },
 
     styles: {
+        position: 'absolute',
         width: "200px",
         height: "200px",
         left: "300px",
@@ -91,6 +93,7 @@ const mockItem3 = {
     },
 
     styles: {
+        position: 'absolute',
         width: "auto",
         height: "auto",
         left: "0px",
@@ -118,6 +121,7 @@ const mockItem4 = {
     },
 
     styles: {
+        position: 'absolute',
         width: "auto",
         height: "auto",
         left: "0px",
@@ -144,6 +148,7 @@ const mockItem5 = {
     ],
 
     styles: {
+        position: 'absolute',
         width: "450px",
         height: "200px",
         left: "30px",
@@ -166,6 +171,7 @@ const mockItem6 = {
     },
 
     styles: {
+        position: 'absolute',
         width: "250px",
         height: "50px",
         left: "0px",
@@ -174,6 +180,8 @@ const mockItem6 = {
         'font-size': '30px',
         'font-family': '"Roboto", sans-serif',
         'text-align': 'center',
+        'word-break': 'break-word',
+        'white-space': 'pre-wrap',
         transform: "rotate(0deg)",
         'z-index': 6,
     }
@@ -181,9 +189,9 @@ const mockItem6 = {
 
 
 export const arrayDnd = [
-  {...mockItem1},
+  mockItem1,
   // {...mockItem2},
-  {...mockItem6},
+  mockItem6,
   // {...mockItem5},
 ];
 

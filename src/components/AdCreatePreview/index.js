@@ -4,9 +4,7 @@ import Cropper from 'react-easy-crop';
 import cloneDeep from 'lodash/cloneDeep';
 import MoveableComponent from "../MoveableComponent";
 import MoveableSettings from "../MoveableSettings";
-import { SVG } from '@svgdotjs/svg.js'
 import { ClickAwayListener } from '@material-ui/core';
-import { splitGradientString } from '../helpers';
 
 import './AdCreatePreview.scss';
 
@@ -73,8 +71,9 @@ const AdCreatePreview = () => {
           const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
 
           neededBannerItem.styles = result;
-          setBannerItems(cloneBannerItems);
         }
+
+      setBannerItems(cloneBannerItems);
     }
 
     const changeBannerItemText = (bannerItemId, newText, containerId) => {
@@ -85,14 +84,21 @@ const AdCreatePreview = () => {
           const neededBannerItem = neededContainer.nestedBannerItems.find((item) => item.id === bannerItemId);
 
           neededBannerItem.text = newText;
-          setBannerItems(cloneBannerItems);
+          // neededBannerItem.styles['height'] = height;
         } else {
           const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
 
           neededBannerItem.text = newText;
-          setBannerItems(cloneBannerItems);
+          // console.log(height);
+          // neededBannerItem.styles['height'] = height;
         }
+
+      setBannerItems(cloneBannerItems);
     }
+
+    const getNewBannerItemHeight = () => {
+
+    };
 
     const handleMediaLoaded = () => {
         setIsMediaLoaded(true);
@@ -125,92 +131,6 @@ const AdCreatePreview = () => {
     const handleSizeChange = (size) => {
         setAspect(size.width / size.height);
     };
-
-
-    const drawSVG = () => {
-        drawSVGButton(bannerItems[0]);
-        drawSVGOverlay(bannerItems[1]);
-    }
-
-    const drawSVGOverlay = (element) => {
-        const styles = element.styles;
-        const svg = SVG().addTo('.adCreatePreview__svgs').size(parseInt(styles.width) + 10, parseInt(styles.height) + 10);
-        const rotate = parseInt(styles.transform.substring(styles.transform.indexOf('(') + 1));
-
-        svg
-          .image(element.image.url)
-          .size(styles.width, styles.height)
-          .move(5, 5)
-          .transform({
-              rotate: rotate,
-          })
-    }
-
-    const drawSVGButton = (element) => {
-        const styles = element.styles;
-        const svg = SVG().addTo('.adCreatePreview__svgs').size(parseInt(styles.width) + 10, parseInt(styles.height) + 10);
-
-        const elementBackground = getElementBackground(svg, styles['background'], parseInt(styles.width), parseInt(styles.height));
-
-       svg.rect('#myRect')
-          .size(styles.width, styles.height)
-          .radius(styles['border-radius'])
-          .move(5, 5)
-          .fill({ color: elementBackground, opacity: 1 })
-          .stroke({ color: styles['border-color'], opacity: styles['border-opacity'], width: styles['border-width']})
-         .attr({
-             id:'#myRect'
-         })
-
-       svg.style().font('Mathechester', `url(${process.env.PUBLIC_URL + '/Mathechester.ttf'})`)
-
-       const text = svg.text(element.text)
-          .size(styles.width, styles.height)
-          .fill(styles.color)
-          .leading(0.9)
-          .font({
-              family: styles['font-family'],
-              size: styles['font-size'],
-              weight: styles['font-weight'],
-              anchor: 'middle',
-          })
-
-        const textHeight = text.node.getBBox().height;
-        const textWidth = text.node.getBBox().width;
-
-        text.move(parseInt(styles.width) / 2 - textWidth / 2, parseInt(styles.height) / 2 - textHeight / 2)
-    }
-
-    const getElementBackground = (svg, background, width, height) => {
-        if (background.includes('gradient')) {
-            const [gradientType, gradientAnglePoint, gradientPalettes] = splitGradientString(background);
-
-          const anglePI = parseInt(gradientAnglePoint) * (Math.PI / 180);
-          const angleCoords = {
-            x1: (Math.round(50 + Math.sin(anglePI) * 50) * width) / 100,
-            y1: (Math.round(50 + Math.cos(anglePI) * 50) * height) / 100,
-            x2: (Math.round(50 + Math.sin(anglePI + Math.PI) * 50) * width) / 100,
-            y2: (Math.round(50 + Math.cos(anglePI + Math.PI) * 50) * height) / 100,
-          }
-
-            const gradient = svg
-              .gradient(gradientType, (add) => {
-                    gradientPalettes.forEach((palette) => {
-                        add.stop((palette.position / 100), palette.color);
-                    });
-                })
-              .attr({
-                gradientTransform: `rotate(${parseInt(gradientAnglePoint)})`,
-                gradientUnits: 'userSpaceOnUse',
-              })
-              .from(angleCoords.x1, angleCoords.y1)
-              .to(angleCoords.x2, angleCoords.y2)
-
-            return gradient;
-        } else {
-            return background;
-        }
-    }
 
     return (
       <div className='adCreatePreview'>
@@ -265,6 +185,7 @@ const AdCreatePreview = () => {
                         setIsDraggableForContainer={setIsDraggableForContainer}
                         changeBannerItemText={changeBannerItemText}
                         replaceBannerItemStyles={replaceBannerItemStyles}
+                        changeBannerItemStylesField={changeBannerItemStylesField}
                       />
                     )}
                   </div>
@@ -288,12 +209,6 @@ const AdCreatePreview = () => {
                     {size.width} X {size.height}
                 </p>
               ))}
-          </div>
-
-          <button className='adCreatePreview__draw-btn' onClick={drawSVG}>Draw</button>
-
-          <div className='adCreatePreview__svgs'>
-
           </div>
       </div>
     );

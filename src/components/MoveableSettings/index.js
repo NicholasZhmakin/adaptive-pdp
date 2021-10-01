@@ -40,7 +40,12 @@ const MoveableSettings = ({bannerItem, changeBannerItemStylesField}) => {
 
   switch (openSection) {
     case MOVEABLE_SETTINGS_SECTIONS.TEXT:
-      dropDown = <TextSettingsSection bannerItem={bannerItem} />;
+      dropDown = (
+        <TextSettingsSection
+          bannerItem={bannerItem}
+          changeBannerItemStylesField={changeBannerItemStylesField}
+        />
+      );
       break;
     case MOVEABLE_SETTINGS_SECTIONS.COLOR:
       dropDown = (

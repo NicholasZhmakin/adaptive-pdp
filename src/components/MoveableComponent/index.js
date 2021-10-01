@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import classnames from 'classnames';
 import Moveable from "react-moveable";
 import { Frame } from "scenejs";
-import TextElement from './TextElement';
 
 import './MoveableComponent.scss';
 import { ClickAwayListener } from '@material-ui/core';
+import TextareaAutosize from 'react-textarea-autosize';
 
 
 const MoveableComponent = ({
@@ -15,31 +15,44 @@ const MoveableComponent = ({
   replaceBannerItemStyles,
   setIsDraggableForContainer,
   changeBannerItemText,
-  setSelectedBannerItem
+  setSelectedBannerItem,
+  changeBannerItemStylesField,
 }) => {
 
     const frameRef = useRef(null);
+    const moveableRef = useRef(null);
     const moveableItemRef = useRef(null);
+    const textareaRef = useRef(null);
+    const textRef = useRef(null);
 
-    const [target, setTarget] = useState(null);
-    const [isTextAreaActive, setIsTextAreaActive] = useState(false)
-
-    useEffect(() => {
-        setTarget(moveableItemRef.current);
-    }, []);
+    const [isTextAreaActive, setIsTextAreaActive] = useState(false);
 
     useEffect(() => {
-        frameRef.current = new Frame({
-            ...bannerItem.styles,
-        });
+      frameRef.current = new Frame({
+          ...bannerItem.styles,
+      });
 
       moveableItemRef.current.style.cssText = frameRef.current.toCSS();
-    }, [bannerItem]);
+    }, [bannerItem.styles]);
 
-  const handleSelect = (event) => {
-    event.stopPropagation();
-    setSelectedBannerItem(bannerItem);
-  }
+    useEffect(() => {
+      const height = textareaRef.current?.offsetHeight;
+
+      changeBannerItemStylesField(bannerItem.id, 'height', height);
+      moveableRef.current?.updateRect();
+    }, [bannerItem.text]);
+
+    useEffect(() => {
+      const height = textRef.current?.offsetHeight;
+
+      changeBannerItemStylesField(bannerItem.id, 'height', height);
+      moveableRef.current?.updateRect();
+    }, [bannerItem.styles['font-size'], bannerItem.styles['font-family'], bannerItem.styles['font-weight']]);
+
+    const handleSelect = (event) => {
+      event.stopPropagation();
+      setSelectedBannerItem(bannerItem);
+    }
 
     const setTransform = (target) => {
         target.style.cssText = frameRef.current.toCSS();
@@ -62,24 +75,15 @@ const MoveableComponent = ({
     };
 
     const onResize = ({target, width, height}) => {
-        frameRef.current.set("width", `${width}px`);
-        frameRef.current.set("height", `${height}px`);
+      frameRef.current.set("width", `${width}px`);
+      frameRef.current.set("height", `${height}px`);
 
-        setTransform(target);
+      setTransform(target);
     };
-
 
    const handleEndAction = ({target}) => {
      if (selectedBannerItemId === bannerItem.id) {
        replaceBannerItemStyles(bannerItem.id, target.style.cssText, containerItemId);
-     }
-   }
-
-   const handleTextareaActivation = (value) => {
-     setIsTextAreaActive(value);
-
-     if (containerItemId) {
-       setIsDraggableForContainer(containerItemId, !value);
      }
    }
 
@@ -91,7 +95,19 @@ const MoveableComponent = ({
      }
   }
 
-   let content;
+  const handleTextareaActivation = (value) => {
+    setIsTextAreaActive(value);
+
+    if (containerItemId) {
+      setIsDraggableForContainer(containerItemId, !value);
+    }
+  }
+
+  const handleTextChange = (e) => {
+    changeBannerItemText(bannerItem.id, e.target.value, containerItemId);
+  }
+
+  let content;
 
    if (bannerItem.type === 'image') {
     content = (
@@ -117,13 +133,25 @@ const MoveableComponent = ({
        );
      })
    } else {
-     content = (
-       <TextElement
-         isTextAreaActive={isTextAreaActive}
-         bannerItem={bannerItem}
-         containerItemId={containerItemId}
-         changeBannerItemText={changeBannerItemText}
-       />
+     content = (isTextAreaActive ?
+       <TextareaAutosize
+         ref={textareaRef}
+         className={classnames('moveable__textarea', {
+           'button': bannerItem.type === 'button',
+         })}
+         style={{
+           color: bannerItem.styles['color'],
+           fontSize: bannerItem.styles['font-size'],
+           fontFamily: bannerItem.styles['font-family'],
+           fontWeight: bannerItem.styles['font-weight'],
+           textAlign: bannerItem.styles['text-align'],
+         }}
+         value={bannerItem.text}
+         onChange={handleTextChange}
+       /> :
+       <span ref={textRef}>
+         {bannerItem.text}
+       </span>
      )
    }
 
@@ -135,7 +163,8 @@ const MoveableComponent = ({
         onMouseDown={handleSelect}
       >
         <Moveable
-          target={target}
+          ref={moveableRef}
+          target={moveableItemRef.current}
           dragArea={false}
           container={null}
           edge={false}
