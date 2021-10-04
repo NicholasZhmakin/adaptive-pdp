@@ -36,17 +36,15 @@ const MoveableComponent = ({
     }, [bannerItem.styles]);
 
     useEffect(() => {
-      const height = textareaRef.current?.offsetHeight;
+      moveableRef.current?.updateRect( );
+    }, [bannerItem.styles['height']]);
 
-      changeBannerItemStylesField(bannerItem.id, 'height', height);
-      moveableRef.current?.updateRect();
+    useEffect(() => {
+      changeBannerItemStylesField(bannerItem.id, 'height', `${textareaRef.current?.offsetHeight}px`);
     }, [bannerItem.text]);
 
     useEffect(() => {
-      const height = textRef.current?.offsetHeight;
-
-      changeBannerItemStylesField(bannerItem.id, 'height', height);
-      moveableRef.current?.updateRect();
+      changeBannerItemStylesField(bannerItem.id, 'height', `${textRef.current?.offsetHeight}px`);
     }, [bannerItem.styles['font-size'], bannerItem.styles['font-family'], bannerItem.styles['font-weight']]);
 
     const handleSelect = (event) => {

@@ -20,7 +20,7 @@ const AdCreatePreview = () => {
     const videoRef = useRef(null);
 
     const [bannerItems,  setBannerItems] = useState([]);
-    const [selectedBannerItem,  setSelectedBannerItem] = useState(null);
+    const [selectedBannerItem,  setSelectedBannerItem] = useState({});
 
     const [isMediaLoaded, setIsMediaLoaded] = useState(false);
     const [aspect, setAspect] = useState(1200 / 1500);
@@ -42,6 +42,7 @@ const AdCreatePreview = () => {
   };
 
     const changeBannerItemStylesField = (bannerItemId, fieldName, fieldValue) => {
+        console.log(bannerItemId, fieldName, fieldValue);
         const cloneBannerItems = cloneDeep(bannerItems);
         const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
 
@@ -84,22 +85,15 @@ const AdCreatePreview = () => {
           const neededBannerItem = neededContainer.nestedBannerItems.find((item) => item.id === bannerItemId);
 
           neededBannerItem.text = newText;
-          // neededBannerItem.styles['height'] = height;
         } else {
           const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
 
           neededBannerItem.text = newText;
-          // console.log(height);
-          // neededBannerItem.styles['height'] = height;
         }
 
       setBannerItems(cloneBannerItems);
     }
-
-    const getNewBannerItemHeight = () => {
-
-    };
-
+    
     const handleMediaLoaded = () => {
         setIsMediaLoaded(true);
     };

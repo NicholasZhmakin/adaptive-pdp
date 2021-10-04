@@ -20,7 +20,10 @@ const MOVEABLE_SETTINGS_SECTIONS = {
 }
 
 
-const MoveableSettings = ({bannerItem, changeBannerItemStylesField}) => {
+const MoveableSettings = ({
+  bannerItem,
+  changeBannerItemStylesField,
+}) => {
 
   const [openSection, setOpenSection] = useState(null);
 
