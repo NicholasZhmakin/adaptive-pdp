@@ -113,6 +113,7 @@ const AdCreatePreview = () => {
     }
 
     const changeBannerItemText = (bannerItemId, newText, containerId) => {
+      console.log(bannerItemId, newText, containerId);
       if (containerId) {
         setSelectedBannerItem({
           ...selectedBannerItem,

@@ -6,16 +6,19 @@ import LayerSettingsSection from './LayerSettingsSection';
 import { ClickAwayListener } from '@material-ui/core';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import LayersIcon from '@material-ui/icons/Layers';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import './MoveableSettings.scss';
+import BorderSettingsSection from './BorderSettingsSection';
 
 
 const MOVEABLE_SETTINGS_SECTIONS = {
   TEXT: 'text',
   COLOR: 'color',
+  BORDER: 'border',
   LAYER: 'layer',
 }
 
@@ -57,6 +60,14 @@ const MoveableSettings = ({
           changeBannerItemStylesField={changeBannerItemStylesField} />
         );
       break;
+    case MOVEABLE_SETTINGS_SECTIONS.BORDER:
+      dropDown = (
+        <BorderSettingsSection
+          bannerItem={bannerItem}
+          changeBannerItemStylesField={changeBannerItemStylesField}
+        />
+      );
+      break;
     case MOVEABLE_SETTINGS_SECTIONS.LAYER:
       dropDown = <LayerSettingsSection bannerItem={bannerItem} />;
       break;
@@ -87,6 +98,17 @@ const MoveableSettings = ({
                 <ColorLensIcon className='moveable-settings__section-icon' />
               </div>
             </>
+          }
+
+          {bannerItem.type === 'button' &&
+            <div
+              className={classnames('moveable-settings__section', {
+                'active': openSection === MOVEABLE_SETTINGS_SECTIONS.BORDER,
+              })}
+              onClick={() => handleSettingSectionClick(MOVEABLE_SETTINGS_SECTIONS.BORDER)}
+            >
+              <CheckBoxOutlineBlankIcon className='moveable-settings__section-icon'/>
+            </div>
           }
 
           <div

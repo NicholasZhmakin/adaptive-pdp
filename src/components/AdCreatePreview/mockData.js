@@ -53,7 +53,6 @@ const mockItem1 = {
         'border-width': '3px',
         'border-style': 'solid',
         'border-radius': '30px',
-        'border-opacity': 0.7,
         transform: "rotate(0deg)",
         'z-index': 3,
     }
@@ -95,8 +94,8 @@ const mockItem3 = {
 
     styles: {
         position: 'absolute',
-        width: "auto",
-        height: "auto",
+        width: "250px",
+        height: "50px",
         left: "0px",
         top: "0px",
         color: 'black',
@@ -124,8 +123,8 @@ const mockItem4 = {
 
     styles: {
         position: 'absolute',
-        width: "auto",
-        height: "auto",
+        width: "250px",
+        height: "50px",
         left: "0px",
         top: "0px",
         color: 'black',
@@ -193,7 +192,7 @@ const mockItem6 = {
 
 
 export const arrayDnd = [
-  // mockItem1,
+  mockItem1,
   // {...mockItem2},
   mockItem6,
   mockItem5,

@@ -39,12 +39,24 @@ const MoveableComponent = ({
     }, [bannerItem.styles['height']]);
 
     useEffect(() => {
-      changeBannerItemStylesField('height', `${textareaRef.current?.offsetHeight}px`, bannerItem.containerItemId)
+      changeBannerItemStylesField('height', `${textareaRef.current?.offsetHeight}px`, bannerItem.containerId)
     }, [bannerItem.text]);
 
     useEffect(() => {
-      changeBannerItemStylesField('height', `${textRef.current?.offsetHeight}px`, bannerItem.containerItemId)
-    }, [bannerItem.styles['font-size'], bannerItem.styles['font-family'], bannerItem.styles['font-weight']]);
+      changeBannerItemStylesField('height', `${textRef.current?.offsetHeight}px`, bannerItem.containerId)
+    }, [
+      bannerItem.styles['font-size'],
+      bannerItem.styles['font-family'],
+      bannerItem.styles['font-weight'],
+    ]);
+
+  useEffect(() => {
+    const borderWidthNumber = parseInt(bannerItem.styles['border-width']);
+
+    changeBannerItemStylesField('height', `${textRef.current?.offsetHeight + borderWidthNumber}px`, bannerItem.containerId)
+  }, [
+    bannerItem.styles['border-width']
+  ]);
 
     const handleSelect = (event) => {
       event.stopPropagation();
@@ -80,7 +92,7 @@ const MoveableComponent = ({
 
    const handleEndAction = ({target}) => {
      if (selectedBannerItem.id === bannerItem.id) {
-       replaceBannerItemStyles(bannerItem.id, target.style.cssText, bannerItem.containerItemId);
+       replaceBannerItemStyles(bannerItem.id, target.style.cssText, bannerItem.containerId);
      }
    }
 
@@ -95,13 +107,13 @@ const MoveableComponent = ({
   const handleTextareaActivation = (value) => {
     setIsTextAreaActive(value);
 
-    if (bannerItem.containerItemId) {
-      setIsDraggableForContainer(bannerItem.containerItemId, !value);
+    if (bannerItem.containerId) {
+      setIsDraggableForContainer(bannerItem.containerId, !value);
     }
   }
 
   const handleTextChange = (e) => {
-    changeBannerItemText(bannerItem.id, e.target.value, bannerItem.containerItemId);
+    changeBannerItemText(bannerItem.id, e.target.value, bannerItem.containerId);
   }
 
   let content;
@@ -193,8 +205,12 @@ const MoveableComponent = ({
             style={{
               color: bannerItem.styles['color'],
               fontSize: bannerItem.styles['font-size'],
+              fontWeight: bannerItem.styles['font-weight'],
               fontFamily: bannerItem.styles['font-family'],
               textAlign: bannerItem.styles['text-align'],
+              borderColor: bannerItem.styles['border-color'],
+              borderWidth: bannerItem.styles['border-width'],
+              borderRadius: bannerItem.styles['border-radius'],
             }}
           >
             {content}
