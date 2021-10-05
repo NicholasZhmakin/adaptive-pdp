@@ -2,21 +2,20 @@ import React, { useEffect, useRef, useState } from "react";
 import classnames from 'classnames';
 import Moveable from "react-moveable";
 import { Frame } from "scenejs";
-
-import './MoveableComponent.scss';
 import { ClickAwayListener } from '@material-ui/core';
 import TextareaAutosize from 'react-textarea-autosize';
+
+import './MoveableComponent.scss';
 
 
 const MoveableComponent = ({
   bannerItem,
-  containerItemId,
-  selectedBannerItemId,
-  replaceBannerItemStyles,
+  selectedBannerItem,
+  setSelectedBannerItem,
   setIsDraggableForContainer,
   changeBannerItemText,
-  setSelectedBannerItem,
   changeBannerItemStylesField,
+  replaceBannerItemStyles,
 }) => {
 
     const frameRef = useRef(null);
@@ -36,15 +35,15 @@ const MoveableComponent = ({
     }, [bannerItem.styles]);
 
     useEffect(() => {
-      moveableRef.current?.updateRect( );
+      moveableRef.current?.updateRect();
     }, [bannerItem.styles['height']]);
 
     useEffect(() => {
-      changeBannerItemStylesField(bannerItem.id, 'height', `${textareaRef.current?.offsetHeight}px`);
+      changeBannerItemStylesField('height', `${textareaRef.current?.offsetHeight}px`, bannerItem.containerItemId)
     }, [bannerItem.text]);
 
     useEffect(() => {
-      changeBannerItemStylesField(bannerItem.id, 'height', `${textRef.current?.offsetHeight}px`);
+      changeBannerItemStylesField('height', `${textRef.current?.offsetHeight}px`, bannerItem.containerItemId)
     }, [bannerItem.styles['font-size'], bannerItem.styles['font-family'], bannerItem.styles['font-weight']]);
 
     const handleSelect = (event) => {
@@ -53,11 +52,11 @@ const MoveableComponent = ({
     }
 
     const setTransform = (target) => {
-        target.style.cssText = frameRef.current.toCSS();
+      target.style.cssText = frameRef.current.toCSS();
     }
 
     const onDrag = ({target, top, left}) => {
-      if (selectedBannerItemId === bannerItem.id) {
+      if (selectedBannerItem?.id === bannerItem.id) {
         frameRef.current.set("left", `${left}px`);
         frameRef.current.set("top", `${top}px`);
 
@@ -80,8 +79,8 @@ const MoveableComponent = ({
     };
 
    const handleEndAction = ({target}) => {
-     if (selectedBannerItemId === bannerItem.id) {
-       replaceBannerItemStyles(bannerItem.id, target.style.cssText, containerItemId);
+     if (selectedBannerItem.id === bannerItem.id) {
+       replaceBannerItemStyles(bannerItem.id, target.style.cssText, bannerItem.containerItemId);
      }
    }
 
@@ -96,13 +95,13 @@ const MoveableComponent = ({
   const handleTextareaActivation = (value) => {
     setIsTextAreaActive(value);
 
-    if (containerItemId) {
-      setIsDraggableForContainer(containerItemId, !value);
+    if (bannerItem.containerItemId) {
+      setIsDraggableForContainer(bannerItem.containerItemId, !value);
     }
   }
 
   const handleTextChange = (e) => {
-    changeBannerItemText(bannerItem.id, e.target.value, containerItemId);
+    changeBannerItemText(bannerItem.id, e.target.value, bannerItem.containerItemId);
   }
 
   let content;
@@ -120,12 +119,12 @@ const MoveableComponent = ({
        return (
          <MoveableComponent
            key={nestedBannerItem.id}
-           containerItemId={bannerItem.id}
-           bannerItem={nestedBannerItem}
-           selectedBannerItemId={selectedBannerItemId}
+           bannerItem={nestedBannerItem.id === selectedBannerItem?.id ? selectedBannerItem : nestedBannerItem}
+           selectedBannerItem={selectedBannerItem}
            setSelectedBannerItem={setSelectedBannerItem}
            setIsDraggableForContainer={setIsDraggableForContainer}
            changeBannerItemText={changeBannerItemText}
+           changeBannerItemStylesField={changeBannerItemStylesField}
            replaceBannerItemStyles={replaceBannerItemStyles}
          />
        );
@@ -156,7 +155,7 @@ const MoveableComponent = ({
     return (
       <div
         className={classnames('moveable', {
-          'selected': selectedBannerItemId === bannerItem.id,
+          'selected': selectedBannerItem?.id === bannerItem.id,
         })}
         onMouseDown={handleSelect}
       >

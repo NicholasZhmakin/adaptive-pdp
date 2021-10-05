@@ -13,7 +13,7 @@ import './TextSettingsSection.scss';
 const TextSettingsSection = ({bannerItem, changeBannerItemStylesField}) => {
 
   const handleChange = (newValue, name) => {
-    changeBannerItemStylesField(bannerItem.id, name, newValue);
+    changeBannerItemStylesField(name, newValue);
   };
 
   return (

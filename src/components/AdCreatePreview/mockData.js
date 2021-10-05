@@ -83,6 +83,7 @@ const mockItem2 = {
 
 const mockItem3 = {
     id: 3,
+    containerId: 5,
     type: 'text',
 
     text: 'first nested',
@@ -111,6 +112,7 @@ const mockItem3 = {
 
 const mockItem4 = {
     id: 4,
+    containerId: 5,
     type: 'text',
 
     text: 'second nested',
@@ -141,6 +143,8 @@ const mockItem5 = {
     id: 5,
     type: 'container',
     isDraggable: 'false',
+
+    text: 'container',
 
     nestedBannerItems: [
         mockItem3,
@@ -189,10 +193,10 @@ const mockItem6 = {
 
 
 export const arrayDnd = [
-  mockItem1,
+  // mockItem1,
   // {...mockItem2},
   mockItem6,
-  // {...mockItem5},
+  mockItem5,
 ];
 
 

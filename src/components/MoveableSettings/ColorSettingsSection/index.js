@@ -39,7 +39,7 @@ const ColorSettingsSection = ({bannerItem, changeBannerItemStylesField}) => {
 
   useEffect(() => {
     if (bannerItem.type === 'button') {
-      changeBannerItemStylesField(bannerItem.id, 'background', backgroundObject[activeTab]);
+      changeBannerItemStylesField('background', backgroundObject[activeTab]);
     }
   }, [activeTab, backgroundObject]);
 
@@ -51,7 +51,7 @@ const ColorSettingsSection = ({bannerItem, changeBannerItemStylesField}) => {
   };
 
   const handleTextColorChange = (name, value) => {
-    changeBannerItemStylesField(bannerItem.id, 'color', value);
+    changeBannerItemStylesField('color', value);
   };
 
   const convertRbgToHex = (color) => {

@@ -7,6 +7,7 @@ import MoveableSettings from "../MoveableSettings";
 import { ClickAwayListener } from '@material-ui/core';
 
 import './AdCreatePreview.scss';
+import useDebounce from '../useDebounce';
 
 const zoomSettings = {
     step: 0.03,
@@ -20,18 +21,39 @@ const AdCreatePreview = () => {
     const videoRef = useRef(null);
 
     const [bannerItems,  setBannerItems] = useState([]);
-    const [selectedBannerItem,  setSelectedBannerItem] = useState({});
-
+    const [selectedBannerItem,  setSelectedBannerItem] = useState(null);
     const [isMediaLoaded, setIsMediaLoaded] = useState(false);
     const [aspect, setAspect] = useState(1200 / 1500);
-    // const [cropSize, setCropSize] = useState({ width: 600, height: 400});
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [cropComplete, setCropComplete] = useState({ xComplete: 0, yComplete: 0 });
     const [zoom, setZoom] = useState(1);
 
+    const debounceSelectedBannerItem = useDebounce(selectedBannerItem, 200)
+
     useEffect(() => {
         setBannerItems(cloneDeep(arrayDnd));
     }, []);
+
+  useEffect(() => {
+    if (debounceSelectedBannerItem) {
+      const cloneBannerItems = cloneDeep(bannerItems);
+
+      if (debounceSelectedBannerItem.hasOwnProperty('containerId')) {
+        const neededContainer = cloneBannerItems.find((item) => item.id === debounceSelectedBannerItem.containerId);
+        const neededBannerItem = neededContainer.nestedBannerItems.find((item) => item.id === debounceSelectedBannerItem.id);
+
+        neededBannerItem.styles = debounceSelectedBannerItem.styles;
+        neededBannerItem.text = debounceSelectedBannerItem.text;
+      } else {
+        const neededBannerItem = cloneBannerItems.find((item) => item.id === debounceSelectedBannerItem.id);
+
+        neededBannerItem.styles = debounceSelectedBannerItem.styles;
+        neededBannerItem.text = debounceSelectedBannerItem.text;
+      }
+
+      setBannerItems(cloneBannerItems);
+    }
+  }, [debounceSelectedBannerItem]);
 
   const setIsDraggableForContainer = (containerId, value) => {
     const cloneBannerItems = cloneDeep(bannerItems);
@@ -41,57 +63,68 @@ const AdCreatePreview = () => {
     setBannerItems(cloneBannerItems);
   };
 
-    const changeBannerItemStylesField = (bannerItemId, fieldName, fieldValue) => {
-        console.log(bannerItemId, fieldName, fieldValue);
-        const cloneBannerItems = cloneDeep(bannerItems);
-        const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
+  const changeBannerItemStylesField = (fieldName, fieldValue, containerId) => {
+    if (selectedBannerItem) {
 
-        neededBannerItem.styles[fieldName] = fieldValue;
-        setSelectedBannerItem(neededBannerItem);
-        setBannerItems(cloneBannerItems);
-    };
+      if (containerId) {
+        setSelectedBannerItem({
+          ...selectedBannerItem,
+          containerId,
+          styles: {
+            ...selectedBannerItem.styles,
+            [fieldName]: fieldValue,
+          }
+        });
+      } else {
+        setSelectedBannerItem({
+          ...selectedBannerItem,
+          styles: {
+            ...selectedBannerItem.styles,
+            [fieldName]: fieldValue,
+          }
+        });
+      }
+
+
+    }
+  };
 
     const replaceBannerItemStyles = (bannerItemId, newStylesString, containerId) => {
-        const result = {};
-        const attributes = newStylesString.trim().split(';');
+      const result = {};
+      const attributes = newStylesString.trim().split(';');
 
-        for (let i = 0; i < attributes.length; i++) {
-            let entry = attributes[i].split(':');
-            result[entry.splice(0,1)[0].trim()] = entry.join(':').trim();
-        }
+      for (let i = 0; i < attributes.length; i++) {
+          let entry = attributes[i].split(':');
+          result[entry.splice(0,1)[0].trim()] = entry.join(':').trim();
+      }
 
-        const cloneBannerItems = cloneDeep(bannerItems);
-
-        if (containerId) {
-          const neededContainer = cloneBannerItems.find((item) => item.id === containerId);
-          const neededBannerItem = neededContainer.nestedBannerItems.find((item) => item.id === bannerItemId);
-
-          neededBannerItem.styles = result;
-          setBannerItems(cloneBannerItems);
-        } else {
-          const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
-
-          neededBannerItem.styles = result;
-        }
-
-      setBannerItems(cloneBannerItems);
+      if (containerId) {
+        setSelectedBannerItem({
+          ...selectedBannerItem,
+          containerId,
+          styles: result,
+        });
+      } else {
+        setSelectedBannerItem({
+          ...selectedBannerItem,
+          styles: result,
+        });
+      }
     }
 
     const changeBannerItemText = (bannerItemId, newText, containerId) => {
-        const cloneBannerItems = cloneDeep(bannerItems);
-
-        if (containerId) {
-          const neededContainer = cloneBannerItems.find((item) => item.id === containerId);
-          const neededBannerItem = neededContainer.nestedBannerItems.find((item) => item.id === bannerItemId);
-
-          neededBannerItem.text = newText;
-        } else {
-          const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
-
-          neededBannerItem.text = newText;
-        }
-
-      setBannerItems(cloneBannerItems);
+      if (containerId) {
+        setSelectedBannerItem({
+          ...selectedBannerItem,
+          containerId,
+          text: newText,
+        });
+      } else {
+        setSelectedBannerItem({
+          ...selectedBannerItem,
+          text: newText,
+        });
+      }
     }
     
     const handleMediaLoaded = () => {
@@ -128,65 +161,62 @@ const AdCreatePreview = () => {
 
     return (
       <div className='adCreatePreview'>
-          <ClickAwayListener onClickAway={() => setSelectedBannerItem(null)}>
-              <div
-                className='adCreatePreview__container'
-                ref={containerRef}
-              >
-                  <Cropper
-                    ref={videoRef}
-                    video={'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4#t=10,20'}
-                    crop={crop}
-                    zoom={zoom}
-                    // cropSize={cropSize}
-                    aspect={aspect}
-                    onCropChange={(value) => handleCropChange(value)}
-                    showGrid={false}
-                    onMediaLoaded={handleMediaLoaded}
-                    onCropComplete={(value) => handleCropComplete(value)}
-                    onZoomChange={(value) => handleZoomChange(value)}
-                    zoomWithScroll={true}
-                    minZoom={zoomSettings.min}
-                    maxZoom={zoomSettings.max}
-                    zoomSpeed={zoomSettings.step * 10}
-                    mediaProps={{
-                        controls: true,
-                        autoPlay: false,
-                    }}
+          <div
+            className='adCreatePreview__container'
+            ref={containerRef}
+          >
+              <Cropper
+                ref={videoRef}
+                video={'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4#t=10,20'}
+                crop={crop}
+                zoom={zoom}
+                aspect={aspect}
+                onCropChange={(value) => handleCropChange(value)}
+                showGrid={false}
+                onMediaLoaded={handleMediaLoaded}
+                onCropComplete={(value) => handleCropComplete(value)}
+                onZoomChange={(value) => handleZoomChange(value)}
+                zoomWithScroll={true}
+                minZoom={zoomSettings.min}
+                maxZoom={zoomSettings.max}
+                zoomSpeed={zoomSettings.step * 10}
+                mediaProps={{
+                    controls: false,
+                    autoPlay: false,
+                }}
+              />
+
+              {!isMediaLoaded &&
+                <div className='adCreatePreview__preloader'>
+                    <p className='adCreatePreview__preloader-text'>Video is preparing, please wait...</p>
+                </div>
+              }
+
+            <ClickAwayListener onClickAway={() => setSelectedBannerItem(null)}>
+              <div>
+                {selectedBannerItem &&
+                  <MoveableSettings
+                    bannerItem={selectedBannerItem}
+                    changeBannerItemStylesField={changeBannerItemStylesField}
                   />
+                }
 
-                  {!isMediaLoaded &&
-                    <div className='adCreatePreview__preloader'>
-                        <p className='adCreatePreview__preloader-text'>Video is preparing, please wait...</p>
-                    </div>
-                  }
-
-                <ClickAwayListener onClickAway={() => setSelectedBannerItem(null)}>
-                  <div>
-                    {selectedBannerItem &&
-                      <MoveableSettings
-                        bannerItem={selectedBannerItem}
-                        changeBannerItemStylesField={changeBannerItemStylesField}
-                      />
-                    }
-
-                    {bannerItems.map((bannerItem, index) =>
-                      <MoveableComponent
-                        key={bannerItem.id}
-                        bannerItem={bannerItem}
-                        selectedBannerItemId={selectedBannerItem?.id}
-                        setSelectedBannerItem={setSelectedBannerItem}
-                        setIsDraggableForContainer={setIsDraggableForContainer}
-                        changeBannerItemText={changeBannerItemText}
-                        replaceBannerItemStyles={replaceBannerItemStyles}
-                        changeBannerItemStylesField={changeBannerItemStylesField}
-                      />
-                    )}
-                  </div>
-                </ClickAwayListener>
-
+                {bannerItems.map((bannerItem, index) =>
+                  <MoveableComponent
+                    key={bannerItem.id}
+                    bannerItem={bannerItem.id === selectedBannerItem?.id ? selectedBannerItem : bannerItem}
+                    selectedBannerItem={selectedBannerItem}
+                    setSelectedBannerItem={setSelectedBannerItem}
+                    setIsDraggableForContainer={setIsDraggableForContainer}
+                    changeBannerItemText={changeBannerItemText}
+                    changeBannerItemStylesField={changeBannerItemStylesField}
+                    replaceBannerItemStyles={replaceBannerItemStyles}
+                  />
+                )}
               </div>
-          </ClickAwayListener>
+            </ClickAwayListener>
+
+          </div>
 
           <div className='adCreatePreview__controls'>
               <button className='button-svg-test' onClick={() => videoRef.current.videoRef.play()}>Play</button>
