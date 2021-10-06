@@ -28,7 +28,28 @@ const AdCreatePreview = () => {
     const [cropComplete, setCropComplete] = useState({ xComplete: 0, yComplete: 0 });
     const [zoom, setZoom] = useState(1);
 
+    const [cropAreaDimensionAndPosition, setCropAreaDimensionAndPosition] = useState({
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    });
+
     const debounceSelectedBannerItem = useDebounce(selectedBannerItem, 200)
+
+    useEffect(() => {
+      const containerDimension = videoRef.current.containerRect;
+      const cropAreaDimension = videoRef.current.state.cropSize;
+
+      if (containerDimension && cropAreaDimension) {
+        setCropAreaDimensionAndPosition({
+          x: (containerDimension.width - cropAreaDimension.width) / 2,
+          y: (containerDimension.height - cropAreaDimension.height) / 2,
+          width: cropAreaDimension.width,
+          height: cropAreaDimension.height,
+        });
+      }
+    }, [videoRef.current?.state.cropSize]);
 
     useEffect(() => {
         setBannerItems(cloneDeep(arrayDnd));
@@ -113,7 +134,6 @@ const AdCreatePreview = () => {
     }
 
     const changeBannerItemText = (bannerItemId, newText, containerId) => {
-      console.log(bannerItemId, newText, containerId);
       if (containerId) {
         setSelectedBannerItem({
           ...selectedBannerItem,
@@ -198,6 +218,7 @@ const AdCreatePreview = () => {
                 {selectedBannerItem &&
                   <MoveableSettings
                     bannerItem={selectedBannerItem}
+                    cropAreaDimensionAndPosition={cropAreaDimensionAndPosition}
                     changeBannerItemStylesField={changeBannerItemStylesField}
                   />
                 }

@@ -25,6 +25,7 @@ const MOVEABLE_SETTINGS_SECTIONS = {
 
 const MoveableSettings = ({
   bannerItem,
+  cropAreaDimensionAndPosition,
   changeBannerItemStylesField,
 }) => {
 
@@ -69,7 +70,13 @@ const MoveableSettings = ({
       );
       break;
     case MOVEABLE_SETTINGS_SECTIONS.LAYER:
-      dropDown = <LayerSettingsSection bannerItem={bannerItem} />;
+      dropDown = (
+        <LayerSettingsSection
+          bannerItem={bannerItem}
+          cropAreaDimensionAndPosition={cropAreaDimensionAndPosition}
+          changeBannerItemStylesField={changeBannerItemStylesField}
+        />
+      );
       break;
     default:
       dropDown = null;

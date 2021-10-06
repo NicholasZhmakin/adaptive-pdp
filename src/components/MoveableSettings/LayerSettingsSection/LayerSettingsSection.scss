@@ -1,0 +1,28 @@
+
+.layer-settings-section {
+
+  &__align-container {
+    display: grid;
+    grid-template-columns: repeat(6, auto);
+    align-items: center;
+  }
+
+  &__align-option {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &.active,
+    &:hover {
+      background: #26B3F9;
+      color: white;
+
+      .layer-settings-section__align-icon path {
+        fill: white;
+      }
+    }
+  }
+}

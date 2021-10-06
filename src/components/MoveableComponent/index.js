@@ -36,7 +36,11 @@ const MoveableComponent = ({
 
     useEffect(() => {
       moveableRef.current?.updateRect();
-    }, [bannerItem.styles['height']]);
+    }, [
+      bannerItem.styles['height'],
+      bannerItem.styles['left'],
+      bannerItem.styles['top'],
+    ]);
 
     useEffect(() => {
       changeBannerItemStylesField('height', `${textareaRef.current?.offsetHeight}px`, bannerItem.containerId)
