@@ -29,6 +29,7 @@ const MoveableSettings = ({
   cropAreaDimensionAndPosition,
   changeBannerItemStylesField,
   changeBannerItemLayerOrder,
+  deleteBannerItem,
 }) => {
 
   const [openSection, setOpenSection] = useState(null);
@@ -86,6 +87,11 @@ const MoveableSettings = ({
       dropDown = null;
   }
 
+  const handleDelete = () => {
+    deleteBannerItem(bannerItem.id, bannerItem.styles['z-index']);
+    setOpenSection(null)
+  }
+
     return (
       <ClickAwayListener onClickAway={() => setOpenSection(null)}>
         <div className='moveable-settings'>
@@ -140,7 +146,7 @@ const MoveableSettings = ({
 
           <div
             className='moveable-settings__section'
-            onClick={() => setOpenSection(null)}
+            onClick={handleDelete}
           >
             <DeleteIcon className='moveable-settings__section-icon' />
           </div>

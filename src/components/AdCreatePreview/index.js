@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { arrayDnd, sizesMockData } from "./mockData";
 import Cropper from 'react-easy-crop';
 import cloneDeep from 'lodash/cloneDeep';
-import debounce from 'lodash/debounce';
 import MoveableComponent from "../MoveableComponent";
 import MoveableSettings from "../MoveableSettings";
 import { ClickAwayListener } from '@material-ui/core';
@@ -73,6 +72,7 @@ const AdCreatePreview = () => {
         neededBannerItem.text = debounceSelectedBannerItem.text;
       }
 
+      console.log(cloneBannerItems);
       setBannerItems(cloneBannerItems);
     }
   }, [debounceSelectedBannerItem]);
@@ -187,6 +187,19 @@ const AdCreatePreview = () => {
         });
       }
     }
+
+    const deleteBannerItem = (bannerItemId, bannerItemIndexZ) => {
+      const cloneBannerItems = cloneDeep(bannerItems);
+
+      cloneBannerItems.forEach((bannerItem) => {
+        if (Number(bannerItem.styles['z-index']) > bannerItemIndexZ) {
+          bannerItem.styles['z-index'] = Number(bannerItem.styles['z-index']) - 1;
+        }
+      })
+
+      setSelectedBannerItem(null);
+      setBannerItems(cloneBannerItems.filter((bannerItem) => bannerItem.id !== bannerItemId));
+    }
     
     const handleMediaLoaded = () => {
         setIsMediaLoaded(true);
@@ -262,6 +275,7 @@ const AdCreatePreview = () => {
                     cropAreaDimensionAndPosition={cropAreaDimensionAndPosition}
                     changeBannerItemStylesField={changeBannerItemStylesField}
                     changeBannerItemLayerOrder={changeBannerItemLayerOrder}
+                    deleteBannerItem={deleteBannerItem}
                   />
                 }
 
