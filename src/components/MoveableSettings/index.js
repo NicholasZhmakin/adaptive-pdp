@@ -29,6 +29,7 @@ const MoveableSettings = ({
   cropAreaDimensionAndPosition,
   changeBannerItemStylesField,
   changeBannerItemLayerOrder,
+  duplicateBannerItem,
   deleteBannerItem,
 }) => {
 
@@ -87,6 +88,11 @@ const MoveableSettings = ({
       dropDown = null;
   }
 
+  const handleDuplicate = () => {
+    duplicateBannerItem(bannerItem);
+    setOpenSection(null)
+  }
+
   const handleDelete = () => {
     deleteBannerItem(bannerItem.id, bannerItem.styles['z-index']);
     setOpenSection(null)
@@ -139,7 +145,7 @@ const MoveableSettings = ({
 
           <div
             className='moveable-settings__section'
-            onClick={() => setOpenSection(null)}
+            onClick={handleDuplicate}
           >
             <FileCopyIcon className='moveable-settings__section-icon' />
           </div>

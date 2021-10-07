@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { arrayDnd, sizesMockData } from "./mockData";
 import Cropper from 'react-easy-crop';
 import cloneDeep from 'lodash/cloneDeep';
@@ -188,6 +189,24 @@ const AdCreatePreview = () => {
       }
     }
 
+  const duplicateBannerItem = (bannerItem) => {
+    const cloneBannerItems = cloneDeep(bannerItems);
+    const lastIndexZ = cloneBannerItems.reduce((max, current) => (current.styles['z-index'] > max ? current.styles['z-index'] : max), 0);
+
+    setBannerItems([
+      ...cloneBannerItems,
+      {
+        ...bannerItem,
+        id: uuidv4(),
+        styles: {
+          ...bannerItem.styles,
+          'top': `${parseInt(bannerItem.styles.top) + 10}px`,
+          'z-index': Number(lastIndexZ) + 1,
+        }
+      }
+    ])
+  }
+
     const deleteBannerItem = (bannerItemId, bannerItemIndexZ) => {
       const cloneBannerItems = cloneDeep(bannerItems);
 
@@ -275,6 +294,7 @@ const AdCreatePreview = () => {
                     cropAreaDimensionAndPosition={cropAreaDimensionAndPosition}
                     changeBannerItemStylesField={changeBannerItemStylesField}
                     changeBannerItemLayerOrder={changeBannerItemLayerOrder}
+                    duplicateBannerItem={duplicateBannerItem}
                     deleteBannerItem={deleteBannerItem}
                   />
                 }
