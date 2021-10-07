@@ -25,8 +25,10 @@ const MOVEABLE_SETTINGS_SECTIONS = {
 
 const MoveableSettings = ({
   bannerItem,
+  lastIndexZ,
   cropAreaDimensionAndPosition,
   changeBannerItemStylesField,
+  changeBannerItemLayerOrder,
 }) => {
 
   const [openSection, setOpenSection] = useState(null);
@@ -73,8 +75,10 @@ const MoveableSettings = ({
       dropDown = (
         <LayerSettingsSection
           bannerItem={bannerItem}
+          lastIndexZ={lastIndexZ}
           cropAreaDimensionAndPosition={cropAreaDimensionAndPosition}
           changeBannerItemStylesField={changeBannerItemStylesField}
+          changeBannerItemLayerOrder={changeBannerItemLayerOrder}
         />
       );
       break;

@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import classnames from 'classnames';
+import debounce from 'lodash/debounce';
 import { ReactComponent as LeftAlignIcon } from './../../../align-icons/align-left.svg';
 import { ReactComponent as CenterXAlignIcon } from './../../../align-icons/align-center-x.svg';
 import { ReactComponent as RightAlignIcon } from './../../../align-icons/align-right.svg';
 import { ReactComponent as TopAlignIcon } from './../../../align-icons/align-top.svg';
 import { ReactComponent as CenterYAlignIcon } from './../../../align-icons/align-center-y.svg';
 import { ReactComponent as BottomAlignIcon } from './../../../align-icons/align-bottom.svg';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import SkipNextIcon from '@material-ui/icons/SkipNext';
 
 import './LayerSettingsSection.scss';
 
@@ -19,7 +23,13 @@ const ALIGN_POSITION = {
 }
 
 
-const LayerSettingsSection = ({bannerItem, cropAreaDimensionAndPosition, changeBannerItemStylesField}) => {
+const LayerSettingsSection = ({
+  bannerItem,
+  lastIndexZ,
+  cropAreaDimensionAndPosition,
+  changeBannerItemStylesField,
+  changeBannerItemLayerOrder,
+}) => {
 
   const [alignByX, setAlignByX] = useState({
     name: 'undefined',
@@ -30,6 +40,7 @@ const LayerSettingsSection = ({bannerItem, cropAreaDimensionAndPosition, changeB
     name: 'undefined',
     value: 0,
   });
+
 
   const handleChangeAlignPositionByX = (alignPosition) => {
     const widthDifference = cropAreaDimensionAndPosition.width - parseInt(bannerItem.styles.width);
@@ -138,6 +149,42 @@ const LayerSettingsSection = ({bannerItem, cropAreaDimensionAndPosition, changeB
           onClick={() => handleChangeAlignPositionByY(ALIGN_POSITION.BOTTOM)}
         >
           <BottomAlignIcon className='layer-settings-section__align-icon' />
+        </div>
+      </div>
+
+      Layer order
+      <div className='layer-settings-section__order-container'>
+        <div
+          className={classnames('layer-settings-section__order-option', {
+            'disabled': Number(bannerItem.styles['z-index']) === 1
+          })}
+          onClick={() => changeBannerItemLayerOrder(bannerItem.id, -1)}
+        >
+          <ArrowDropDownIcon className='layer-settings-section__order-icon' />
+        </div>
+        <div
+          className={classnames('layer-settings-section__order-option', {
+            'disabled':  Number(bannerItem.styles['z-index']) === lastIndexZ
+          })}
+          onClick={() => changeBannerItemLayerOrder(bannerItem.id, 1)}
+        >
+          <ArrowDropUpIcon className='layer-settings-section__order-icon' />
+        </div>
+        <div
+          className={classnames('layer-settings-section__order-option layer-settings-section__order-option--down', {
+            'disabled': Number(bannerItem.styles['z-index']) === 1
+          })}
+          onClick={() => changeBannerItemLayerOrder(bannerItem.id, 'down')}
+        >
+          <SkipNextIcon className='layer-settings-section__order-icon' />
+        </div>
+        <div
+          className={classnames('layer-settings-section__order-option layer-settings-section__order-option--up', {
+            'disabled': Number(bannerItem.styles['z-index']) === lastIndexZ
+          })}
+          onClick={() => changeBannerItemLayerOrder(bannerItem.id, 'up')}
+        >
+          <SkipNextIcon className='layer-settings-section__order-icon' />
         </div>
       </div>
     </div>

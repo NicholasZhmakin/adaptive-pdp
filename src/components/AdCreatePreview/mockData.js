@@ -54,7 +54,7 @@ const mockItem1 = {
         'border-style': 'solid',
         'border-radius': '30px',
         transform: "rotate(0deg)",
-        'z-index': 3,
+        'z-index': 1,
     }
 };
 
@@ -186,7 +186,7 @@ const mockItem6 = {
         'word-break': 'break-word',
         'white-space': 'pre-wrap',
         transform: "rotate(0deg)",
-        'z-index': 6,
+        'z-index': 3,
     }
 };
 

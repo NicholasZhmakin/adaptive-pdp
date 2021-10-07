@@ -25,4 +25,46 @@
       }
     }
   }
+
+  &__order-container {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    justify-content: left;
+    align-items: center;
+    grid-gap: 8px;
+  }
+
+  &__order-option {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &--up {
+      transform: rotate(-90deg);
+    }
+
+    &--down {
+      transform: rotate(90deg);
+    }
+
+    &.disabled {
+      pointer-events: none;
+
+      .layer-settings-section__order-icon path {
+        fill: #b8b8ba;
+      }
+    }
+
+    &:hover {
+      background: #26B3F9;
+      color: white;
+
+      .layer-settings-section__order-icon path {
+        fill: white;
+      }
+    }
+  }
 }
