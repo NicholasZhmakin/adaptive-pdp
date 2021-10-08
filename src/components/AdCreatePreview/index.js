@@ -191,20 +191,58 @@ const AdCreatePreview = () => {
 
   const duplicateBannerItem = (bannerItem) => {
     const cloneBannerItems = cloneDeep(bannerItems);
+    const cloneBannerItem = cloneDeep(bannerItem);
     const lastIndexZ = cloneBannerItems.reduce((max, current) => (current.styles['z-index'] > max ? current.styles['z-index'] : max), 0);
 
-    setBannerItems([
-      ...cloneBannerItems,
-      {
-        ...bannerItem,
-        id: uuidv4(),
-        styles: {
-          ...bannerItem.styles,
-          'top': `${parseInt(bannerItem.styles.top) + 10}px`,
-          'z-index': Number(lastIndexZ) + 1,
+    if (bannerItem.type === 'container') {
+      const newContainerId = uuidv4();
+
+      setBannerItems([
+        ...cloneBannerItems,
+        {
+          ...cloneBannerItem,
+          id: newContainerId,
+          nestedBannerItems: cloneBannerItem.nestedBannerItems.map((nestedBannerItem) => ({
+            ...nestedBannerItem,
+            id: uuidv4(),
+            containerId: newContainerId,
+          })),
+          styles: {
+            ...cloneBannerItem.styles,
+            'top': `${parseInt(cloneBannerItem.styles.top) + 10}px`,
+            'z-index': Number(lastIndexZ) + 1,
+          }
         }
+      ]);
+    } else {
+      let positionTop = `${parseInt(cloneBannerItem.styles.top) + 10}px`;
+      let positionLeft = cloneBannerItem.styles.left;
+
+      if (cloneBannerItem.hasOwnProperty('containerId')) {
+        const neededContainer = cloneBannerItems.find((item) => item.id === cloneBannerItem.containerId);
+
+        positionTop = `${parseInt(cloneBannerItem.styles.top) + parseInt(neededContainer.styles.top) + 10}px`;
+        positionLeft = `${parseInt(cloneBannerItem.styles.left) + parseInt(neededContainer.styles.left)}px`;
       }
-    ])
+
+      delete cloneBannerItem.containerId;
+      
+      setBannerItems([
+        ...cloneBannerItems,
+        {
+          ...cloneBannerItem,
+          id: uuidv4(),
+          styles: {
+            ...cloneBannerItem.styles,
+            top: positionTop,
+            left: positionLeft,
+            'z-index': Number(lastIndexZ) + 1,
+          }
+        }
+      ]);
+    }
+
+    setSelectedBannerItem(null);
   }
 
     const deleteBannerItem = (bannerItemId, bannerItemIndexZ) => {
