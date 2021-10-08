@@ -25,6 +25,7 @@ const MOVEABLE_SETTINGS_SECTIONS = {
 
 const MoveableSettings = ({
   bannerItem,
+  bannerContainerItem,
   lastIndexZ,
   cropAreaDimensionAndPosition,
   changeBannerItemStylesField,
@@ -77,6 +78,7 @@ const MoveableSettings = ({
       dropDown = (
         <LayerSettingsSection
           bannerItem={bannerItem}
+          bannerContainerItem={bannerContainerItem}
           lastIndexZ={lastIndexZ}
           cropAreaDimensionAndPosition={cropAreaDimensionAndPosition}
           changeBannerItemStylesField={changeBannerItemStylesField}

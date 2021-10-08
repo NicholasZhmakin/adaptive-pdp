@@ -131,20 +131,21 @@ const MoveableComponent = ({
        />
      );
    } else if (bannerItem.type === 'container') {
-     content = bannerItem.nestedBannerItems.map((nestedBannerItem) => {
-       return (
-         <MoveableComponent
-           key={nestedBannerItem.id}
-           bannerItem={nestedBannerItem.id === selectedBannerItem?.id ? selectedBannerItem : nestedBannerItem}
-           selectedBannerItem={selectedBannerItem}
-           setSelectedBannerItem={setSelectedBannerItem}
-           setIsDraggableForContainer={setIsDraggableForContainer}
-           changeBannerItemText={changeBannerItemText}
-           changeBannerItemStylesField={changeBannerItemStylesField}
-           replaceBannerItemStyles={replaceBannerItemStyles}
-         />
-       );
-     })
+     content = (
+       bannerItem.nestedBannerItems.map((nestedBannerItem) => {
+         return (
+           <MoveableComponent
+             key={nestedBannerItem.id}
+             bannerItem={nestedBannerItem.id === selectedBannerItem?.id ? selectedBannerItem : nestedBannerItem}
+             selectedBannerItem={selectedBannerItem}
+             setSelectedBannerItem={setSelectedBannerItem}
+             setIsDraggableForContainer={setIsDraggableForContainer}
+             changeBannerItemText={changeBannerItemText}
+             changeBannerItemStylesField={changeBannerItemStylesField}
+             replaceBannerItemStyles={replaceBannerItemStyles}
+           />
+         );
+       }));
    } else {
      content = (isTextAreaActive ?
        <TextareaAutosize

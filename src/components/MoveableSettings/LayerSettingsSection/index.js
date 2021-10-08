@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import classnames from 'classnames';
-import debounce from 'lodash/debounce';
 import { ReactComponent as LeftAlignIcon } from './../../../align-icons/align-left.svg';
 import { ReactComponent as CenterXAlignIcon } from './../../../align-icons/align-center-x.svg';
 import { ReactComponent as RightAlignIcon } from './../../../align-icons/align-right.svg';
@@ -25,6 +24,7 @@ const ALIGN_POSITION = {
 
 const LayerSettingsSection = ({
   bannerItem,
+  bannerContainerItem,
   lastIndexZ,
   cropAreaDimensionAndPosition,
   changeBannerItemStylesField,
@@ -43,56 +43,74 @@ const LayerSettingsSection = ({
 
 
   const handleChangeAlignPositionByX = (alignPosition) => {
-    const widthDifference = cropAreaDimensionAndPosition.width - parseInt(bannerItem.styles.width);
+    let widthDifference;
+    let cropXPosition;
+
+    if (bannerContainerItem) {
+      widthDifference = parseInt(bannerContainerItem.styles.width) - parseInt(bannerItem.styles.width);
+      cropXPosition = 0;
+    } else {
+      widthDifference = cropAreaDimensionAndPosition.width - parseInt(bannerItem.styles.width);
+      cropXPosition = cropAreaDimensionAndPosition.x;
+    }
 
     switch (alignPosition) {
       case ALIGN_POSITION.LEFT:
-        changeBannerItemStylesField('left', `${cropAreaDimensionAndPosition.x}px`);
+        changeBannerItemStylesField('left', `${cropXPosition}px`);
         setAlignByX({
           name: alignPosition,
-          value: cropAreaDimensionAndPosition.x,
+          value: cropXPosition,
         });
         break;
       case ALIGN_POSITION.CENTER_X:
-        changeBannerItemStylesField('left', `${widthDifference / 2 + cropAreaDimensionAndPosition.x}px`);
+        changeBannerItemStylesField('left', `${widthDifference / 2 + cropXPosition}px`);
         setAlignByX({
           name: alignPosition,
-          value: widthDifference / 2 + cropAreaDimensionAndPosition.x,
+          value: widthDifference / 2 + cropXPosition,
         });
         break;
       case ALIGN_POSITION.RIGHT:
-        changeBannerItemStylesField('left', `${widthDifference + cropAreaDimensionAndPosition.x}px`);
+        changeBannerItemStylesField('left', `${widthDifference + cropXPosition}px`);
         setAlignByX({
           name: alignPosition,
-          value: widthDifference + cropAreaDimensionAndPosition.x,
+          value: widthDifference + cropXPosition,
         });
         break;
     }
   };
 
   const handleChangeAlignPositionByY = (alignPosition) => {
-    const heightDifference = cropAreaDimensionAndPosition.height - parseInt(bannerItem.styles.height);
+    let heightDifference;
+    let cropYPosition;
+
+    if (bannerContainerItem) {
+      heightDifference = parseInt(bannerContainerItem.styles.height) - parseInt(bannerItem.styles.height);
+      cropYPosition = 0;
+    } else {
+      heightDifference = cropAreaDimensionAndPosition.height - parseInt(bannerItem.styles.height);
+      cropYPosition = cropAreaDimensionAndPosition.y;
+    }
 
     switch (alignPosition) {
       case ALIGN_POSITION.TOP:
-        changeBannerItemStylesField('top', `${cropAreaDimensionAndPosition.y}px`);
+        changeBannerItemStylesField('top', `${cropYPosition}px`);
         setAlignByY({
           name: alignPosition,
           value: cropAreaDimensionAndPosition.y,
         });
         break;
       case ALIGN_POSITION.CENTER_Y:
-        changeBannerItemStylesField('top', `${heightDifference / 2 + cropAreaDimensionAndPosition.y}px`);
+        changeBannerItemStylesField('top', `${heightDifference / 2 + cropYPosition}px`);
         setAlignByY({
           name: alignPosition,
-          value: heightDifference / 2 + cropAreaDimensionAndPosition.y,
+          value: heightDifference / 2 + cropYPosition,
         });
         break;
       case ALIGN_POSITION.BOTTOM:
-        changeBannerItemStylesField('top', `${heightDifference + cropAreaDimensionAndPosition.y}px`);
+        changeBannerItemStylesField('top', `${heightDifference + cropYPosition}px`);
         setAlignByY({
           name: alignPosition,
-          value: heightDifference + cropAreaDimensionAndPosition.y,
+          value: heightDifference + cropYPosition,
         });
         break;
     }

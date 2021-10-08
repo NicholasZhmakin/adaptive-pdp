@@ -219,6 +219,16 @@ const AdCreatePreview = () => {
       setSelectedBannerItem(null);
       setBannerItems(cloneBannerItems.filter((bannerItem) => bannerItem.id !== bannerItemId));
     }
+
+    const findBannerContainerItem = () => {
+      if (selectedBannerItem?.hasOwnProperty('containerId')) {
+        const cloneBannerItems = cloneDeep(bannerItems);
+
+        return cloneBannerItems.find((item) => item.id === selectedBannerItem.containerId);
+      } else {
+        return undefined;
+      }
+    }
     
     const handleMediaLoaded = () => {
         setIsMediaLoaded(true);
@@ -290,6 +300,7 @@ const AdCreatePreview = () => {
                 {selectedBannerItem &&
                   <MoveableSettings
                     bannerItem={selectedBannerItem}
+                    bannerContainerItem={findBannerContainerItem()}
                     lastIndexZ={bannerItems.length}
                     cropAreaDimensionAndPosition={cropAreaDimensionAndPosition}
                     changeBannerItemStylesField={changeBannerItemStylesField}
