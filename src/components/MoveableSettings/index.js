@@ -96,7 +96,7 @@ const MoveableSettings = ({
   }
 
   const handleDelete = () => {
-    deleteBannerItem(bannerItem.id, bannerItem.styles['z-index']);
+    deleteBannerItem(bannerItem.id, bannerItem.styles['z-index'], bannerItem.containerId);
     setOpenSection(null)
   }
 

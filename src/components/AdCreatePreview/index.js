@@ -189,8 +189,8 @@ const AdCreatePreview = () => {
       }
     }
 
-  const duplicateBannerItem = (bannerItem) => {
-    const cloneBannerItems = cloneDeep(bannerItems);
+  const duplicateBannerItem = (bannerItem, deleteContainer) => {
+    let cloneBannerItems = cloneDeep(bannerItems);
     const cloneBannerItem = cloneDeep(bannerItem);
     const lastIndexZ = cloneBannerItems.reduce((max, current) => (current.styles['z-index'] > max ? current.styles['z-index'] : max), 0);
 
@@ -215,20 +215,25 @@ const AdCreatePreview = () => {
         }
       ]);
     } else {
+
       let positionTop = `${parseInt(cloneBannerItem.styles.top) + 10}px`;
       let positionLeft = cloneBannerItem.styles.left;
+      let neededContainer;
 
       if (cloneBannerItem.hasOwnProperty('containerId')) {
-        const neededContainer = cloneBannerItems.find((item) => item.id === cloneBannerItem.containerId);
+        neededContainer = cloneBannerItems.find((item) => item.id === cloneBannerItem.containerId);
 
         positionTop = `${parseInt(cloneBannerItem.styles.top) + parseInt(neededContainer.styles.top) + 10}px`;
         positionLeft = `${parseInt(cloneBannerItem.styles.left) + parseInt(neededContainer.styles.left)}px`;
+
+        delete cloneBannerItem.containerId;
       }
 
-      delete cloneBannerItem.containerId;
-      
       setBannerItems([
-        ...cloneBannerItems,
+        ...
+          deleteContainer ?
+           cloneBannerItems.filter((bannerItem) => bannerItem.id !== neededContainer.id) :
+           cloneBannerItems,
         {
           ...cloneBannerItem,
           id: uuidv4(),
@@ -236,7 +241,7 @@ const AdCreatePreview = () => {
             ...cloneBannerItem.styles,
             top: positionTop,
             left: positionLeft,
-            'z-index': Number(lastIndexZ) + 1,
+            'z-index': deleteContainer ? neededContainer.styles['z-index'] : Number(lastIndexZ) + 1,
           }
         }
       ]);
@@ -245,17 +250,32 @@ const AdCreatePreview = () => {
     setSelectedBannerItem(null);
   }
 
-    const deleteBannerItem = (bannerItemId, bannerItemIndexZ) => {
+    const deleteBannerItem = (bannerItemId, bannerItemIndexZ, containerId) => {
       const cloneBannerItems = cloneDeep(bannerItems);
 
-      cloneBannerItems.forEach((bannerItem) => {
-        if (Number(bannerItem.styles['z-index']) > bannerItemIndexZ) {
-          bannerItem.styles['z-index'] = Number(bannerItem.styles['z-index']) - 1;
+      if (containerId) {
+        const neededContainer = cloneBannerItems.find((item) => item.id === containerId);
+        neededContainer.nestedBannerItems = neededContainer.nestedBannerItems.filter((bannerItem) => bannerItem.id !== bannerItemId);
+        setBannerItems(cloneBannerItems);
+
+        if (neededContainer.nestedBannerItems.length <= 1) {
+          console.log("ONE")
+          duplicateBannerItem(neededContainer.nestedBannerItems[0], 'delete');
         }
-      })
+
+
+
+      } else {
+        cloneBannerItems.forEach((bannerItem) => {
+          if (Number(bannerItem.styles['z-index']) > bannerItemIndexZ) {
+            bannerItem.styles['z-index'] = Number(bannerItem.styles['z-index']) - 1;
+          }
+        })
+
+        setBannerItems(cloneBannerItems.filter((bannerItem) => bannerItem.id !== bannerItemId));
+      }
 
       setSelectedBannerItem(null);
-      setBannerItems(cloneBannerItems.filter((bannerItem) => bannerItem.id !== bannerItemId));
     }
 
     const findBannerContainerItem = () => {
