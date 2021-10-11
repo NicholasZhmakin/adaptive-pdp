@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import TextSettingsSection from './TextSettingsSection';
 import ColorSettingsSection from './ColorSettingsSection';
 import LayerSettingsSection from './LayerSettingsSection';
+import BorderSettingsSection from './BorderSettingsSection';
 import { ClickAwayListener } from '@material-ui/core';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
@@ -12,7 +13,6 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import './MoveableSettings.scss';
-import BorderSettingsSection from './BorderSettingsSection';
 
 
 const MOVEABLE_SETTINGS_SECTIONS = {
@@ -30,7 +30,7 @@ const MoveableSettings = ({
   cropAreaDimensionAndPosition,
   changeBannerItemStylesField,
   handleBannerItemLayerOrder,
-  duplicateBannerItem,
+  handleDuplicateBannerItem,
   deleteBannerItem,
 }) => {
 
@@ -91,7 +91,7 @@ const MoveableSettings = ({
   }
 
   const handleDuplicate = () => {
-    duplicateBannerItem(bannerItem);
+    handleDuplicateBannerItem(bannerItem);
     setOpenSection(null)
   }
 

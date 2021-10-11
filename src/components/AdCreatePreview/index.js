@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { arrayDnd, sizesMockData } from "./mockData";
 import Cropper from 'react-easy-crop';
 import cloneDeep from 'lodash/cloneDeep';
 import useDebounce from '../useDebounce';
 import { useLayerFunctions } from '../CustomHooks/LayerFunctions';
+import { useDuplicateFunctions } from '../CustomHooks/DuplicateFunctions';
 import MoveableComponent from "../MoveableComponent";
 import MoveableSettings from "../MoveableSettings";
 import { ClickAwayListener } from '@material-ui/core';
 
 import './AdCreatePreview.scss';
+
 
 const zoomSettings = {
     step: 0.03,
@@ -114,6 +115,17 @@ const AdCreatePreview = () => {
   };
 
   const [changeBannerItemLayerOrder, changeNestedBannerItemLayerOrder] = useLayerFunctions(bannerItems, changeBannerItemStylesField, setBannerItems);
+  const [duplicateBannerItem, duplicateContainerBannerItem, duplicateNestedBannerItem] = useDuplicateFunctions(bannerItems, setBannerItems, setSelectedBannerItem);
+
+  const handleDuplicateBannerItem = (bannerItem) => {
+    if (bannerItem.type === 'container') {
+      duplicateContainerBannerItem(bannerItem)
+    } else if (bannerItem.hasOwnProperty('containerId')) {
+      duplicateNestedBannerItem(bannerItem);
+    } else {
+      duplicateBannerItem(bannerItem);
+    }
+  }
 
   const handleBannerItemLayerOrder = (bannerItem, value) => {
     if (bannerItem.hasOwnProperty('containerId')) {
@@ -161,66 +173,66 @@ const AdCreatePreview = () => {
       }
     }
 
-  const duplicateBannerItem = (bannerItem, deleteContainer) => {
-    let cloneBannerItems = cloneDeep(bannerItems);
-    const cloneBannerItem = cloneDeep(bannerItem);
-    const lastIndexZ = cloneBannerItems.reduce((max, current) => (current.styles['z-index'] > max ? current.styles['z-index'] : max), 0);
-
-    if (bannerItem.type === 'container') {
-      const newContainerId = uuidv4();
-
-      setBannerItems([
-        ...cloneBannerItems,
-        {
-          ...cloneBannerItem,
-          id: newContainerId,
-          nestedBannerItems: cloneBannerItem.nestedBannerItems.map((nestedBannerItem) => ({
-            ...nestedBannerItem,
-            id: uuidv4(),
-            containerId: newContainerId,
-          })),
-          styles: {
-            ...cloneBannerItem.styles,
-            'top': `${parseInt(cloneBannerItem.styles.top) + 10}px`,
-            'z-index': Number(lastIndexZ) + 1,
-          }
-        }
-      ]);
-    } else {
-
-      let positionTop = `${parseInt(cloneBannerItem.styles.top) + 10}px`;
-      let positionLeft = cloneBannerItem.styles.left;
-      let neededContainer;
-
-      if (cloneBannerItem.hasOwnProperty('containerId')) {
-        neededContainer = cloneBannerItems.find((item) => item.id === cloneBannerItem.containerId);
-
-        positionTop = `${parseInt(cloneBannerItem.styles.top) + parseInt(neededContainer.styles.top) + 10}px`;
-        positionLeft = `${parseInt(cloneBannerItem.styles.left) + parseInt(neededContainer.styles.left)}px`;
-
-        delete cloneBannerItem.containerId;
-      }
-
-      setBannerItems([
-        ...
-          deleteContainer ?
-           cloneBannerItems.filter((bannerItem) => bannerItem.id !== neededContainer.id) :
-           cloneBannerItems,
-        {
-          ...cloneBannerItem,
-          id: uuidv4(),
-          styles: {
-            ...cloneBannerItem.styles,
-            top: positionTop,
-            left: positionLeft,
-            'z-index': deleteContainer ? neededContainer.styles['z-index'] : Number(lastIndexZ) + 1,
-          }
-        }
-      ]);
-    }
-
-    setSelectedBannerItem(null);
-  }
+  // const duplicateBannerItem = (bannerItem, deleteContainer) => {
+  //   let cloneBannerItems = cloneDeep(bannerItems);
+  //   const cloneBannerItem = cloneDeep(bannerItem);
+  //   const lastIndexZ = cloneBannerItems.reduce((max, current) => (current.styles['z-index'] > max ? current.styles['z-index'] : max), 0);
+  //
+  //   if (bannerItem.type === 'container') {
+  //     const newContainerId = uuidv4();
+  //
+  //     setBannerItems([
+  //       ...cloneBannerItems,
+  //       {
+  //         ...cloneBannerItem,
+  //         id: newContainerId,
+  //         nestedBannerItems: cloneBannerItem.nestedBannerItems.map((nestedBannerItem) => ({
+  //           ...nestedBannerItem,
+  //           id: uuidv4(),
+  //           containerId: newContainerId,
+  //         })),
+  //         styles: {
+  //           ...cloneBannerItem.styles,
+  //           'top': `${parseInt(cloneBannerItem.styles.top) + 10}px`,
+  //           'z-index': Number(lastIndexZ) + 1,
+  //         }
+  //       }
+  //     ]);
+  //   } else {
+  //
+  //     let positionTop = `${parseInt(cloneBannerItem.styles.top) + 10}px`;
+  //     let positionLeft = cloneBannerItem.styles.left;
+  //     let neededContainer;
+  //
+  //     if (cloneBannerItem.hasOwnProperty('containerId')) {
+  //       neededContainer = cloneBannerItems.find((item) => item.id === cloneBannerItem.containerId);
+  //
+  //       positionTop = `${parseInt(cloneBannerItem.styles.top) + parseInt(neededContainer.styles.top) + 10}px`;
+  //       positionLeft = `${parseInt(cloneBannerItem.styles.left) + parseInt(neededContainer.styles.left)}px`;
+  //
+  //       delete cloneBannerItem.containerId;
+  //     }
+  //
+  //     setBannerItems([
+  //       ...
+  //         deleteContainer ?
+  //          cloneBannerItems.filter((bannerItem) => bannerItem.id !== neededContainer.id) :
+  //          cloneBannerItems,
+  //       {
+  //         ...cloneBannerItem,
+  //         id: uuidv4(),
+  //         styles: {
+  //           ...cloneBannerItem.styles,
+  //           top: positionTop,
+  //           left: positionLeft,
+  //           'z-index': deleteContainer ? neededContainer.styles['z-index'] : Number(lastIndexZ) + 1,
+  //         }
+  //       }
+  //     ]);
+  //   }
+  //
+  //   setSelectedBannerItem(null);
+  // }
 
     const deleteBannerItem = (bannerItemId, bannerItemIndexZ, containerId) => {
       const cloneBannerItems = cloneDeep(bannerItems);
@@ -231,11 +243,8 @@ const AdCreatePreview = () => {
         setBannerItems(cloneBannerItems);
 
         if (neededContainer.nestedBannerItems.length <= 1) {
-          console.log("ONE")
-          duplicateBannerItem(neededContainer.nestedBannerItems[0], 'delete');
+          // duplicateBannerItem(neededContainer.nestedBannerItems[0], 'delete');
         }
-
-
 
       } else {
         cloneBannerItems.forEach((bannerItem) => {
@@ -335,7 +344,7 @@ const AdCreatePreview = () => {
                     cropAreaDimensionAndPosition={cropAreaDimensionAndPosition}
                     changeBannerItemStylesField={changeBannerItemStylesField}
                     handleBannerItemLayerOrder={handleBannerItemLayerOrder}
-                    duplicateBannerItem={duplicateBannerItem}
+                    handleDuplicateBannerItem={handleDuplicateBannerItem}
                     deleteBannerItem={deleteBannerItem}
                   />
                 }
