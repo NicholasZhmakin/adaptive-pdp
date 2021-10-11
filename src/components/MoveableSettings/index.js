@@ -31,7 +31,7 @@ const MoveableSettings = ({
   changeBannerItemStylesField,
   handleBannerItemLayerOrder,
   handleDuplicateBannerItem,
-  deleteBannerItem,
+  handleDeleteBannerItem,
 }) => {
 
   const [openSection, setOpenSection] = useState(null);
@@ -96,7 +96,7 @@ const MoveableSettings = ({
   }
 
   const handleDelete = () => {
-    deleteBannerItem(bannerItem.id, bannerItem.styles['z-index'], bannerItem.containerId);
+    handleDeleteBannerItem(bannerItem.id, bannerItem.styles['z-index'], bannerItem.containerId);
     setOpenSection(null)
   }
 

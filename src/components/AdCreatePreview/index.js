@@ -5,12 +5,12 @@ import cloneDeep from 'lodash/cloneDeep';
 import useDebounce from '../useDebounce';
 import { useLayerFunctions } from '../CustomHooks/LayerFunctions';
 import { useDuplicateFunctions } from '../CustomHooks/DuplicateFunctions';
+import { useDeleteFunctions } from '../CustomHooks/DeleteFunctions';
 import MoveableComponent from "../MoveableComponent";
 import MoveableSettings from "../MoveableSettings";
 import { ClickAwayListener } from '@material-ui/core';
 
 import './AdCreatePreview.scss';
-
 
 const zoomSettings = {
     step: 0.03,
@@ -56,7 +56,7 @@ const AdCreatePreview = () => {
     }, [videoRef.current?.state.cropSize]);
 
     useEffect(() => {
-        setBannerItems(cloneDeep(arrayDnd));
+      setBannerItems(cloneDeep(arrayDnd));
     }, []);
 
   useEffect(() => {
@@ -80,14 +80,6 @@ const AdCreatePreview = () => {
       setBannerItems(cloneBannerItems);
     }
   }, [debounceSelectedBannerItem]);
-
-  const setIsDraggableForContainer = (containerId, value) => {
-    const cloneBannerItems = cloneDeep(bannerItems);
-    const neededContainer = cloneBannerItems.find((item) => item.id === containerId);
-
-    neededContainer.isDraggable = value;
-    setBannerItems(cloneBannerItems);
-  };
 
   const changeBannerItemStylesField = (fieldName, fieldValue, containerId) => {
     if (selectedBannerItem) {
@@ -116,6 +108,15 @@ const AdCreatePreview = () => {
 
   const [changeBannerItemLayerOrder, changeNestedBannerItemLayerOrder] = useLayerFunctions(bannerItems, changeBannerItemStylesField, setBannerItems);
   const [duplicateBannerItem, duplicateContainerBannerItem, duplicateNestedBannerItem] = useDuplicateFunctions(bannerItems, setBannerItems, setSelectedBannerItem);
+  const [deleteBannerItem, deleteNestedBannerItem] = useDeleteFunctions(bannerItems, setBannerItems, setSelectedBannerItem);
+
+  const handleBannerItemLayerOrder = (bannerItem, value) => {
+    if (bannerItem.hasOwnProperty('containerId')) {
+      changeNestedBannerItemLayerOrder(bannerItem, value)
+    } else {
+      changeBannerItemLayerOrder(bannerItem, value);
+    }
+  }
 
   const handleDuplicateBannerItem = (bannerItem) => {
     if (bannerItem.type === 'container') {
@@ -127,179 +128,101 @@ const AdCreatePreview = () => {
     }
   }
 
-  const handleBannerItemLayerOrder = (bannerItem, value) => {
-    if (bannerItem.hasOwnProperty('containerId')) {
-      changeNestedBannerItemLayerOrder(bannerItem, value)
+  const handleDeleteBannerItem = (bannerItemId, bannerItemIndexZ, containerId) => {
+   if (containerId) {
+     deleteNestedBannerItem(bannerItemId, bannerItemIndexZ, containerId);
     } else {
-      changeBannerItemLayerOrder(bannerItem, value);
+     deleteBannerItem(bannerItemId, bannerItemIndexZ);
     }
   }
 
-    const replaceBannerItemStyles = (bannerItemId, newStylesString, containerId) => {
-      const result = {};
-      const attributes = newStylesString.trim().split(';');
+  const setIsDraggableForContainer = (containerId, value) => {
+    const cloneBannerItems = cloneDeep(bannerItems);
+    const neededContainer = cloneBannerItems.find((item) => item.id === containerId);
 
-      for (let i = 0; i < attributes.length; i++) {
-          let entry = attributes[i].split(':');
-          result[entry.splice(0,1)[0].trim()] = entry.join(':').trim();
-      }
+    neededContainer.isDraggable = value;
+    setBannerItems(cloneBannerItems);
+  };
 
-      if (containerId) {
-        setSelectedBannerItem({
-          ...selectedBannerItem,
-          containerId,
-          styles: result,
-        });
-      } else {
-        setSelectedBannerItem({
-          ...selectedBannerItem,
-          styles: result,
-        });
-      }
+  const replaceBannerItemStyles = (bannerItemId, newStylesString, containerId) => {
+    const result = {};
+    const attributes = newStylesString.trim().split(';');
+
+    for (let i = 0; i < attributes.length; i++) {
+        let entry = attributes[i].split(':');
+        result[entry.splice(0,1)[0].trim()] = entry.join(':').trim();
     }
 
-    const changeBannerItemText = (bannerItemId, newText, containerId) => {
-      if (containerId) {
-        setSelectedBannerItem({
-          ...selectedBannerItem,
-          containerId,
-          text: newText,
-        });
-      } else {
-        setSelectedBannerItem({
-          ...selectedBannerItem,
-          text: newText,
-        });
-      }
+    if (containerId) {
+      setSelectedBannerItem({
+        ...selectedBannerItem,
+        containerId,
+        styles: result,
+      });
+    } else {
+      setSelectedBannerItem({
+        ...selectedBannerItem,
+        styles: result,
+      });
     }
+  }
 
-  // const duplicateBannerItem = (bannerItem, deleteContainer) => {
-  //   let cloneBannerItems = cloneDeep(bannerItems);
-  //   const cloneBannerItem = cloneDeep(bannerItem);
-  //   const lastIndexZ = cloneBannerItems.reduce((max, current) => (current.styles['z-index'] > max ? current.styles['z-index'] : max), 0);
-  //
-  //   if (bannerItem.type === 'container') {
-  //     const newContainerId = uuidv4();
-  //
-  //     setBannerItems([
-  //       ...cloneBannerItems,
-  //       {
-  //         ...cloneBannerItem,
-  //         id: newContainerId,
-  //         nestedBannerItems: cloneBannerItem.nestedBannerItems.map((nestedBannerItem) => ({
-  //           ...nestedBannerItem,
-  //           id: uuidv4(),
-  //           containerId: newContainerId,
-  //         })),
-  //         styles: {
-  //           ...cloneBannerItem.styles,
-  //           'top': `${parseInt(cloneBannerItem.styles.top) + 10}px`,
-  //           'z-index': Number(lastIndexZ) + 1,
-  //         }
-  //       }
-  //     ]);
-  //   } else {
-  //
-  //     let positionTop = `${parseInt(cloneBannerItem.styles.top) + 10}px`;
-  //     let positionLeft = cloneBannerItem.styles.left;
-  //     let neededContainer;
-  //
-  //     if (cloneBannerItem.hasOwnProperty('containerId')) {
-  //       neededContainer = cloneBannerItems.find((item) => item.id === cloneBannerItem.containerId);
-  //
-  //       positionTop = `${parseInt(cloneBannerItem.styles.top) + parseInt(neededContainer.styles.top) + 10}px`;
-  //       positionLeft = `${parseInt(cloneBannerItem.styles.left) + parseInt(neededContainer.styles.left)}px`;
-  //
-  //       delete cloneBannerItem.containerId;
-  //     }
-  //
-  //     setBannerItems([
-  //       ...
-  //         deleteContainer ?
-  //          cloneBannerItems.filter((bannerItem) => bannerItem.id !== neededContainer.id) :
-  //          cloneBannerItems,
-  //       {
-  //         ...cloneBannerItem,
-  //         id: uuidv4(),
-  //         styles: {
-  //           ...cloneBannerItem.styles,
-  //           top: positionTop,
-  //           left: positionLeft,
-  //           'z-index': deleteContainer ? neededContainer.styles['z-index'] : Number(lastIndexZ) + 1,
-  //         }
-  //       }
-  //     ]);
-  //   }
-  //
-  //   setSelectedBannerItem(null);
-  // }
+  const changeBannerItemText = (bannerItemId, newText, containerId) => {
+    if (containerId) {
+      setSelectedBannerItem({
+        ...selectedBannerItem,
+        containerId,
+        text: newText,
+      });
+    } else {
+      setSelectedBannerItem({
+        ...selectedBannerItem,
+        text: newText,
+      });
+    }
+  }
 
-    const deleteBannerItem = (bannerItemId, bannerItemIndexZ, containerId) => {
+  const findBannerContainerItem = () => {
+    if (selectedBannerItem?.hasOwnProperty('containerId')) {
       const cloneBannerItems = cloneDeep(bannerItems);
 
-      if (containerId) {
-        const neededContainer = cloneBannerItems.find((item) => item.id === containerId);
-        neededContainer.nestedBannerItems = neededContainer.nestedBannerItems.filter((bannerItem) => bannerItem.id !== bannerItemId);
-        setBannerItems(cloneBannerItems);
-
-        if (neededContainer.nestedBannerItems.length <= 1) {
-          // duplicateBannerItem(neededContainer.nestedBannerItems[0], 'delete');
-        }
-
-      } else {
-        cloneBannerItems.forEach((bannerItem) => {
-          if (Number(bannerItem.styles['z-index']) > bannerItemIndexZ) {
-            bannerItem.styles['z-index'] = Number(bannerItem.styles['z-index']) - 1;
-          }
-        })
-
-        setBannerItems(cloneBannerItems.filter((bannerItem) => bannerItem.id !== bannerItemId));
-      }
-
-      setSelectedBannerItem(null);
+      return cloneBannerItems.find((item) => item.id === selectedBannerItem.containerId);
+    } else {
+      return undefined;
     }
-
-    const findBannerContainerItem = () => {
-      if (selectedBannerItem?.hasOwnProperty('containerId')) {
-        const cloneBannerItems = cloneDeep(bannerItems);
-
-        return cloneBannerItems.find((item) => item.id === selectedBannerItem.containerId);
-      } else {
-        return undefined;
-      }
-    }
+  }
     
-    const handleMediaLoaded = () => {
-        setIsMediaLoaded(true);
-    };
+  const handleMediaLoaded = () => {
+      setIsMediaLoaded(true);
+  };
 
-    const handleZoomChange = (value) => {
-        if (value >= zoomSettings.min && value <= zoomSettings.max && isMediaLoaded) {
-            setZoom(value);
-        }
-    };
+  const handleZoomChange = (value) => {
+      if (value >= zoomSettings.min && value <= zoomSettings.max && isMediaLoaded) {
+          setZoom(value);
+      }
+  };
 
-    const handleCropChange = (value) => {
-        if (isMediaLoaded) {
-            setCrop({
-                x: value.x,
-                y: value.y,
-            });
-        }
-    };
+  const handleCropChange = (value) => {
+      if (isMediaLoaded) {
+          setCrop({
+              x: value.x,
+              y: value.y,
+          });
+      }
+  };
 
-    const handleCropComplete = (value) => {
-        if (isMediaLoaded) {
-            setCropComplete({
-                xComplete: value.x,
-                yComplete: value.y,
-            });
-        }
-    };
+  const handleCropComplete = (value) => {
+      if (isMediaLoaded) {
+          setCropComplete({
+              xComplete: value.x,
+              yComplete: value.y,
+          });
+      }
+  };
 
-    const handleSizeChange = (size) => {
-        setAspect(size.width / size.height);
-    };
+  const handleSizeChange = (size) => {
+      setAspect(size.width / size.height);
+  };
 
     return (
       <div className='adCreatePreview'>
@@ -345,7 +268,7 @@ const AdCreatePreview = () => {
                     changeBannerItemStylesField={changeBannerItemStylesField}
                     handleBannerItemLayerOrder={handleBannerItemLayerOrder}
                     handleDuplicateBannerItem={handleDuplicateBannerItem}
-                    deleteBannerItem={deleteBannerItem}
+                    handleDeleteBannerItem={handleDeleteBannerItem}
                   />
                 }
 

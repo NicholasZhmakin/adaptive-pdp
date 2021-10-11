@@ -59,9 +59,6 @@ export const useDuplicateFunctions = (bannerItems, setBannerItems, setSelectedBa
     const cloneBannerItem = cloneDeep(bannerItem);
     const lastIndexZ = cloneBannerItems.reduce((max, current) => (current.styles['z-index'] > max ? current.styles['z-index'] : max), 0);
     const neededContainer = cloneBannerItems.find((item) => item.id === cloneBannerItem.containerId);
-    const positionTop = `${parseInt(cloneBannerItem.styles.top) + parseInt(neededContainer.styles.top) + 10}px`;
-    const positionLeft = `${parseInt(cloneBannerItem.styles.left) + parseInt(neededContainer.styles.left)}px`;
-
     delete cloneBannerItem.containerId;
 
     setBannerItems([
@@ -71,8 +68,8 @@ export const useDuplicateFunctions = (bannerItems, setBannerItems, setSelectedBa
         id: uuidv4(),
         styles: {
           ...cloneBannerItem.styles,
-          top: positionTop,
-          left: positionLeft,
+          top: `${parseInt(cloneBannerItem.styles.top) + parseInt(neededContainer.styles.top) + 10}px`,
+          left: `${parseInt(cloneBannerItem.styles.left) + parseInt(neededContainer.styles.left)}px`,
           'z-index': Number(lastIndexZ) + 1,
         }
       }
@@ -80,35 +77,6 @@ export const useDuplicateFunctions = (bannerItems, setBannerItems, setSelectedBa
 
     setSelectedBannerItem(null);
   };
-
-
-  // const duplicateNestedBannerItem = (bannerItem) => {
-  //   const cloneBannerItems = cloneDeep(bannerItems);
-  //   const cloneBannerItem = cloneDeep(bannerItem);
-  //   const neededContainer = cloneBannerItems.find((item) => item.id === cloneBannerItem.containerId);
-  //   // const positionTop = `${parseInt(cloneBannerItem.styles.top) + parseInt(neededContainer.styles.top) + 10}px`;
-  //   // const positionLeft = `${parseInt(cloneBannerItem.styles.left) + parseInt(neededContainer.styles.left)}px`;
-  //   console.log('nested');
-  //   delete cloneBannerItem.containerId;
-  //
-  //
-  //   setBannerItems([
-  //     ...cloneBannerItems.filter((bannerItem) => bannerItem.id !== neededContainer.id),
-  //     {
-  //       ...cloneBannerItem,
-  //       id: uuidv4(),
-  //       styles: {
-  //         ...cloneBannerItem.styles,
-  //         top: `${parseInt(cloneBannerItem.styles.top) + parseInt(neededContainer.styles.top) + 10}px`,
-  //         left: `${parseInt(cloneBannerItem.styles.left) + parseInt(neededContainer.styles.left)}px`,
-  //         'z-index': neededContainer.styles['z-index'],
-  //       }
-  //     }
-  //   ]);
-  //
-  //
-  //   setSelectedBannerItem(null);
-  // }
 
   return [duplicateBannerItem, duplicateContainerBannerItem, duplicateNestedBannerItem];
 };
