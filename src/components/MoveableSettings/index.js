@@ -29,7 +29,7 @@ const MoveableSettings = ({
   lastIndexZ,
   cropAreaDimensionAndPosition,
   changeBannerItemStylesField,
-  changeBannerItemLayerOrder,
+  handleBannerItemLayerOrder,
   duplicateBannerItem,
   deleteBannerItem,
 }) => {
@@ -82,7 +82,7 @@ const MoveableSettings = ({
           lastIndexZ={lastIndexZ}
           cropAreaDimensionAndPosition={cropAreaDimensionAndPosition}
           changeBannerItemStylesField={changeBannerItemStylesField}
-          changeBannerItemLayerOrder={changeBannerItemLayerOrder}
+          handleBannerItemLayerOrder={handleBannerItemLayerOrder}
         />
       );
       break;

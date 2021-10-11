@@ -28,7 +28,7 @@ const LayerSettingsSection = ({
   lastIndexZ,
   cropAreaDimensionAndPosition,
   changeBannerItemStylesField,
-  changeBannerItemLayerOrder,
+  handleBannerItemLayerOrder,
 }) => {
 
   const [alignByX, setAlignByX] = useState({
@@ -116,6 +116,14 @@ const LayerSettingsSection = ({
     }
   };
 
+  const checkIfLayerButtonDisabled = (value) => {
+    if (bannerContainerItem) {
+      return Number(bannerContainerItem.styles['z-index']) === value;
+    } else {
+     return Number(bannerItem.styles['z-index']) === value;
+    }
+  }
+
   return (
     <div className='moveable-settings__section-dropDown layer-settings-section'>
       Align
@@ -174,33 +182,33 @@ const LayerSettingsSection = ({
       <div className='layer-settings-section__order-container'>
         <div
           className={classnames('layer-settings-section__order-option', {
-            'disabled': Number(bannerItem.styles['z-index']) === 1
+            'disabled': checkIfLayerButtonDisabled(1)
           })}
-          onClick={() => changeBannerItemLayerOrder(bannerItem.id, -1)}
+          onClick={() => handleBannerItemLayerOrder(bannerItem, -1)}
         >
           <ArrowDropDownIcon className='layer-settings-section__order-icon' />
         </div>
         <div
           className={classnames('layer-settings-section__order-option', {
-            'disabled':  Number(bannerItem.styles['z-index']) === lastIndexZ
+            'disabled': checkIfLayerButtonDisabled(lastIndexZ)
           })}
-          onClick={() => changeBannerItemLayerOrder(bannerItem.id, 1)}
+          onClick={() => handleBannerItemLayerOrder(bannerItem, 1)}
         >
           <ArrowDropUpIcon className='layer-settings-section__order-icon' />
         </div>
         <div
           className={classnames('layer-settings-section__order-option layer-settings-section__order-option--down', {
-            'disabled': Number(bannerItem.styles['z-index']) === 1
+            'disabled': checkIfLayerButtonDisabled(1)
           })}
-          onClick={() => changeBannerItemLayerOrder(bannerItem.id, 'down')}
+          onClick={() => handleBannerItemLayerOrder(bannerItem, 'down')}
         >
           <SkipNextIcon className='layer-settings-section__order-icon' />
         </div>
         <div
           className={classnames('layer-settings-section__order-option layer-settings-section__order-option--up', {
-            'disabled': Number(bannerItem.styles['z-index']) === lastIndexZ
+            'disabled': checkIfLayerButtonDisabled(lastIndexZ)
           })}
-          onClick={() => changeBannerItemLayerOrder(bannerItem.id, 'up')}
+          onClick={() => handleBannerItemLayerOrder(bannerItem, 'up')}
         >
           <SkipNextIcon className='layer-settings-section__order-icon' />
         </div>

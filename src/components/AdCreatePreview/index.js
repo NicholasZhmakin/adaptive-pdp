@@ -3,18 +3,20 @@ import { v4 as uuidv4 } from 'uuid';
 import { arrayDnd, sizesMockData } from "./mockData";
 import Cropper from 'react-easy-crop';
 import cloneDeep from 'lodash/cloneDeep';
+import useDebounce from '../useDebounce';
+import { useLayerFunctions } from '../CustomHooks/LayerFunctions';
 import MoveableComponent from "../MoveableComponent";
 import MoveableSettings from "../MoveableSettings";
 import { ClickAwayListener } from '@material-ui/core';
 
 import './AdCreatePreview.scss';
-import useDebounce from '../useDebounce';
 
 const zoomSettings = {
     step: 0.03,
     min: 1,
     max: 3,
 };
+
 
 const AdCreatePreview = () => {
 
@@ -86,46 +88,6 @@ const AdCreatePreview = () => {
     setBannerItems(cloneBannerItems);
   };
 
-  const changeBannerItemLayerOrder = (bannerItemId, value) => {
-    const cloneBannerItems = cloneDeep(bannerItems);
-    const neededBannerItem = cloneBannerItems.find((item) => item.id === bannerItemId);
-
-    switch (value) {
-      case -1:
-      case 1:
-        const indexZOfAdjacentBannerItem = Number(neededBannerItem.styles['z-index']) + value;
-        const adjacentBannerItem = cloneBannerItems.find((item) => Number(item.styles['z-index']) === indexZOfAdjacentBannerItem);
-
-        if (adjacentBannerItem) {
-          changeBannerItemStylesField('z-index', indexZOfAdjacentBannerItem);
-          adjacentBannerItem.styles['z-index'] = Number(adjacentBannerItem.styles['z-index']) - value;
-        }
-        break;
-      case 'down':
-        cloneBannerItems.forEach((bannerItem) => {
-          if (Number(bannerItem.styles['z-index']) < Number(neededBannerItem.styles['z-index'])) {
-            bannerItem.styles['z-index'] = Number(bannerItem.styles['z-index']) + 1;
-          }
-        })
-
-        changeBannerItemStylesField('z-index', 1);
-        break;
-      case 'up':
-        cloneBannerItems.forEach((bannerItem) => {
-          if (Number(bannerItem.styles['z-index']) > Number(neededBannerItem.styles['z-index'])) {
-            bannerItem.styles['z-index'] = Number(bannerItem.styles['z-index']) - 1;
-          }
-        })
-
-        changeBannerItemStylesField('z-index', cloneBannerItems.length);
-        break;
-      default:
-        return;
-    }
-
-    setBannerItems(cloneBannerItems);
-  };
-
   const changeBannerItemStylesField = (fieldName, fieldValue, containerId) => {
     if (selectedBannerItem) {
 
@@ -150,6 +112,16 @@ const AdCreatePreview = () => {
 
     }
   };
+
+  const [changeBannerItemLayerOrder, changeNestedBannerItemLayerOrder] = useLayerFunctions(bannerItems, changeBannerItemStylesField, setBannerItems);
+
+  const handleBannerItemLayerOrder = (bannerItem, value) => {
+    if (bannerItem.hasOwnProperty('containerId')) {
+      changeNestedBannerItemLayerOrder(bannerItem, value)
+    } else {
+      changeBannerItemLayerOrder(bannerItem, value);
+    }
+  }
 
     const replaceBannerItemStyles = (bannerItemId, newStylesString, containerId) => {
       const result = {};
@@ -362,7 +334,7 @@ const AdCreatePreview = () => {
                     lastIndexZ={bannerItems.length}
                     cropAreaDimensionAndPosition={cropAreaDimensionAndPosition}
                     changeBannerItemStylesField={changeBannerItemStylesField}
-                    changeBannerItemLayerOrder={changeBannerItemLayerOrder}
+                    handleBannerItemLayerOrder={handleBannerItemLayerOrder}
                     duplicateBannerItem={duplicateBannerItem}
                     deleteBannerItem={deleteBannerItem}
                   />

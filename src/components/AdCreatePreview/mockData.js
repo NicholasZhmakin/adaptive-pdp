@@ -105,7 +105,6 @@ const mockItem3 = {
         'word-break': 'break-word',
         'white-space': 'pre-wrap',
         transform: "rotate(0deg)",
-        'z-index': 5,
     }
 };
 
@@ -134,7 +133,6 @@ const mockItem4 = {
         'word-break': 'break-word',
         'white-space': 'pre-wrap',
         transform: "rotate(0deg)",
-        'z-index': 5,
     }
 };
 
@@ -142,8 +140,6 @@ const mockItem5 = {
     id: 5,
     type: 'container',
     isDraggable: 'false',
-
-    text: 'container',
 
     nestedBannerItems: [
         mockItem3,
@@ -186,7 +182,7 @@ const mockItem6 = {
         'word-break': 'break-word',
         'white-space': 'pre-wrap',
         transform: "rotate(0deg)",
-        'z-index': 3,
+        'z-index': 4,
     }
 };
 
@@ -195,7 +191,7 @@ export const arrayDnd = [
   mockItem1,
   mockItem2,
   mockItem6,
-  // mockItem5,
+  mockItem5,
 ];
 
 
