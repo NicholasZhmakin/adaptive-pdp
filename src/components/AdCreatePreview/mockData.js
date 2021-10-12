@@ -125,7 +125,7 @@ const mockItem4 = {
         width: "250px",
         height: "50px",
         left: "0px",
-        top: "0px",
+        top: "50px",
         color: 'black',
         'font-size': '30px',
         'font-family': '"Roboto", sans-serif',
@@ -148,8 +148,8 @@ const mockItem5 = {
 
     styles: {
         position: 'absolute',
-        width: "450px",
-        height: "200px",
+        width: "250px",
+        height: "100px",
         left: "30px",
         top: "100px",
         transform: "rotate(0deg)",
@@ -188,9 +188,9 @@ const mockItem6 = {
 
 
 export const arrayDnd = [
-  mockItem1,
-  mockItem2,
-  mockItem6,
+  // mockItem1,
+  // mockItem2,
+  // mockItem6,
   mockItem5,
 ];
 

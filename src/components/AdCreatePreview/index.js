@@ -76,7 +76,7 @@ const AdCreatePreview = () => {
         neededBannerItem.text = debounceSelectedBannerItem.text;
       }
 
-      console.log(cloneBannerItems);
+      // console.log(cloneBannerItems);
       setBannerItems(cloneBannerItems);
     }
   }, [debounceSelectedBannerItem]);
@@ -118,6 +118,14 @@ const AdCreatePreview = () => {
     }
   }
 
+  const setDirectStylesForContainerBanner = (containerId, styles) => {
+    const cloneBannerItems = cloneDeep(bannerItems);
+    const neededBannerItem = cloneBannerItems.find((item) => item.id === containerId);
+    neededBannerItem.styles = styles;
+
+    setBannerItems(cloneBannerItems);
+  }
+
   const handleDuplicateBannerItem = (bannerItem) => {
     if (bannerItem.type === 'container') {
       duplicateContainerBannerItem(bannerItem)
@@ -149,8 +157,8 @@ const AdCreatePreview = () => {
     const attributes = newStylesString.trim().split(';');
 
     for (let i = 0; i < attributes.length; i++) {
-        let entry = attributes[i].split(':');
-        result[entry.splice(0,1)[0].trim()] = entry.join(':').trim();
+      let entry = attributes[i].split(':');
+      result[entry.splice(0,1)[0].trim()] = entry.join(':').trim();
     }
 
     if (containerId) {
@@ -282,6 +290,7 @@ const AdCreatePreview = () => {
                     changeBannerItemText={changeBannerItemText}
                     changeBannerItemStylesField={changeBannerItemStylesField}
                     replaceBannerItemStyles={replaceBannerItemStyles}
+                    setDirectStylesForContainerBanner={setDirectStylesForContainerBanner}
                   />
                 )}
               </div>
