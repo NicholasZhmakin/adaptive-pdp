@@ -192,12 +192,10 @@ const MoveableComponent = ({
       } else {
         frameRef.current.set("width", `${width}px`);
         frameRef.current.set("height", `${height}px`);
-
+        frameRef.current.set("top", `${drag.top}px`);
+        frameRef.current.set("left", `${drag.left}px`);
       }
-
-
-
-
+      
       setTransform(target);
     };
 
