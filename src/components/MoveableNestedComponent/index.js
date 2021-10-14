@@ -35,7 +35,8 @@ const MoveableNestedComponent = ({
 }) => {
 
 
-    const maxTopRef = useRef(null);
+    const staticTopValueForDragRef = useRef(null);
+    const staticLeftValueForDragRef = useRef(null);
 
     const maxTopRotateRef = useRef(null);
 
@@ -89,41 +90,49 @@ const MoveableNestedComponent = ({
       target.style.cssText = frameRef.current.toCSS();
     }
 
-  const getPixelsByAngle = (x, y, width, height, angle) => {
-    const radians = angle * Math.PI / 180;
+    const getPixelsByAngle = (x, y, width, height, angle) => {
+      const radians = angle * Math.PI / 180;
 
-    return [
-      [
-        x + width/2 + width/-2 * Math.cos(radians) - height/-2 * Math.sin(radians),
-        x + width/2 + width/2 * Math.cos(radians) - height/-2 * Math.sin(radians),
-        x + width/2 + width/2 * Math.cos(radians) - height/2 * Math.sin(radians),
-        x + width/2 + width/-2 * Math.cos(radians) - height/2 * Math.sin(radians)
-      ],
-      [
-        y + height/2 + width/-2 * Math.sin(radians) + height/-2 * Math.cos(radians),
-        y + height/2 + width/2 * Math.sin(radians) + height/-2 * Math.cos(radians),
-        y + height/2 + width/2 * Math.sin(radians) + height/2 * Math.cos(radians),
-        y + height/2 + width/-2 * Math.sin(radians) + height/2 * Math.cos(radians)
-      ]
-    ];
-  }
-
+      return [
+        Math.min(
+          y + height/2 + width/-2 * Math.sin(radians) + height/-2 * Math.cos(radians),
+          y + height/2 + width/2 * Math.sin(radians) + height/-2 * Math.cos(radians),
+          y + height/2 + width/2 * Math.sin(radians) + height/2 * Math.cos(radians),
+          y + height/2 + width/-2 * Math.sin(radians) + height/2 * Math.cos(radians)
+        ),
+        Math.max(
+          y + height/2 + width/-2 * Math.sin(radians) + height/-2 * Math.cos(radians),
+          y + height/2 + width/2 * Math.sin(radians) + height/-2 * Math.cos(radians),
+          y + height/2 + width/2 * Math.sin(radians) + height/2 * Math.cos(radians),
+          y + height/2 + width/-2 * Math.sin(radians) + height/2 * Math.cos(radians)
+        ),
+        Math.min(
+          x + width/2 + width/-2 * Math.cos(radians) - height/-2 * Math.sin(radians),
+          x + width/2 + width/2 * Math.cos(radians) - height/-2 * Math.sin(radians),
+          x + width/2 + width/2 * Math.cos(radians) - height/2 * Math.sin(radians),
+          x + width/2 + width/-2 * Math.cos(radians) - height/2 * Math.sin(radians)
+        ),
+        Math.max(
+          x + width/2 + width/-2 * Math.cos(radians) - height/-2 * Math.sin(radians),
+          x + width/2 + width/2 * Math.cos(radians) - height/-2 * Math.sin(radians),
+          x + width/2 + width/2 * Math.cos(radians) - height/2 * Math.sin(radians),
+          x + width/2 + width/-2 * Math.cos(radians) - height/2 * Math.sin(radians)
+        ),
+      ];
+    }
 
     const onDrag = ({target, top, left, height, width, beforeDelta}) => {
       frameRef.current.set("left", `${left}px`);
       frameRef.current.set("top", `${top}px`);
-
       const deg = parseFloat(frameRef.current.get("transform", "rotate")) + beforeDelta;
 
-
-      autoResizeContainerBannerItem(top, left, height, width, deg);
+      autoResizeWhenDrag(top, left, height, width, deg);
 
       setTransform(target);
-
     };
 
 
-    const autoResizeContainerBannerItem = (top, left, height, width, deg) => {
+    const autoResizeWhenDrag = (top, left, height, width, deg) => {
       const {
         top: containerTop,
         left: containerLeft,
@@ -131,50 +140,56 @@ const MoveableNestedComponent = ({
         height: containerHeight,
       } = container.styles;
 
-      const maxUpperPoint = Math.min(...getPixelsByAngle(left, top, width, height, parseInt(deg))[1]);
-      const minUpperPoint = Math.max(...getPixelsByAngle(left, top, width, height, parseInt(deg))[1]);
+      const [
+        maxTopPoint,
+        maxBottomPoint,
+        maxLeftPoint,
+        maxRightPoint
+      ] = getPixelsByAngle(left, top, width, height, parseInt(deg));
 
-      if (maxUpperPoint < 0 && !maxTopRef.current) {
-        maxTopRef.current = top;
+      // Top
+      if (maxTopPoint < 0 && !staticTopValueForDragRef.current) {
+        staticTopValueForDragRef.current = top;
       }
 
-      if (maxTopRef.current) {
-        frameRef.current.set("top", `${parseInt(maxTopRef.current)}px`);
-
-
-        nestedFrameRefs.forEach((frame, index) => {
-          if (index !== bannerItemIndex) {
-            frame.current.set("top", `${parseInt(nestedBannerItems[index].styles.top) + Math.abs(maxUpperPoint)}px`)
-          }
-        })
-
-        containerFrameRef.current.set("top", `${parseInt(containerTop) - Math.abs(maxUpperPoint)}px`)
-        containerFrameRef.current.set("height", `${parseInt(containerHeight) + Math.abs(maxUpperPoint)}px`)
+      if (staticTopValueForDragRef.current) {
+        frameRef.current.set("top", `${parseInt(staticTopValueForDragRef.current)}px`);
+        updateSiblings('top', maxTopPoint);
+        containerFrameRef.current.set("top", `${parseInt(containerTop) - Math.abs(maxTopPoint)}px`)
+        containerFrameRef.current.set("height", `${parseInt(containerHeight) + Math.abs(maxTopPoint)}px`)
       }
 
-      if (maxUpperPoint >= 0) {
-        maxTopRef.current = null;
+      if (maxTopPoint >= 0) {
+        staticTopValueForDragRef.current = null;
       }
 
-      if (minUpperPoint > parseInt(containerHeight)) {
-        containerFrameRef.current.set("height", `${parseInt(containerHeight) + Math.abs(parseInt(containerHeight) - minUpperPoint)}px`)
+      //Left
+      if (maxLeftPoint < 0 && !staticLeftValueForDragRef.current) {
+        staticLeftValueForDragRef.current = left;
       }
 
+      if (staticLeftValueForDragRef.current) {
+        frameRef.current.set("left", `${parseInt(staticLeftValueForDragRef.current)}px`);
+        updateSiblings('left', maxLeftPoint);
+        containerFrameRef.current.set("left", `${parseInt(containerLeft) - Math.abs(maxLeftPoint)}px`)
+        containerFrameRef.current.set("width", `${parseInt(containerWidth) + Math.abs(maxLeftPoint)}px`)
+      }
 
-      nestedMoveableRefs.forEach((item, index) => {
-        if (index !== bannerItemIndex) {
-          item.current?.updateRect();
-        }
-      })
+      if (maxLeftPoint >= 0) {
+        staticLeftValueForDragRef.current = null;
+      }
+
+      // Bottom
+      if (maxBottomPoint > parseInt(containerHeight)) {
+        containerFrameRef.current.set("height", `${parseInt(containerHeight) + Math.abs(parseInt(containerHeight) - maxBottomPoint)}px`)
+      }
+
+      // Right
+      if (maxRightPoint > parseInt(containerWidth)) {
+        containerFrameRef.current.set("width", `${parseInt(containerWidth) + Math.abs(parseInt(containerWidth) - maxRightPoint)}px`)
+      }
 
       containerItemRef.current.style.cssText = containerFrameRef.current.toCSS();
-
-      nestedItemRefs.forEach((item, index) => {
-        if (index !== bannerItemIndex) {
-          item.current.style.cssText = nestedFrameRefs[index].current.toCSS();
-        }
-      })
-
     }
 
     const onRotate = ({target, drag, beforeDelta}) => {
@@ -182,32 +197,55 @@ const MoveableNestedComponent = ({
       frameRef.current.set("transform", "rotate", `${deg}deg`);
       const {left, top, width, height} = drag;
 
-      const {
-        top: containerTop,
-        left: containerLeft,
-        width: containerWidth,
-        height: containerHeight,
-      } = container.styles;
+      autoResizeWhenRotate(top, left, height, width, deg);
 
-      const maxUpperPoint = Math.min(...getPixelsByAngle(left, top, width, height, parseInt(deg))[1]);
-      const minUpperPoint = Math.max(...getPixelsByAngle(left, top, width, height, parseInt(deg))[1]);
-
-
-      if (maxUpperPoint < 0) {
-        frameRef.current.set("top", `${top + Math.abs(maxUpperPoint)}px`);
-        containerFrameRef.current.set("top", `${parseInt(containerTop) - Math.abs(maxUpperPoint)}px`)
-        containerFrameRef.current.set("height", `${parseInt(containerHeight) + Math.abs(maxUpperPoint)}px`)
-      }
-
-      if (minUpperPoint > parseInt(containerHeight)) {
-        containerFrameRef.current.set("height", `${parseInt(containerHeight) + Math.abs(parseInt(containerHeight) - minUpperPoint)}px`)
-      }
-
-
-      containerMoveableRef.current?.updateRect();
-      containerItemRef.current.style.cssText = containerFrameRef.current.toCSS();
       setTransform(target);
     };
+
+  const autoResizeWhenRotate = (top, left, height, width, deg) => {
+    const {
+      top: containerTop,
+      left: containerLeft,
+      width: containerWidth,
+      height: containerHeight,
+    } = container.styles;
+
+    const [
+      maxTopPoint,
+      maxBottomPoint,
+      maxLeftPoint,
+      maxRightPoint
+    ] = getPixelsByAngle(left, top, width, height, parseInt(deg));
+
+    // Top
+    if (maxTopPoint < 0) {
+      frameRef.current.set("top", `${top + Math.abs(maxTopPoint)}px`);
+      updateSiblings('top', maxTopPoint);
+      containerFrameRef.current.set("top", `${parseInt(containerTop) - Math.abs(maxTopPoint)}px`)
+      containerFrameRef.current.set("height", `${parseInt(containerHeight) + Math.abs(maxTopPoint)}px`)
+    }
+
+    // Left
+    if (maxLeftPoint < 0) {
+      frameRef.current.set("left", `${left + Math.abs(maxLeftPoint)}px`);
+      updateSiblings('left', maxLeftPoint);
+      containerFrameRef.current.set("left", `${parseInt(containerLeft) - Math.abs(maxLeftPoint)}px`)
+      containerFrameRef.current.set("width", `${parseInt(containerWidth) + Math.abs(maxLeftPoint)}px`)
+    }
+
+    // Bottom
+    if (maxBottomPoint > parseInt(containerHeight)) {
+      containerFrameRef.current.set("height", `${parseInt(containerHeight) + Math.abs(parseInt(containerHeight) - maxBottomPoint)}px`)
+    }
+
+    // Right
+    if (maxRightPoint > parseInt(containerWidth)) {
+      containerFrameRef.current.set("width", `${parseInt(containerWidth) + Math.abs(parseInt(containerWidth) - maxRightPoint)}px`)
+    }
+
+    containerMoveableRef.current?.updateRect();
+    containerItemRef.current.style.cssText = containerFrameRef.current.toCSS();
+  }
 
     const onResize = ({target, width, height, drag}) => {
       frameRef.current.set("width", `${width}px`);
@@ -246,6 +284,26 @@ const MoveableNestedComponent = ({
 
   const handleTextChange = (e) => {
     changeBannerItemText(bannerItem.id, e.target.value, bannerItem.containerId);
+  }
+
+  const updateSiblings = (fieldName, value) => {
+    nestedFrameRefs.forEach((frame, index) => {
+      if (index !== bannerItemIndex) {
+        frame.current.set(fieldName, `${parseInt(nestedBannerItems[index].styles[fieldName]) + Math.abs(value)}px`)
+      }
+    })
+
+    nestedMoveableRefs.forEach((item, index) => {
+      if (index !== bannerItemIndex) {
+        item.current?.updateRect();
+      }
+    })
+
+    nestedItemRefs.forEach((item, index) => {
+      if (index !== bannerItemIndex) {
+        item.current.style.cssText = nestedFrameRefs[index].current.toCSS();
+      }
+    })
   }
 
   let content;
