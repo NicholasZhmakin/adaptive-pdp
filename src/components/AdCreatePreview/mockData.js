@@ -94,13 +94,13 @@ const mockItem3 = {
 
     styles: {
         position: 'absolute',
-        width: "250px",
+        width: "200px",
         height: "50px",
         left: "0px",
         top: "0px",
         color: 'black',
         'font-size': '30px',
-        'font-family': '"Roboto", sans-serif',
+        'font-family': 'Mathechester',
         'text-align': 'center',
         'word-break': 'break-word',
         'white-space': 'pre-wrap',
@@ -128,7 +128,7 @@ const mockItem4 = {
         top: "50px",
         color: 'black',
         'font-size': '30px',
-        'font-family': '"Roboto", sans-serif',
+        'font-family': 'Mathechester',
         'text-align': 'center',
         'word-break': 'break-word',
         'white-space': 'pre-wrap',
@@ -188,7 +188,7 @@ const mockItem6 = {
 
 
 export const arrayDnd = [
-  // mockItem1,
+  mockItem1,
   // mockItem2,
   // mockItem6,
   mockItem5,

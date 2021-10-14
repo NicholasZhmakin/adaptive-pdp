@@ -1,0 +1,46 @@
+
+.moveable {
+
+  &:hover {
+    .moveable-line {
+      display: block;
+    }
+  }
+
+  &.selected {
+    .moveable-control,
+    .moveable-line,
+    .moveable-rotation {
+      display: block;
+    }
+  }
+
+  &__item {
+    cursor: grab;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__textarea {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    resize: none;
+  }
+
+  .moveable-control,
+  .moveable-line,
+  .moveable-rotation {
+    display: none;
+  }
+}
+
+
+
+

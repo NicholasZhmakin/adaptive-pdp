@@ -11,6 +11,7 @@ import MoveableSettings from "../MoveableSettings";
 import { ClickAwayListener } from '@material-ui/core';
 
 import './AdCreatePreview.scss';
+import MoveableContainerComponent from '../MoveableContainerComponent';
 
 const zoomSettings = {
     step: 0.03,
@@ -76,7 +77,6 @@ const AdCreatePreview = () => {
         neededBannerItem.text = debounceSelectedBannerItem.text;
       }
 
-      // console.log(cloneBannerItems);
       setBannerItems(cloneBannerItems);
     }
   }, [debounceSelectedBannerItem]);
@@ -102,7 +102,6 @@ const AdCreatePreview = () => {
           }
         });
       }
-
     }
   };
 
@@ -118,13 +117,24 @@ const AdCreatePreview = () => {
     }
   }
 
-  const setDirectStylesForContainerBanner = (containerId, styles) => {
+  const setDirectStylesForContainerBanner = (container, nestedItems) => {
     const cloneBannerItems = cloneDeep(bannerItems);
-    const neededBannerItem = cloneBannerItems.find((item) => item.id === containerId);
-    neededBannerItem.styles = styles;
+    const neededContainer = cloneBannerItems.find((item) => item.id === container.id);
+    neededContainer.styles = container.styles;
+
+    neededContainer.nestedBannerItems[1].styles = nestedItems[0].styles;
+
+    nestedItems.forEach((nestedItem, nestedItemIndex) => {
+      if (nestedItem.id !== selectedBannerItem.id) {
+        neededContainer.nestedBannerItems[nestedItemIndex].styles = nestedItem.styles;
+      }
+    })
+
 
     setBannerItems(cloneBannerItems);
   }
+
+
 
   const handleDuplicateBannerItem = (bannerItem) => {
     if (bannerItem.type === 'container') {
@@ -152,25 +162,17 @@ const AdCreatePreview = () => {
     setBannerItems(cloneBannerItems);
   };
 
-  const replaceBannerItemStyles = (bannerItemId, newStylesString, containerId) => {
-    const result = {};
-    const attributes = newStylesString.trim().split(';');
-
-    for (let i = 0; i < attributes.length; i++) {
-      let entry = attributes[i].split(':');
-      result[entry.splice(0,1)[0].trim()] = entry.join(':').trim();
-    }
-
+  const replaceBannerItemStyles = (bannerItemId, newStyles, containerId) => {
     if (containerId) {
       setSelectedBannerItem({
         ...selectedBannerItem,
         containerId,
-        styles: result,
+        styles: newStyles,
       });
     } else {
       setSelectedBannerItem({
         ...selectedBannerItem,
-        styles: result,
+        styles: newStyles,
       });
     }
   }
@@ -280,19 +282,35 @@ const AdCreatePreview = () => {
                   />
                 }
 
-                {bannerItems.map((bannerItem, index) =>
-                  <MoveableComponent
-                    key={bannerItem.id}
-                    bannerItem={bannerItem.id === selectedBannerItem?.id ? selectedBannerItem : bannerItem}
-                    selectedBannerItem={selectedBannerItem}
-                    setSelectedBannerItem={setSelectedBannerItem}
-                    setIsDraggableForContainer={setIsDraggableForContainer}
-                    changeBannerItemText={changeBannerItemText}
-                    changeBannerItemStylesField={changeBannerItemStylesField}
-                    replaceBannerItemStyles={replaceBannerItemStyles}
-                    setDirectStylesForContainerBanner={setDirectStylesForContainerBanner}
-                  />
-                )}
+                {bannerItems.map((bannerItem, index) => {
+                  if (bannerItem.type === 'container') {
+                    return (
+                      <MoveableContainerComponent
+                        key={bannerItem.id}
+                        bannerItem={bannerItem.id === selectedBannerItem?.id ? selectedBannerItem : bannerItem}
+                        selectedBannerItem={selectedBannerItem}
+                        setSelectedBannerItem={setSelectedBannerItem}
+                        setIsDraggableForContainer={setIsDraggableForContainer}
+                        changeBannerItemText={changeBannerItemText}
+                        changeBannerItemStylesField={changeBannerItemStylesField}
+                        replaceBannerItemStyles={replaceBannerItemStyles}
+                        setDirectStylesForContainerBanner={setDirectStylesForContainerBanner}
+                      />
+                    );
+                  } else {
+                    return (
+                      <MoveableComponent
+                        key={bannerItem.id}
+                        bannerItem={bannerItem.id === selectedBannerItem?.id ? selectedBannerItem : bannerItem}
+                        selectedBannerItem={selectedBannerItem}
+                        setSelectedBannerItem={setSelectedBannerItem}
+                        changeBannerItemText={changeBannerItemText}
+                        changeBannerItemStylesField={changeBannerItemStylesField}
+                        replaceBannerItemStyles={replaceBannerItemStyles}
+                      />
+                    );
+                  }
+                })}
               </div>
             </ClickAwayListener>
 
