@@ -38,7 +38,11 @@ const MoveableNestedComponent = ({
     const staticTopValueForDragRef = useRef(null);
     const staticLeftValueForDragRef = useRef(null);
 
-    const maxTopRotateRef = useRef(null);
+    const staticTopValueForResizeRef = useRef(null);
+    const staticInitTopValueForResizeRef = useRef(null);
+    const staticLeftValueForResizeRef = useRef(null);
+    const staticInitLeftValueForResizeRef = useRef(null);
+
 
     const textareaRef = useRef(null);
     const textRef = useRef(null);
@@ -248,15 +252,102 @@ const MoveableNestedComponent = ({
   }
 
     const onResize = ({target, width, height, drag}) => {
+      const deg = parseFloat(frameRef.current.get("transform", "rotate")+ drag.beforeDelta);
+      const {left, top} = drag;
+
       frameRef.current.set("width", `${width}px`);
       frameRef.current.set("height", `${height}px`);
-      frameRef.current.set("top", `${drag.top}px`);
-      frameRef.current.set("left", `${drag.left}px`);
+
+
+
+
+      autoResizeWhenResize(top, left, height, width, deg);
       
       setTransform(target);
     };
 
+
+  const autoResizeWhenResize = (top, left, height, width, deg) => {
+    const {
+      top: containerTop,
+      left: containerLeft,
+      width: containerWidth,
+      height: containerHeight,
+    } = container.styles;
+
+    const [
+      maxTopPoint,
+      maxBottomPoint,
+      maxLeftPoint,
+      maxRightPoint
+    ] = getPixelsByAngle(left, top, width, height, parseInt(deg));
+
+    frameRef.current.set("top", `${top}px`);
+    frameRef.current.set("left", `${left}px`);
+
+    
+    // Top
+    staticInitTopValueForResizeRef.current = parseInt(bannerItem.styles.top);
+
+    if (maxTopPoint < 0 && !staticTopValueForResizeRef.current) {
+      staticTopValueForResizeRef.current = top;
+    }
+
+    if (staticTopValueForResizeRef.current) {
+      const diffHeight = staticInitTopValueForResizeRef.current - (staticTopValueForResizeRef.current + Math.abs(parseInt(bannerItem.styles.height) - height));
+
+      if (diffHeight < 0) {
+        frameRef.current.set("top", `${parseInt(staticTopValueForResizeRef.current)}px`);
+        updateSiblings('top', diffHeight);
+        containerFrameRef.current.set("top", `${parseInt(containerTop) - Math.abs(diffHeight)}px`)
+        containerFrameRef.current.set("height", `${parseInt(containerHeight) + Math.abs(diffHeight)}px`)
+      }
+    }
+
+    if (maxTopPoint >= 0) {
+      staticTopValueForResizeRef.current = null;
+    }
+
+    //Left
+    staticInitLeftValueForResizeRef.current = parseInt(bannerItem.styles.left);
+
+    if (maxLeftPoint < 0 && !staticLeftValueForResizeRef.current) {
+      staticLeftValueForResizeRef.current = left;
+    }
+
+    if (staticLeftValueForResizeRef.current) {
+      const diffWidth = staticInitLeftValueForResizeRef.current - (staticLeftValueForResizeRef.current + Math.abs(parseInt(bannerItem.styles.width) - width));
+
+      if (diffWidth < 0) {
+        frameRef.current.set("left", `${parseInt(staticLeftValueForResizeRef.current)}px`);
+        updateSiblings('left', diffWidth);
+        containerFrameRef.current.set("left", `${parseInt(containerLeft) - Math.abs(diffWidth)}px`)
+        containerFrameRef.current.set("width", `${parseInt(containerWidth) + Math.abs(diffWidth)}px`)
+      }
+    }
+
+    if (maxLeftPoint >= 0) {
+      staticLeftValueForResizeRef.current = null;
+    }
+
+    // Bottom
+    if (maxBottomPoint > parseInt(containerHeight)) {
+      containerFrameRef.current.set("height", `${parseInt(containerHeight) + Math.abs(parseInt(containerHeight) - maxBottomPoint)}px`)
+    }
+
+    // Right
+    if (maxRightPoint > parseInt(containerWidth)) {
+      containerFrameRef.current.set("width", `${parseInt(containerWidth) + Math.abs(parseInt(containerWidth) - maxRightPoint)}px`)
+    }
+
+    containerMoveableRef.current?.updateRect();
+    containerItemRef.current.style.cssText = containerFrameRef.current.toCSS();
+  }
+
+
+
    const handleEndAction = ({target}) => {
+     staticTopValueForResizeRef.current = null;
 
      const nestedResult = nestedBannerItems.map((item, itemIndex) => {
          return ({
